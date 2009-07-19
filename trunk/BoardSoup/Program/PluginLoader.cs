@@ -21,22 +21,36 @@ namespace BoardSoup
         {
             
             Dictionary<String, IBoardGame> plugins = new Dictionary<String, IBoardGame>();
+            bool success = true;
 
-            List<String> paths = getAllPlugins();
-
-            foreach (String path in paths)
+            Logger.log("Loading plugins...", LEVEL.DEBUG);
+            
+            try
             {
-                IBoardGame game = loadGameFromDll(path);
+                List<String> paths = getAllPlugins();
 
-                if (game != null)
+                if(paths.Count == 0)
+                    Logger.log("Warning: no plugins found", LEVEL.WARNING);
+            
+                foreach (String path in paths)
                 {
-                    plugins.Add(game.getName(), game);
-                    Console.WriteLine("Loaded: " + game.getName() + " [game version " + game.getGameVersion() + ", engine version " + game.getEngineVersion() + "]");
+                    IBoardGame game = loadGameFromDll(path);
+
+                    if (game != null)
+                    {
+                        plugins.Add(game.getName(), game);
+                        Logger.log("Loaded: " + game.getName() + " [game version " + game.getGameVersion() + ", engine version " + game.getEngineVersion() + "]", LEVEL.DEBUG);
+                    }
                 }
             }
-           
+            catch (System.IO.DirectoryNotFoundException)
+            {
+                Logger.log("Error: plugin directory not found", LEVEL.ERROR);
+                success = false;
+            }
+
             argCollection = plugins;
-            return true;
+            return success;
         }
 
         /**
@@ -54,7 +68,7 @@ namespace BoardSoup
                     object obj = myAs.CreateInstance(t.FullName);
                     if (obj is IBoardGame)
                     {
-                        Console.WriteLine("Loading: " + t.FullName);
+                        Logger.log("Loading: " + t.FullName, LEVEL.DEBUG);
                         myGame = (IBoardGame)obj;
                     }
                 }
@@ -71,14 +85,21 @@ namespace BoardSoup
             List<String> plugins = new List<String>();
 
             // we're checking the /plugin/ directory
-            DirectoryInfo directory = new DirectoryInfo("plugins");
+            try 
+            {
+                DirectoryInfo directory = new DirectoryInfo("plugins");
 
-            // we're only looking for dll files
-            FileInfo[] files = directory.GetFiles("*.dll");
+                // we're only looking for dll files
+                FileInfo[] files = directory.GetFiles("*.dll");
 
-            // for all files in our list, add the full path to the list
-            foreach (FileInfo file in files)
-                plugins.Add(file.FullName); 
+                // for all files in our list, add the full path to the list
+                foreach (FileInfo file in files)
+                    plugins.Add(file.FullName); 
+            } 
+            catch(System.IO.DirectoryNotFoundException) 
+            {
+                 throw new System.IO.DirectoryNotFoundException();
+            }
 
             return plugins;
         }

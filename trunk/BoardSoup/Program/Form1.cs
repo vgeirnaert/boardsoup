@@ -11,16 +11,23 @@ namespace BoardSoup
 {
     public partial class MainForm : Form
     {
-        private String loadingLogo = "D:\\C#\\BoardSoup\\BoardSoup\\Resources\\boardsoup_loading.png";
-        private String loadingIdle = "D:\\C#\\BoardSoup\\BoardSoup\\Resources\\boardsoup_menu_idle.png";
-        private String loadingBlue = "D:\\C#\\BoardSoup\\BoardSoup\\Resources\\boardsoup_menu_blue.png";
-        private String loadingYellow = "D:\\C#\\BoardSoup\\BoardSoup\\Resources\\boardsoup_menu_yellow.png";
-        private String loadingGreen = "D:\\C#\\BoardSoup\\BoardSoup\\Resources\\boardsoup_loading_menu_green.png";
+        // version
+        private const String version = "0.0.3";
 
+        // drawing stuff
+        private Image loadingLogo = Properties.Resources.boardsoup_loading;
+        private Image loadingIdle = Properties.Resources.boardsoup_menu_idle;
+        private Image loadingBlue = Properties.Resources.boardsoup_menu_blue;
+        private Image loadingYellow = Properties.Resources.boardsoup_menu_yellow;
+        private Image loadingGreen = Properties.Resources.boardsoup_menu_green;
+        private Font font = new Font("Verdana", 12, FontStyle.Bold);
+        private Brush brush = new SolidBrush(Color.Gray);
+
+        // collection of our games
         private GamePool gamePool;
-
+        
+        // drawing state
         enum STATE { START_LOADING, END_LOADING, READY };
-
         STATE myState;
 
         public MainForm()
@@ -30,12 +37,16 @@ namespace BoardSoup
             myState = STATE.START_LOADING;
 
             setPainter();
-            
+
             init();
+
+            Logger.log("BoardSoup v" + version + " loaded", LEVEL.DEBUG);
             myState = STATE.END_LOADING;
             myState = STATE.READY;
         }
 
+        /**
+         */
         private void setPainter()
         {
             this.Paint += new PaintEventHandler(paintHandler);
@@ -43,20 +54,28 @@ namespace BoardSoup
 
         }
 
+        /**
+         */
         private void init()
         {
+            // make the collection
             gamePool = new GamePool();
 
+            // if we loaded succesfully
             if (gamePool.pluginsLoaded())
             {
             }
         }
 
+        /**
+         */
         private void paintHandler(object sender, PaintEventArgs e)
         {
+            Console.WriteLine("painting");
+            Console.WriteLine(myState);
             // Get Graphics Object
             Graphics g = e.Graphics;
-            String file = "";
+            Image file = null;
 
             switch (myState)
             {
@@ -71,7 +90,15 @@ namespace BoardSoup
                     break;
             }
 
-            g.DrawImageUnscaled(Image.FromFile(file), new Rectangle(0, 0, 700, 700));
+            g.DrawImageUnscaled(file, new Rectangle(this.Width / 2 - 350, this.Height / 2 - 350, 700, 700));
+            
+            Point textPoint = new Point(50, 50);
+            foreach(String s in Logger.getTenLatestLines())
+            {
+                Console.WriteLine("drawing");
+                textPoint.Y += 16;
+                g.DrawString(s, font, brush, textPoint);
+            }
         }
 
     }

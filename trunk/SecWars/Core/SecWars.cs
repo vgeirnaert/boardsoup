@@ -1,6 +1,5 @@
 ﻿using System;
 using BoardSoup.Interface;
-using BoardSoupEngine.Interface;
 
 namespace SecWars.Core
 {

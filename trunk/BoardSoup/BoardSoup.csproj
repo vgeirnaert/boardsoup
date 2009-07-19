@@ -35,9 +35,6 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Data.DataSetExtensions">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -56,6 +53,7 @@
     <Compile Include="Program\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Program\Logger.cs" />
     <Compile Include="Program\PluginLoader.cs" />
     <Compile Include="Program\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -71,6 +69,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -87,6 +86,7 @@
     <Content Include="Resources\boardsoup_menu_blue.png" />
     <Content Include="Resources\boardsoup_menu_green.png" />
     <Content Include="Resources\boardsoup_menu_idle.png" />
+    <None Include="Resources\boardsoup_menu_loading.png" />
     <Content Include="Resources\boardsoup_menu_yellow.png" />
     <Content Include="Resources\Icon1.ico" />
   </ItemGroup>
