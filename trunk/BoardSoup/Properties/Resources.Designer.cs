@@ -60,13 +60,6 @@ namespace BoardSoup.Properties {
             }
         }
         
-        internal static System.Drawing.Bitmap boardsoup_loading {
-            get {
-                object obj = ResourceManager.GetObject("boardsoup_loading", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
         internal static System.Drawing.Bitmap boardsoup_menu_blue {
             get {
                 object obj = ResourceManager.GetObject("boardsoup_menu_blue", resourceCulture);

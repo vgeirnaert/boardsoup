@@ -15,7 +15,7 @@ namespace BoardSoup
         private const String version = "0.0.3";
 
         // drawing stuff
-        private Image loadingLogo = Properties.Resources.boardsoup_loading;
+        private Image loadingLogo = Properties.Resources.boardsoup_menu_loading;
         private Image loadingIdle = Properties.Resources.boardsoup_menu_idle;
         private Image loadingBlue = Properties.Resources.boardsoup_menu_blue;
         private Image loadingYellow = Properties.Resources.boardsoup_menu_yellow;
@@ -93,7 +93,7 @@ namespace BoardSoup
             g.DrawImageUnscaled(file, new Rectangle(this.Width / 2 - 350, this.Height / 2 - 350, 700, 700));
             
             Point textPoint = new Point(50, 50);
-            foreach(String s in Logger.getTenLatestLines())
+            foreach(String s in Logger.getTenLatestLines(LEVEL.DEBUG))
             {
                 Console.WriteLine("drawing");
                 textPoint.Y += 16;

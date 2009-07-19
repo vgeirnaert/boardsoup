@@ -82,7 +82,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\boardsoup_loading.png" />
     <Content Include="Resources\boardsoup_menu_blue.png" />
     <Content Include="Resources\boardsoup_menu_green.png" />
     <Content Include="Resources\boardsoup_menu_idle.png" />

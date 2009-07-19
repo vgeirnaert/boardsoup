@@ -3,27 +3,37 @@ using System.Collections.Generic;
 
 namespace BoardSoup
 {
-    enum LEVEL {DEBUG = 1, WARNING = 2, ERROR = 3};
+    public enum LEVEL {DEBUG = 1, WARNING = 2, ERROR = 3};
 
     public static class Logger
     {
-        static private List<String> logEntries = new List<String>();
-        static private LEVEL currentLevel = LEVEL.DEBUG;
+        // list of our messages
+        static private List<KeyValuePair<LEVEL, String>> logEntries = new List<KeyValuePair<LEVEL, String>>();
 
         static public void log(String entry, LEVEL level)
         {
-            if(currentLevel <= level)
-                logEntries.Add(entry);
+            // add key value pair
+            logEntries.Add(new KeyValuePair<LEVEL, String>(level, entry));
         }
 
-        static public void adjustLevel(LEVEL level)
+        static public String[] getTenLatestLines(LEVEL level)
         {
-            currentLevel = level;
-        }
+            List<String> result = new List<String>();
+            int loop = logEntries.Count;
+            int items = 0;
 
-        static public String[] getTenLatestLines()
-        {
-            return logEntries.GetRange(Math.Max(logEntries.Count - 10, 0), Math.Min(10, logEntries.Count)).ToArray();
+            while(items < Math.Min(10, logEntries.Count) && loop > 0)
+            {
+                loop--;
+
+                if (logEntries[loop].Key >= level)
+                {
+                    result.Add(logEntries[loop].Value);
+                    items++;
+                }
+            }
+
+            return result.ToArray();
         }
     }
 }
