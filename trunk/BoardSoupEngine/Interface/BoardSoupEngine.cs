@@ -13,5 +13,9 @@ namespace BoardSoupEngine.Interface
         {
             return BSEDefines.version; 
         }
+
+        public void tick()
+        {
+        }
     }
 }

@@ -35,9 +35,12 @@ namespace SecWars.Core
             return version;
         }
 
-        public bool startGame()
+        public void gameLoop()
         {
-            return true;
+            while (true)
+            {
+                myEngine.tick();
+            }
         }
     }
 }

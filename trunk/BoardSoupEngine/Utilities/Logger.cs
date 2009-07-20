@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BoardSoup
+namespace BoardSoupEngine.Utilities
 {
     public enum LEVEL {DEBUG = 1, WARNING = 2, ERROR = 3};
 
@@ -19,24 +19,33 @@ namespace BoardSoup
             // add key value pair
             logEntries.Add(new KeyValuePair<LEVEL, String>(level, entry));
 
+            // if we reached our batch threshold, write last X entries to file
             if (logEntries.Count % LOG_BATCH == 0)
                 writeToFile();
         }
 
+        /**
+         */
         static private void writeToFile()
         {
+            // output file, output string
             System.IO.StreamWriter file = new System.IO.StreamWriter("boardsouplog.txt", true);
             String output = "";
 
+            // get the last X lines, add them to our output string seperated by carrier returns
             foreach (String s in getLatestLines(LEVEL.DEBUG, LOG_BATCH))
                 output = output + "\r" + s;
 
+            // write output string to file, close file
             file.WriteLine(output);
             file.Close();
         }
 
+        /**
+         */
         static private String getDateTime()
         {
+            // format 31/12/2009 14:30:45
             return DateTime.Now.ToString("d-M-yyyy H:m:s");
         }
 

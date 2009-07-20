@@ -53,7 +53,6 @@
     <Compile Include="Program\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program\Logger.cs" />
     <Compile Include="Program\PluginLoader.cs" />
     <Compile Include="Program\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -89,6 +88,12 @@
     <Content Include="Resources\boardsoup_menu_yellow.png" />
     <Content Include="Resources\Icon1.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BoardSoupEngine\BoardSoupEngine.csproj">
+      <Project>{6BF106A0-013E-4040-8CF0-280D1C819776}</Project>
+      <Name>BoardSoupEngine</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -98,7 +103,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>rmdir $(TargetDir)plugins /s /q
-mkdir $(TargetDir)plugins</PostBuildEvent>
+    <PostBuildEvent>rmdir $(TargetDir)games /s /q
+mkdir $(TargetDir)games</PostBuildEvent>
   </PropertyGroup>
 </Project>

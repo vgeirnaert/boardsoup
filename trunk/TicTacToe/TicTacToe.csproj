@@ -64,7 +64,7 @@
     <PostBuildEvent>set BSE=$(SolutionDir)BoardSoupEngine\bin\Debug\BoardSoupEngine.dll
 set tictactoe=$(TargetPath)
 set secwars=$(SolutionDir)SecWars\bin\Debug\SecWars.dll
-set dest=$(SolutionDir)BoardSoup\bin\Debug\plugins
+set dest=$(SolutionDir)BoardSoup\bin\Debug\games
 copy %25bse%25 %25dest%25
 copy %25tictactoe%25 %25dest%25
 copy %25secwars%25 %25dest%25</PostBuildEvent>

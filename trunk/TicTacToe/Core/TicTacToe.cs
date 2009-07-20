@@ -35,9 +35,8 @@ namespace TicTacToe.Core
             return version;
         }
 
-        public bool startGame()
+        public void gameLoop()
         {
-            return true;
         }
     }
 }

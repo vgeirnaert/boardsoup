@@ -8,7 +8,6 @@ namespace BoardSoup.Interface
         String getDescription();
         String getGameVersion();
         String getEngineVersion();
-        bool startGame();
-        
+        void gameLoop();        
     }
 }
