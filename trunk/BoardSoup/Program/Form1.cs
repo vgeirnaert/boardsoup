@@ -93,12 +93,17 @@ namespace BoardSoup
             g.DrawImageUnscaled(file, new Rectangle(this.Width / 2 - 350, this.Height / 2 - 350, 700, 700));
             
             Point textPoint = new Point(50, 50);
-            foreach(String s in Logger.getTenLatestLines(LEVEL.DEBUG))
+            foreach(String s in Logger.getLatestLines(LEVEL.DEBUG, 5))
             {
                 Console.WriteLine("drawing");
                 textPoint.Y += 16;
                 g.DrawString(s, font, brush, textPoint);
             }
+        }
+
+        public void Run()
+        {
+            Console.WriteLine("test");
         }
 
     }
