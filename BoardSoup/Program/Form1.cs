@@ -6,52 +6,29 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Threading;
+using BoardSoup.Interface;
+using BoardSoupEngine.Utilities;
 
 namespace BoardSoup
 {
     public partial class MainForm : Form
     {
         // version
-        private const String version = "0.0.3";
-
-        // drawing stuff
-        private Image loadingLogo = Properties.Resources.boardsoup_menu_loading;
-        private Image loadingIdle = Properties.Resources.boardsoup_menu_idle;
-        private Image loadingBlue = Properties.Resources.boardsoup_menu_blue;
-        private Image loadingYellow = Properties.Resources.boardsoup_menu_yellow;
-        private Image loadingGreen = Properties.Resources.boardsoup_menu_green;
-        private Font font = new Font("Verdana", 12, FontStyle.Bold);
-        private Brush brush = new SolidBrush(Color.Gray);
+        private const String version = "0.0.5"; // .6 = add panel for game to render to
 
         // collection of our games
         private GamePool gamePool;
-        
-        // drawing state
-        enum STATE { START_LOADING, END_LOADING, READY };
-        STATE myState;
+        private Thread gamethread;
 
         public MainForm()
         {
             InitializeComponent();
 
-            myState = STATE.START_LOADING;
-
-            setPainter();
-
             init();
 
             Logger.log("BoardSoup v" + version + " loaded", LEVEL.DEBUG);
-            myState = STATE.END_LOADING;
-            myState = STATE.READY;
-        }
-
-        /**
-         */
-        private void setPainter()
-        {
-            this.Paint += new PaintEventHandler(paintHandler);
-
-
+            textBox1.Lines = Logger.getLatestLines(LEVEL.DEBUG, 5);
         }
 
         /**
@@ -64,46 +41,45 @@ namespace BoardSoup
             // if we loaded succesfully
             if (gamePool.pluginsLoaded())
             {
-            }
+                // add all games to our combo box
+                foreach (String s in gamePool.getGameNames())
+                    comboBox1.Items.Add(s);
+            }            
         }
 
-        /**
-         */
-        private void paintHandler(object sender, PaintEventArgs e)
+        private void startGame(String name)
         {
-            Console.WriteLine("painting");
-            Console.WriteLine(myState);
-            // Get Graphics Object
-            Graphics g = e.Graphics;
-            Image file = null;
+            // end any games that may have been running
+            endGameThread();
 
-            switch (myState)
-            {
-                case STATE.START_LOADING:
-                    file = loadingLogo;
-                    break;
-                case STATE.END_LOADING:
-                    file = loadingBlue;
-                    break;
-                case STATE.READY:
-                    file = loadingIdle;
-                    break;
-            }
+            IBoardGame myGame = gamePool.getGame(name);
 
-            g.DrawImageUnscaled(file, new Rectangle(this.Width / 2 - 350, this.Height / 2 - 350, 700, 700));
-            
-            Point textPoint = new Point(50, 50);
-            foreach(String s in Logger.getLatestLines(LEVEL.DEBUG, 5))
-            {
-                Console.WriteLine("drawing");
-                textPoint.Y += 16;
-                g.DrawString(s, font, brush, textPoint);
-            }
+            // make and start a new thread
+            gamethread = new Thread(new ThreadStart(myGame.gameLoop));
+            gamethread.Start();
         }
 
-        public void Run()
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Console.WriteLine("test");
+            endGameThread();
+        }
+
+        private void endGameThread()
+        {
+            if (gamethread != null)
+                if (gamethread.IsAlive)
+                    gamethread.Abort();
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            label1.Text = gamePool.getGame((String)comboBox1.Items[comboBox1.SelectedIndex]).getDescription();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if(comboBox1.SelectedIndex != -1)
+                startGame((String)comboBox1.Items[comboBox1.SelectedIndex]);
         }
 
     }

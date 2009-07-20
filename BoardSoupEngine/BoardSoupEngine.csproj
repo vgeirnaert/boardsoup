@@ -78,6 +78,7 @@
     <Compile Include="Scene\SceneEvent.cs" />
     <Compile Include="Scene\SceneManager.cs" />
     <Compile Include="Utilities\Dice.cs" />
+    <Compile Include="Utilities\Logger.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

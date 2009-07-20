@@ -5,13 +5,12 @@ using System.Text;
 using BoardSoup.Interface;
 using System.Reflection;
 using System.IO;
+using BoardSoupEngine.Utilities;
 
 namespace BoardSoup
 {
     class PluginLoader
     {
-        private const String pluginFolder = "plugins";
-
         public PluginLoader()
         {
         }
@@ -31,7 +30,7 @@ namespace BoardSoup
             try
             {
                 // try to obtain a list of all plugins, this may throw an exception
-                List<String> paths = getAllPlugins();
+                List<String> paths = getAllPlugins(argDirectory);
 
                 // if there are no plugins present...
                 if(paths.Count == 0)
@@ -90,7 +89,7 @@ namespace BoardSoup
                     if (obj is IBoardGame)
                     {
                         // strip everything except the name of the dll file
-                        String pluginName = path.Substring(path.IndexOf(pluginFolder) + pluginFolder.Length + 1);
+                        String pluginName = path.Substring(path.LastIndexOf('\\'));
 
                         // log debut output
                         Logger.log("Loading: " + t.FullName + " from " + pluginName, LEVEL.DEBUG);
@@ -106,7 +105,7 @@ namespace BoardSoup
 
         /**
          */
-        private List<String> getAllPlugins()
+        private List<String> getAllPlugins(String directoryName)
         {
             // list of paths to all dll files
             List<String> plugins = new List<String>();
@@ -114,7 +113,7 @@ namespace BoardSoup
             // we're checking the /plugin/ directory
             try 
             {
-                DirectoryInfo directory = new DirectoryInfo(pluginFolder);
+                DirectoryInfo directory = new DirectoryInfo(directoryName);
 
                 // we're only looking for dll files
                 FileInfo[] files = directory.GetFiles("*.dll");

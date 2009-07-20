@@ -31,18 +31,13 @@ namespace BoardSoup
 
         /**
          */
-        public bool startGame(String argName)
+        public IBoardGame getGame(String argName)
         {
             IBoardGame bg;
             gameCollection.TryGetValue(argName, out bg);
 
-            if (bg != null)
-            {
-                bg.startGame();
-                return true;
-            }
-
-            return false;
+            // return the game - note: this could be null
+            return bg;
         }
 
         /**
@@ -51,9 +46,11 @@ namespace BoardSoup
         {
             List<String> names = new List<String>();
 
+            // for all names in our collection of games
             foreach(String name in gameCollection.Keys)
-                names.Add(name);
+                names.Add(name); // add them to our list
 
+            // return the list
             return names;
         }
     }
