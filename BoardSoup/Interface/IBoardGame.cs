@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 
 namespace BoardSoup.Interface
 {
@@ -8,6 +9,7 @@ namespace BoardSoup.Interface
         String getDescription();
         String getGameVersion();
         String getEngineVersion();
+        void setRenderSurface(Panel renderPanel);
         void gameLoop();        
     }
 }

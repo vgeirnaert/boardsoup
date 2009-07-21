@@ -1,5 +1,6 @@
 ﻿using System;
 using BoardSoup.Interface;
+using System.Windows.Forms;
 
 namespace TicTacToe.Core
 {
@@ -7,7 +8,7 @@ namespace TicTacToe.Core
     {
         private const String name = "Tic Tac Toe";
         private const String description = "The most difficult game ever invented by man.";
-        private const String version = "0.0.1";
+        private const String version = "0.0.2";
         private BoardSoupEngine.Interface.BoardSoupEngine myEngine;
 
         public TicTacToe()
@@ -33,6 +34,11 @@ namespace TicTacToe.Core
         public String getGameVersion()
         {
             return version;
+        }
+
+        public void setRenderSurface(Panel renderPanel)
+        {
+            myEngine.setRenderSurface(renderPanel);
         }
 
         public void gameLoop()

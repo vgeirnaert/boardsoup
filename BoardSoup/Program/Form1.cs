@@ -15,7 +15,7 @@ namespace BoardSoup
     public partial class MainForm : Form
     {
         // version
-        private const String version = "0.0.5"; // .6 = add panel for game to render to
+        private const String version = "0.0.6";
 
         // collection of our games
         private GamePool gamePool;
@@ -52,11 +52,22 @@ namespace BoardSoup
             // end any games that may have been running
             endGameThread();
 
+            prepareRenderPanel();
+
             IBoardGame myGame = gamePool.getGame(name);
 
+            myGame.setRenderSurface(renderPanel);
             // make and start a new thread
             gamethread = new Thread(new ThreadStart(myGame.gameLoop));
             gamethread.Start();
+        }
+
+        private void prepareRenderPanel()
+        {
+            renderPanel.Width = this.Height;
+            renderPanel.Height = this.Height;
+            renderPanel.Location = new Point(Math.Abs((this.Width - this.Height) / 2), 0);
+            renderPanel.Visible = true;
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -69,6 +80,8 @@ namespace BoardSoup
             if (gamethread != null)
                 if (gamethread.IsAlive)
                     gamethread.Abort();
+
+            renderPanel.Visible = false;
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -78,8 +91,10 @@ namespace BoardSoup
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if(comboBox1.SelectedIndex != -1)
+            if (comboBox1.SelectedIndex != -1)
                 startGame((String)comboBox1.Items[comboBox1.SelectedIndex]);
+            else
+                endGameThread();
         }
 
     }
