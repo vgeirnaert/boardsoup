@@ -7,7 +7,7 @@ using System.Reflection;
 using System.IO;
 using BoardSoupEngine.Utilities;
 
-namespace BoardSoup
+namespace BoardSoup.Program
 {
     class PluginLoader
     {

@@ -3,7 +3,7 @@ using System;
 
 namespace BoardSoupEngine.Kernel
 {
-    internal class Kernel : IEventListener
+    internal class Kernel : IEventListener, ITickable
     {
         private EventDispatcher eventDispatcher;
         private long timeOfLastTick = 0;
@@ -47,5 +47,14 @@ namespace BoardSoupEngine.Kernel
         public void onTick()
         {
         }
+
+        #region ITickable Members
+
+        void ITickable.onTick()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

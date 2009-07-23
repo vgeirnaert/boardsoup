@@ -2,9 +2,9 @@
 
 namespace BoardSoupEngine.Assets
 {
-    internal class AssetManager : IEventListener
+    internal class AssetManager : IEventListener, ITickable
     {
-        IEventDispatcher dispatcher;
+        private IEventDispatcher dispatcher;
 
         public void setEventDispatcher(IEventDispatcher argDispatcher)
         {

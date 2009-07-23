@@ -46,6 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interface\IBoardGame.cs" />
+    <Compile Include="Program\DoubleBufferedPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Program\GamePool.cs" />
     <Compile Include="Program\Form1.cs">
       <SubType>Form</SubType>

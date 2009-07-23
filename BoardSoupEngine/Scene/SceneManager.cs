@@ -2,9 +2,9 @@
 
 namespace BoardSoupEngine.Scene
 {
-    internal class SceneManager : IEventListener
+    internal class SceneManager : IEventListener, ITickable
     {
-        IEventDispatcher dispatcher;
+        private IEventDispatcher dispatcher;
 
         public void setEventDispatcher(IEventDispatcher argDispatcher)
         {
@@ -17,6 +17,8 @@ namespace BoardSoupEngine.Scene
 
         public void onTick()
         {
+
         }
+
     }
 }
