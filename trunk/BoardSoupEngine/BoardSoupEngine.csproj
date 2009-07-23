@@ -37,9 +37,6 @@
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
     <Reference Include="System.Data.DataSetExtensions">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -50,6 +47,7 @@
     <Compile Include="Assets\Asset.cs" />
     <Compile Include="Assets\AssetEvent.cs" />
     <Compile Include="Assets\AssetManager.cs" />
+    <Compile Include="Assets\AssetToRendererEvent.cs" />
     <Compile Include="Assets\ImageAsset.cs" />
     <Compile Include="Assets\ImageLoader.cs" />
     <Compile Include="Assets\ShapeAsset.cs" />
@@ -67,6 +65,7 @@
     <Compile Include="Kernel\IEventDispatcher.cs" />
     <Compile Include="Kernel\IEventListener.cs" />
     <Compile Include="Kernel\EventDispatcher.cs" />
+    <Compile Include="Kernel\ITickable.cs" />
     <Compile Include="Kernel\Kernel.cs" />
     <Compile Include="Kernel\KernelEvent.cs" />
     <Compile Include="Kernel\TickEvent.cs" />

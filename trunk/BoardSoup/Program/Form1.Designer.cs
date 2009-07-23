@@ -1,4 +1,4 @@
-﻿namespace BoardSoup
+﻿namespace BoardSoup.Program
 {
     partial class MainForm
     {
@@ -33,7 +33,7 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.renderPanel = new System.Windows.Forms.Panel();
+            this.renderPanel = new DoubleBufferedPanel();
             this.SuspendLayout();
             // 
             // button1
@@ -84,6 +84,7 @@
             this.renderPanel.Size = new System.Drawing.Size(310, 175);
             this.renderPanel.TabIndex = 4;
             this.renderPanel.Visible = false;
+            this.renderPanel.EnableDoubleBuffering();
             // 
             // MainForm
             // 
@@ -116,7 +117,7 @@
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Panel renderPanel;
+        private DoubleBufferedPanel renderPanel;
     }
 }
 

@@ -10,12 +10,12 @@ using System.Threading;
 using BoardSoup.Interface;
 using BoardSoupEngine.Utilities;
 
-namespace BoardSoup
+namespace BoardSoup.Program
 {
     public partial class MainForm : Form
     {
         // version
-        private const String version = "0.0.6";
+        private const String version = "0.1.0";
 
         // collection of our games
         private GamePool gamePool;
@@ -77,10 +77,12 @@ namespace BoardSoup
 
         private void endGameThread()
         {
+            // end thread
             if (gamethread != null)
                 if (gamethread.IsAlive)
                     gamethread.Abort();
 
+            // make panel invisible
             renderPanel.Visible = false;
         }
 

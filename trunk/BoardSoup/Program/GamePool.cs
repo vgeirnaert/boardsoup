@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using BoardSoup.Interface;
 
-namespace BoardSoup
+namespace BoardSoup.Program
 {
     class GamePool
     {
