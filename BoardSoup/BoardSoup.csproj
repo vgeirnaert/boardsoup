@@ -46,9 +46,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interface\IBoardGame.cs" />
-    <Compile Include="Program\DoubleBufferedPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Program\GamePool.cs" />
     <Compile Include="Program\Form1.cs">
       <SubType>Form</SubType>
@@ -59,10 +56,6 @@
     <Compile Include="Program\PluginLoader.cs" />
     <Compile Include="Program\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Program\DoubleBufferedPanel.resx">
-      <DependentUpon>DoubleBufferedPanel.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="Program\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
       <SubType>Designer</SubType>

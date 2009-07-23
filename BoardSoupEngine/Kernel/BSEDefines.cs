@@ -4,6 +4,6 @@ namespace BoardSoupEngine.Kernel
 {
     internal static class BSEDefines
     {
-        public const String version = "0.1.0";
+        public const String version = "0.1.5";
     }
 }
