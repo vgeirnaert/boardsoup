@@ -11,14 +11,7 @@ namespace BoardSoupEngine.Renderer
     {
         private Panel renderSurface;
         private IEventDispatcher dispatcher;
-        private Graphics backBufferGraphics;
-        private Graphics renderGraphics;
-        private Bitmap backBuffer;
-
-      /*private Image pew;
-        private int x = 0;
-        private int y = 0;
-        private int newrotation = 0;*/
+        private BufferedGraphics myBuffer;
 
         public void setEventDispatcher(IEventDispatcher argDispatcher)
         {
@@ -26,19 +19,14 @@ namespace BoardSoupEngine.Renderer
         }
 
         public Renderer()
-        {
-            //pew = new Bitmap("D:\\C#\\BoardSoup\\BoardSoup\\Resources\\Icon1.ico");
-            
+        {           
         }
 
         public void setSurface(Panel surface)
         {
             renderSurface = surface;
-            backBuffer = new Bitmap(renderSurface.Width, renderSurface.Height);
-            //backBuffer = new Bitmap(1050, 200);
-            renderGraphics = renderSurface.CreateGraphics();
-            backBufferGraphics = Graphics.FromImage(backBuffer);
-            
+            BufferedGraphicsContext bgc = BufferedGraphicsManager.Current;
+            myBuffer = bgc.Allocate(surface.CreateGraphics(), surface.DisplayRectangle);
         }
 
         public void receiveEvent(Event argEvent)
@@ -47,15 +35,7 @@ namespace BoardSoupEngine.Renderer
         }
 
         public void onTick()
-        {
-            /*endScene();
-            beginScene();
-            drawImage(pew, new Point(x, y), newrotation);
-
-            x++;
-            y++;
-            newrotation--;*/
-            
+        {          
         }
 
         public void drawImage(Image argImage, Point location, int rotation)
@@ -63,35 +43,21 @@ namespace BoardSoupEngine.Renderer
             //Console.WriteLine("drawing");
 
             //create a new empty bitmap to hold rotated image
-            /*Image result = new Bitmap(argImage.Width, argImage.Height);
-
-            //make a graphics object from the empty bitmap
-            Graphics g = Graphics.FromImage(result);
-            
-            //move rotation point to center of image, rotate and return rotation point to normal
-            g.TranslateTransform((float)argImage.Width / 2, (float)argImage.Height / 2);
-            g.RotateTransform(rotation);
-            g.TranslateTransform(-(float)argImage.Width / 2, -(float)argImage.Height / 2);
-            
-            //draw passed in image onto graphics object
-            g.DrawImage(argImage, new Point(0, 0));
-
-            backBufferGraphics.DrawImage(result, location);*/
-
             Image result = new Bitmap(argImage.Width, argImage.Height);
 
             //make a graphics object from the empty bitmap
             Graphics g = Graphics.FromImage(result);
-
+            
             //move rotation point to center of image, rotate and return rotation point to normal
             g.TranslateTransform((float)argImage.Width / 2, (float)argImage.Height / 2);
             g.RotateTransform(rotation);
             g.TranslateTransform(-(float)argImage.Width / 2, -(float)argImage.Height / 2);
-
+            
             //draw passed in image onto graphics object
             g.DrawImage(argImage, new Point(0, 0));
 
-            renderGraphics.DrawImage(result, location);
+            //backBufferGraphics.DrawImage(result, location);
+            myBuffer.Graphics.DrawImage(result, location);
             g.Dispose();
         }
 
@@ -102,15 +68,12 @@ namespace BoardSoupEngine.Renderer
 
         private void clear(Color argColor)
         {
-            backBufferGraphics.Clear(argColor);
+            myBuffer.Graphics.Clear(argColor);
         }
 
         public void endScene()
         {
-            //renderGraphics.DrawImage(backBuffer, 0, 0);
-            //renderGraphics = backBufferGraphics;
-            renderSurface.Invalidate();
-
+            myBuffer.Render();
         }
 
         public void makeAssetRenderer(Asset argAsset)

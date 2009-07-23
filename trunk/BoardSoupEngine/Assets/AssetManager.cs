@@ -7,26 +7,23 @@ namespace BoardSoupEngine.Assets
     internal class AssetManager : IEventListener, ITickable
     {
         private IEventDispatcher dispatcher;
-        private List<ImageAsset> ia;
+
+
+        private ImageAsset ia;
         int rotate = 0;
 
         public AssetManager()
         {
-            ia = new List<ImageAsset>();
-            for(int i = 0; i < 10; i++)
-                ia.Add(new ImageAsset("D:\\C#\\BoardSoup\\BoardSoup\\Resources\\Icon1.ico"));
+            ia = new ImageAsset("D:\\C#\\BoardSoup\\BoardSoup\\Resources\\Icon1.ico");
         }
 
         public void setEventDispatcher(IEventDispatcher argDispatcher)
         {
             dispatcher = argDispatcher;
-
-            foreach (ImageAsset i in ia)
-            {
-                AssetToRendererEvent atre = new AssetToRendererEvent();
-                atre.setAsset(i);
-                dispatcher.submitEvent(atre);
-            }
+            AssetToRendererEvent atre = new AssetToRendererEvent();
+            atre.setAsset(ia);
+            dispatcher.submitEvent(atre);
+            
         }
 
         public void receiveEvent(Event argEvent)
@@ -37,14 +34,14 @@ namespace BoardSoupEngine.Assets
         public void onTick()
         {
             dispatcher.submitEvent(new Renderer.RendererStartSceneEvent());
-            rotate+=2;
+            rotate++;
             int x = 0;
             int y = 100;
             
-            foreach (ImageAsset i in ia)
+            for(int z = 0; z < 100; z++)
             {
                 x += 50;
-                i.render(new Point(x+rotate, y+rotate), rotate);
+                ia.render(new Point(x, y), rotate);
 
                 if (x > 999)
                 {
