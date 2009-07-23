@@ -21,6 +21,8 @@ namespace BoardSoupEngine.Kernel
         {
             foreach (IEventListener l in listeners)
                 l.receiveEvent(argEvent);
+
+            argEvent = null;
         }
     }
 }

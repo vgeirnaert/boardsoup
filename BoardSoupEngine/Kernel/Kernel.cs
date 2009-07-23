@@ -19,6 +19,7 @@ namespace BoardSoupEngine.Kernel
             eventDispatcher.registerListener(this);
 
             eventDispatcher.registerListener(new Renderer.Renderer());
+            eventDispatcher.registerListener(new Assets.AssetManager());
         }
 
         public void setRenderSurface(Panel surface)

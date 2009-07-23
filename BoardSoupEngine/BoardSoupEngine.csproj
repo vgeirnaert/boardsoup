@@ -70,6 +70,9 @@
     <Compile Include="Kernel\KernelEvent.cs" />
     <Compile Include="Kernel\TickEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Renderer\RendererEndSceneEvent.cs" />
+    <Compile Include="Renderer\RenderEvent.cs" />
+    <Compile Include="Renderer\RenderSceneEvent.cs" />
     <Compile Include="Renderer\RenderSurfaceEvent.cs" />
     <Compile Include="Renderer\ImageRenderer.cs" />
     <Compile Include="Renderer\IRenderable.cs" />
