@@ -27,7 +27,7 @@ namespace BoardSoupEngine.Kernel
             ticks.interval = 100000; //this value equals 1/100th of a second
 
             renderer.lastEventTime = 0;
-            renderer.interval = 200000;
+            renderer.interval = 400000;
 
             eventDispatcher = new EventDispatcher();
             eventDispatcher.registerListener(this);

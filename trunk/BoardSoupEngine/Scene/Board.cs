@@ -17,18 +17,23 @@ namespace BoardSoupEngine.Scene
 
             //-------------------------
             for (int x = 0; x < 20; x++)
+            {  
                 for (int y = 0; y < 20; y++)
                 {
-                    BoardActor ba = new BoardActor(x * 50, y * 50, "D:\\C#\\BoardSoup\\BoardSoup\\Resources\\Icon1.ico");
+                    int modX = ((y % 2) * 16);
+                    int cX = (x * 32) + modX;
+                    int cY = (y * 24);
+                    BoardActor ba = new BoardActor(cX, cY, "Resources\\Icon1.ico");
                     actors.Add(ba);
                     argDispatcher.submitEvent(new SceneActorLoadAssetEvent(ba));
                 }
+            }
         }
 
         public void tick()
         {
             foreach (BoardActor a in actors)
-                a.rotation++;
+                a.rotation+=2;
         }
 
         public void render()
