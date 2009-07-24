@@ -63,6 +63,7 @@
     <Compile Include="Interface\BoardSoupEngine.cs" />
     <Compile Include="Kernel\BSEDefines.cs" />
     <Compile Include="Kernel\Event.cs" />
+    <Compile Include="Kernel\EventFactory.cs" />
     <Compile Include="Kernel\IEventDispatcher.cs" />
     <Compile Include="Kernel\IEventListener.cs" />
     <Compile Include="Kernel\EventDispatcher.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="Scene\SceneRenderEvent.cs" />
     <Compile Include="Utilities\Dice.cs" />
     <Compile Include="Utilities\Logger.cs" />
+    <Compile Include="Utilities\PointMath.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

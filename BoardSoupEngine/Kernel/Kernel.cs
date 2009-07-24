@@ -51,13 +51,15 @@ namespace BoardSoupEngine.Kernel
 
             if (now - ticks.lastEventTime > ticks.interval)
             {
-                eventDispatcher.submitEvent(new TickEvent());
+                //eventDispatcher.submitEvent(new TickEvent());
+                eventDispatcher.submitEvent(EventFactory.createEvent("BoardSoupEngine.Kernel.TickEvent"));
                 ticks.lastEventTime = now;
             }
 
             if (now - renderer.lastEventTime > renderer.interval)
             {
-                eventDispatcher.submitEvent(new SceneRenderEvent());
+                //eventDispatcher.submitEvent(new SceneRenderEvent());
+                eventDispatcher.submitEvent(EventFactory.createEvent("BoardSoupEngine.Scene.SceneRenderEvent"));
                 renderer.lastEventTime = now;
             }
         }

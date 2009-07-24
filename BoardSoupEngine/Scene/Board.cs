@@ -32,8 +32,17 @@ namespace BoardSoupEngine.Scene
 
         public void tick()
         {
+            /*int i = 0;
             foreach (BoardActor a in actors)
-                a.rotation+=2;
+            {
+                if(i % 2 == 0)
+                    a.rotation += 2;
+
+                i++;
+            }*/
+
+            foreach (BoardActor a in actors)
+               a.rotation += 2;
         }
 
         public void render()
