@@ -6,17 +6,21 @@ namespace BoardSoupEngine.Assets
 {
     internal class ImageAsset : Asset
     {
-        Image file;
-        IRenderable renderer;
+        private Image file;
+        private IRenderable renderer;
+        private String name;
+
 
         public ImageAsset()
         {
+            name = "";
         }
 
         public ImageAsset(String filename)
         {
             renderer = null;
             file = new Bitmap(filename);
+            name = filename;
         }
 
         public void setRenderer(IRenderable argRenderer)
@@ -36,7 +40,13 @@ namespace BoardSoupEngine.Assets
 
         public void render(Point location, int rotation)
         {
-            renderer.render(location, rotation);
+            if(renderer != null)
+                renderer.render(location, rotation);
+        }
+
+        public String getName()
+        {
+            return name;
         }
     }
 }

@@ -2,10 +2,7 @@
 
 namespace BoardSoupEngine.Scene
 {
-    internal class SceneEvent : Event
+    internal abstract class SceneEvent : Event
     {
-        public override void execute(IEventListener module)
-        {
-        }
     }
 }
