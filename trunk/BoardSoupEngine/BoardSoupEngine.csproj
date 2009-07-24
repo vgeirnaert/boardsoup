@@ -81,8 +81,10 @@
     <Compile Include="Renderer\ShapeRenderer.cs" />
     <Compile Include="Scene\Board.cs" />
     <Compile Include="Scene\BoardActor.cs" />
+    <Compile Include="Scene\SceneActorLoadAssetEvent.cs" />
     <Compile Include="Scene\SceneEvent.cs" />
     <Compile Include="Scene\SceneManager.cs" />
+    <Compile Include="Scene\SceneRenderEvent.cs" />
     <Compile Include="Utilities\Dice.cs" />
     <Compile Include="Utilities\Logger.cs" />
   </ItemGroup>

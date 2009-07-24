@@ -1,13 +1,21 @@
 ﻿using System.Windows.Forms;
 using System;
+using BoardSoupEngine.Scene;
 
 namespace BoardSoupEngine.Kernel
 {
     internal class Kernel : IEventListener, ITickable
     {
+        struct eventTime
+        {
+            public long lastEventTime;
+            public int interval; // in ten millionths of a second 
+        };
+
         private EventDispatcher eventDispatcher;
-        private long timeOfLastTick = 0;
-        private int tickInterval = 100000;  // in ten millionths of a second - this value equals 1/100th of a second
+        private eventTime ticks;
+        private eventTime renderer; 
+
 
         public void setEventDispatcher(IEventDispatcher argDispatcher)
         {
@@ -15,11 +23,18 @@ namespace BoardSoupEngine.Kernel
 
         public Kernel()
         {
+            ticks.lastEventTime = 0;
+            ticks.interval = 100000; //this value equals 1/100th of a second
+
+            renderer.lastEventTime = 0;
+            renderer.interval = 200000;
+
             eventDispatcher = new EventDispatcher();
             eventDispatcher.registerListener(this);
 
             eventDispatcher.registerListener(new Renderer.Renderer());
             eventDispatcher.registerListener(new Assets.AssetManager());
+            eventDispatcher.registerListener(new Scene.SceneManager());
         }
 
         public void setRenderSurface(Panel surface)
@@ -34,10 +49,16 @@ namespace BoardSoupEngine.Kernel
         {
             long now = DateTime.Now.Ticks;
 
-            if (now - timeOfLastTick > tickInterval)
+            if (now - ticks.lastEventTime > ticks.interval)
             {
                 eventDispatcher.submitEvent(new TickEvent());
-                timeOfLastTick = now;
+                ticks.lastEventTime = now;
+            }
+
+            if (now - renderer.lastEventTime > renderer.interval)
+            {
+                eventDispatcher.submitEvent(new SceneRenderEvent());
+                renderer.lastEventTime = now;
             }
         }
 

@@ -1,29 +1,46 @@
 ﻿using BoardSoupEngine.Kernel;
 using System.Drawing;
 using System.Collections.Generic;
+using System;
 
 namespace BoardSoupEngine.Assets
 {
     internal class AssetManager : IEventListener, ITickable
     {
         private IEventDispatcher dispatcher;
-
-
-        private ImageAsset ia;
-        int rotate = 0;
+        private Dictionary<String, Asset> assets;
+        private bool hasAssetsWaitingForRenderer = false;
 
         public AssetManager()
         {
-            ia = new ImageAsset("D:\\C#\\BoardSoup\\BoardSoup\\Resources\\Icon1.ico");
+            assets = new Dictionary<String, Asset>();
         }
 
         public void setEventDispatcher(IEventDispatcher argDispatcher)
         {
             dispatcher = argDispatcher;
-            AssetToRendererEvent atre = new AssetToRendererEvent();
-            atre.setAsset(ia);
-            dispatcher.submitEvent(atre);
-            
+
+            // if we have assets waiting for a renderer...
+            if (hasAssetsWaitingForRenderer)
+            {
+                // for all the assets in our collection
+                foreach (String s in assets.Keys)
+                {
+                    Asset a;
+                    
+                    assets.TryGetValue(s, out a);
+                    // if the asset doesnt have a renderer
+                    if (a.getRenderer() == null)
+                    {
+                        // make an event to request a renderer
+                        AssetToRendererEvent atre = new AssetToRendererEvent();
+                        atre.setAsset(a);
+
+                        // send event
+                        dispatcher.submitEvent(atre);
+                    }
+                }
+            } 
         }
 
         public void receiveEvent(Event argEvent)
@@ -33,23 +50,55 @@ namespace BoardSoupEngine.Assets
 
         public void onTick()
         {
-            dispatcher.submitEvent(new Renderer.RendererStartSceneEvent());
-            rotate++;
-            int x = 0;
-            int y = 100;
-            
-            for(int z = 0; z < 100; z++)
-            {
-                x += 50;
-                ia.render(new Point(x, y), rotate);
+        }
 
-                if (x > 999)
-                {
-                    y += 50;
-                    x = 0;
-                }
+        public Asset loadAsset(String filename)
+        {
+            Asset ia;
+
+            // if an asset with this name already exists
+            if (assets.ContainsKey(filename))
+                assets.TryGetValue(filename, out ia); // obtain it
+            else
+            {   // if not, make it and add it
+                ia = new ImageAsset(filename);
+                addAsset(ia);
             }
-            dispatcher.submitEvent(new Renderer.RendererEndSceneEvent());
+            // return asset
+            return ia;
+        }
+
+        public Asset loadAsset(String name, Point[] points)
+        {
+            Asset sa;
+
+            // if an asset with this name already exists
+            if (assets.ContainsKey(name))
+                assets.TryGetValue(name, out sa); // obtain it
+            else
+            {   // if not, make it and add it
+                sa = new ShapeAsset(name);
+                addAsset(sa);
+            }
+            // return asset
+            return sa;
+        }
+
+        private void addAsset(Asset a)
+        {
+            if (dispatcher != null)
+            {
+                // make an event to add a renderer to this asset
+                AssetToRendererEvent atre = new AssetToRendererEvent();
+                atre.setAsset(a);
+
+                // send event
+                dispatcher.submitEvent(atre);
+            }
+            else // we cannot send an event right away so we'll make sure this gets done once we have a dispatcher
+                hasAssetsWaitingForRenderer = true;
+
+            assets.Add(a.getName(), a);
         }
 
     }
