@@ -40,37 +40,24 @@ namespace BoardSoupEngine.Renderer
 
         public void drawImage(Image argImage, Point location, int rotation)
         {
-            //create a new empty bitmap to hold rotated image
-            //Image result = new Bitmap(argImage.Width, argImage.Height);
-
-            //make a graphics object from the empty bitmap
-            /*using (Graphics g = Graphics.FromImage(result))
-            {
-
-                //move rotation point to center of image, rotate and return rotation point to normal
-                g.TranslateTransform((float)argImage.Width / 2, (float)argImage.Height / 2);
-                g.RotateTransform(rotation);
-                g.TranslateTransform(-(float)argImage.Width / 2, -(float)argImage.Height / 2);
-
-                //draw passed in image onto graphics object
-                g.DrawImage(argImage, new Point(0, 0));
-
-                // draw the new bitmap onto our buffer and dispose of the bitmap graphics
-                myBuffer.Graphics.DrawImage(result, location);
-                g.Dispose();
-            }*/
+            // calculate the location of the center of the image
             int x = location.X + (argImage.Width / 2);
             int y = location.Y + (argImage.Height / 2);
-            Console.WriteLine("center " + x + " " + y);
+            
+            // move the 0,0 point of our graphics to where the center of our image should be
             myBuffer.Graphics.TranslateTransform(x, y);
+
+            // rotate the graphics (inverse to our graphics rotation) to prepare for drawing
             myBuffer.Graphics.RotateTransform(-rotation);
             
+            // draw the image onto our buffer, making sure that the center of the graphic is located at point 0,0
+            myBuffer.Graphics.DrawImage(argImage, -(argImage.Width / 2), -(argImage.Height / 2));
 
-            // draw the new bitmap onto our buffer and dispose of the bitmap graphics
-            myBuffer.Graphics.DrawImage(argImage, location);
+            // rotate our graphics back
             myBuffer.Graphics.RotateTransform(rotation);
-            myBuffer.Graphics.TranslateTransform( -x, -y );
-            
+
+            // translate back to the real 0,0 location
+            myBuffer.Graphics.TranslateTransform( -x, -y ); 
         }
 
         public void beginScene()
