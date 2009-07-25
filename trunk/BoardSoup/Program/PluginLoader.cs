@@ -25,7 +25,7 @@ namespace BoardSoup.Program
             bool success = true;
 
             // log it
-            Logger.log("Loading plugins...", LEVEL.DEBUG);
+            Logger.log("PluginLoader: Loading plugins...", LEVEL.DEBUG);
             
             try
             {
@@ -34,7 +34,7 @@ namespace BoardSoup.Program
 
                 // if there are no plugins present...
                 if(paths.Count == 0)
-                    Logger.log("Warning: no plugins found", LEVEL.WARNING);
+                    Logger.log("PluginLoader: Warning - no plugins found", LEVEL.WARNING);
             
                 // for all plugin paths in the list...
                 foreach (String path in paths)
@@ -49,7 +49,7 @@ namespace BoardSoup.Program
                         plugins.Add(game.getName(), game);
 
                         // log it
-                        Logger.log("Loaded: " + game.getName() + " [game version " + game.getGameVersion() + ", engine version " + game.getEngineVersion() + "]", LEVEL.DEBUG);
+                        Logger.log("PluginLoader: Loaded: " + game.getName() + " [game version " + game.getGameVersion() + ", engine version " + game.getEngineVersion() + "]", LEVEL.DEBUG);
                     }
                 }
             }
@@ -57,7 +57,7 @@ namespace BoardSoup.Program
             {
                 // we cannot find a plugins directory
                 // log it and return false
-                Logger.log("Error: plugin directory not found", LEVEL.ERROR);
+                Logger.log("PluginLoader: Error - plugin directory not found", LEVEL.ERROR);
                 success = false;
             }
 
@@ -92,7 +92,7 @@ namespace BoardSoup.Program
                         String pluginName = path.Substring(path.LastIndexOf('\\'));
 
                         // log debut output
-                        Logger.log("Loading: " + t.FullName + " from " + pluginName, LEVEL.DEBUG);
+                        Logger.log("PluginLoader: Loading: " + t.FullName + " from " + pluginName, LEVEL.DEBUG);
 
                         // cast our class to a board game
                         myGame = (IBoardGame)obj;
