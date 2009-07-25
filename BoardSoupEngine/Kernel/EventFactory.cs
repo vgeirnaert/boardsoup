@@ -22,7 +22,7 @@ namespace BoardSoupEngine.Kernel
                 // if we found our type
                 if (t != null)
                 {
-                    Logger.log("EventFactory making " + eventName, LEVEL.DEBUG);
+                    Logger.log("EventFactory: making " + eventName, LEVEL.DEBUG);
                     e = (Event)Activator.CreateInstance(t);
                     events.Add(eventName, e);
                 }

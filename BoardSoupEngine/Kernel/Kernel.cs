@@ -1,6 +1,7 @@
 ﻿using System.Windows.Forms;
 using System;
 using BoardSoupEngine.Scene;
+using BoardSoupEngine.Utilities;
 
 namespace BoardSoupEngine.Kernel
 {
@@ -23,11 +24,14 @@ namespace BoardSoupEngine.Kernel
 
         public Kernel()
         {
+            Logger.log("Kernel: Loading Kernel...", LEVEL.DEBUG);
             ticks.lastEventTime = 0;
             ticks.interval = 100000; //this value equals 1/100th of a second
 
             renderer.lastEventTime = 0;
-            renderer.interval = 400000;
+            renderer.interval = 200000;
+            Logger.log("Kernel: Tick interval set to " + (ticks.interval / 10000) + "ms", LEVEL.DEBUG);
+            Logger.log("Kernel: Render interval set to " + (renderer.interval / 10000) + "ms", LEVEL.DEBUG);
 
             eventDispatcher = new EventDispatcher();
             eventDispatcher.registerListener(this);
@@ -35,14 +39,17 @@ namespace BoardSoupEngine.Kernel
             eventDispatcher.registerListener(new Renderer.Renderer());
             eventDispatcher.registerListener(new Assets.AssetManager());
             eventDispatcher.registerListener(new Scene.SceneManager());
+            Logger.log("Kernel: Kernel loaded", LEVEL.DEBUG);
         }
 
         public void setRenderSurface(Panel surface)
         {
+            Logger.log("Kernel: setting render surface...", LEVEL.DEBUG);
             Renderer.RenderSurfaceEvent e = new Renderer.RenderSurfaceEvent();
             e.surface = surface;
 
             eventDispatcher.submitEvent(e);
+            Logger.log("Kernel: render surface set", LEVEL.DEBUG);
         }
 
         public void tick()
@@ -71,14 +78,5 @@ namespace BoardSoupEngine.Kernel
         public void onTick()
         {
         }
-
-        #region ITickable Members
-
-        void ITickable.onTick()
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
     }
 }

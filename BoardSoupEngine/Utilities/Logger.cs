@@ -7,7 +7,7 @@ namespace BoardSoupEngine.Utilities
 
     public static class Logger
     {
-        private const int LOG_BATCH = 10;
+        private const int LOG_BATCH = 1;
 
         // list of our messages
         static private List<KeyValuePair<LEVEL, String>> logEntries = new List<KeyValuePair<LEVEL, String>>();

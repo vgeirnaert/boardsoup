@@ -36,15 +36,7 @@ namespace BoardSoup.Program
         private void init()
         {
             // make the collection
-            gamePool = new GamePool();
-
-            // if we loaded succesfully
-            if (gamePool.pluginsLoaded())
-            {
-                // add all games to our combo box
-                foreach (String s in gamePool.getGameNames())
-                    comboBox1.Items.Add(s);
-            }            
+            gamePool = new GamePool();          
         }
 
         private void startGame(String name)
@@ -97,6 +89,21 @@ namespace BoardSoup.Program
                 startGame((String)comboBox1.Items[comboBox1.SelectedIndex]);
             else
                 endGameThread();
+        }
+
+        private void MainForm_Shown(object sender, EventArgs e)
+        {
+            // if we loaded succesfully
+            if (gamePool.pluginsLoaded())
+            {
+                // add all games to our combo box
+                foreach (String s in gamePool.getGameNames())
+                    comboBox1.Items.Add(s);
+
+                // if we only have 1 game start it right away
+                if (gamePool.getGameNames().Count == 1)
+                    startGame(gamePool.getGameNames()[0]);
+            }    
         }
 
     }

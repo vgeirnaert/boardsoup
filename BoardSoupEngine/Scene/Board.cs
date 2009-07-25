@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using BoardSoupEngine.Kernel;
+using System;
 namespace BoardSoupEngine.Scene
 {
     internal class Board
@@ -16,14 +17,31 @@ namespace BoardSoupEngine.Scene
             actors = new List<BoardActor>();
 
             //-------------------------
-            for (int x = 0; x < 20; x++)
+            Random rand = new Random();
+            int randColor = rand.Next(6);
+            string[] files = new string[6] {"Resources\\tile_yellow_inactive.png","Resources\\tile_red_inactive.png","Resources\\tile_white_inactive.png",
+                                 "Resources\\tile_green_inactive.png","Resources\\tile_blue_inactive.png","Resources\\tile_purple_inactive.png"};
+
+            string[] filesA = new string[6] {"Resources\\tile_yellow_active.png","Resources\\tile_red_active.png","Resources\\tile_white_active.png",
+                                 "Resources\\tile_green_active.png","Resources\\tile_blue_active.png","Resources\\tile_purple_active.png"};
+            for (int x = 0; x < 16; x++)
             {  
-                for (int y = 0; y < 20; y++)
+                for (int y = 0; y < 16; y++)
                 {
-                    int modX = ((y % 2) * 16);
-                    int cX = (x * 32) + modX;
-                    int cY = (y * 24);
-                    BoardActor ba = new BoardActor(cX, cY, "Resources\\Icon1.ico");
+                    int modX = ((y % 2) * 24);
+                    int cX = (x * 49) + modX;
+                    int cY = (y * 42);
+
+                    int randT = rand.Next(7);
+                    if (randT == 6)
+                        continue;
+
+                    BoardActor ba;
+                    if (randT % 6 == randColor)
+                        ba = new BoardActor(cX, cY, filesA[randT]);
+                    else
+                        ba = new BoardActor(cX, cY, files[randT]);
+
                     actors.Add(ba);
                     argDispatcher.submitEvent(new SceneActorLoadAssetEvent(ba));
                 }
@@ -32,15 +50,6 @@ namespace BoardSoupEngine.Scene
 
         public void tick()
         {
-            /*int i = 0;
-            foreach (BoardActor a in actors)
-            {
-                if(i % 2 == 0)
-                    a.rotation += 2;
-
-                i++;
-            }*/
-
             foreach (BoardActor a in actors)
                a.rotation += 2;
         }
