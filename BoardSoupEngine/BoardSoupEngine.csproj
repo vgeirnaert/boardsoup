@@ -61,6 +61,7 @@
     <Compile Include="Interface\ActorObject.cs" />
     <Compile Include="Interface\BoardObject.cs" />
     <Compile Include="Interface\BoardSoupEngine.cs" />
+    <Compile Include="Interface\InterfaceObject.cs" />
     <Compile Include="Kernel\BSEDefines.cs" />
     <Compile Include="Kernel\Event.cs" />
     <Compile Include="Kernel\EventFactory.cs" />

@@ -78,5 +78,10 @@ namespace BoardSoupEngine.Kernel
         public void onTick()
         {
         }
+
+        public IEventDispatcher getEventDispatcher()
+        {
+            return eventDispatcher;
+        }
     }
 }

@@ -37,7 +37,7 @@ namespace BoardSoupEngine.Scene
             {
                 Board b;
                 boards.TryGetValue(key, out b);
-                b.tick();
+                b.onTick();
             }
         }
 

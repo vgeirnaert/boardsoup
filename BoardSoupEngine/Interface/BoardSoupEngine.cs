@@ -27,5 +27,11 @@ namespace BoardSoupEngine.Interface
         {
             myKernel.setRenderSurface(surface);
         }
+
+        public void createInternalBoardObject(BoardObject bo)
+        {
+            bo.dispatcher = myKernel.getEventDispatcher();
+            
+        }
     }
 }

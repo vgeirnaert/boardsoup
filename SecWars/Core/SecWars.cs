@@ -14,6 +14,7 @@ namespace SecWars.Core
         public SecWars()
         {
             myEngine = new BoardSoupEngine.Interface.BoardSoupEngine();
+            //BoardSoupEngine.Interface.ActorObject a = new BoardSoupEngine.Interface.ActorObject();
         }
 
         public String getName()
