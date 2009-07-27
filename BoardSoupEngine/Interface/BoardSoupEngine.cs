@@ -8,7 +8,17 @@ namespace BoardSoupEngine.Interface
     {
         private Kernel.Kernel myKernel;
 
-        public BoardSoupEngine()
+        private static BoardSoupEngine instance;
+
+        public static BoardSoupEngine getInstance()
+        {
+            if (instance == null)
+                instance = new BoardSoupEngine();
+
+            return instance;
+        }
+
+        private BoardSoupEngine()
         {
             myKernel = new Kernel.Kernel();
         }
@@ -28,10 +38,9 @@ namespace BoardSoupEngine.Interface
             myKernel.setRenderSurface(surface);
         }
 
-        public void createInternalBoardObject(BoardObject bo)
+        internal IEventDispatcher getInternalDispatcher()
         {
-            bo.dispatcher = myKernel.getEventDispatcher();
-            
+            return myKernel.getEventDispatcher();
         }
     }
 }

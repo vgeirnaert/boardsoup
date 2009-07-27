@@ -2,7 +2,7 @@
 
 namespace BoardSoupEngine.Utilities
 {
-    public class Dice
+    internal class Dice
     {
         static private Random generator;
 

@@ -13,8 +13,7 @@ namespace SecWars.Core
 
         public SecWars()
         {
-            myEngine = new BoardSoupEngine.Interface.BoardSoupEngine();
-            //BoardSoupEngine.Interface.ActorObject a = new BoardSoupEngine.Interface.ActorObject();
+            myEngine = BoardSoupEngine.Interface.BoardSoupEngine.getInstance();
         }
 
         public String getName()
@@ -44,6 +43,8 @@ namespace SecWars.Core
 
         public void gameLoop()
         {
+            SecWarsBoard swb = new SecWarsBoard("test board");
+
             while (true)
             {
                 myEngine.tick();
