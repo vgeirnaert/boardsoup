@@ -79,23 +79,29 @@ namespace BoardSoup.Program
             // for all the types in this assembly
             foreach (Type t in myAs.GetTypes())
             {
-                // make sure the type is a non-abstract class
-                if (t.IsClass && !t.IsAbstract)
+                // make sure the type is a non-abstract class, visible and implements our interface
+                if (t.IsClass && !t.IsAbstract && t.IsVisible && (t.GetInterface("BoardSoup.Interface.IBoardGame", true) == typeof(IBoardGame)) )
                 {
                     // instantiate the class
-                    object obj = myAs.CreateInstance(t.FullName);
-
-                    // if it is an implementation of our board game interface...
-                    if (obj is IBoardGame)
+                    try
                     {
-                        // strip everything except the name of the dll file
-                        String pluginName = path.Substring(path.LastIndexOf('\\'));
+                        object obj = myAs.CreateInstance(t.FullName);
 
-                        // log debut output
-                        Logger.log("PluginLoader: Loading: " + t.FullName + " from " + pluginName, LEVEL.DEBUG);
+                        // if it is an implementation of our board game interface...
+                        if (obj is IBoardGame)
+                        {
+                            // log debut output
+                            Logger.log("PluginLoader: Loading: " + t.FullName + " from " + t.Module, LEVEL.DEBUG);
 
-                        // cast our class to a board game
-                        myGame = (IBoardGame)obj;
+                            // cast our class to a board game
+                            myGame = (IBoardGame)obj;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        System.Console.WriteLine("-------------------------------");
+                        System.Console.WriteLine("Error loading " + t.FullName + " see: " + e.StackTrace);
+                        System.Console.WriteLine("-------------------------------");
                     }
                 }
             }

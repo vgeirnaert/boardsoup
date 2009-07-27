@@ -13,7 +13,7 @@ namespace TicTacToe.Core
 
         public TicTacToe()
         {
-            myEngine = new BoardSoupEngine.Interface.BoardSoupEngine();
+            myEngine = BoardSoupEngine.Interface.BoardSoupEngine.getInstance();
         }
 
         public String getName()

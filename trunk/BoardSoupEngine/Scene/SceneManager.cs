@@ -1,6 +1,7 @@
 ﻿using BoardSoupEngine.Kernel;
 using System.Collections.Generic;
 using System;
+using BoardSoupEngine.Utilities;
 
 namespace BoardSoupEngine.Scene
 {
@@ -21,8 +22,8 @@ namespace BoardSoupEngine.Scene
             dispatcher = argDispatcher;
 
             //-----------------------------
-            selectedBoard = "test";
-            boards.Add(selectedBoard, new Board(dispatcher));
+            //selectedBoard = "test";
+            //boards.Add(selectedBoard, new Board(dispatcher));
             
         }
 
@@ -54,6 +55,51 @@ namespace BoardSoupEngine.Scene
                 dispatcher.submitEvent(new Renderer.RendererEndSceneEvent());
             }
         }
+
+        public Board createBoard(String argName)
+        {
+            Board r = null;
+
+            if(dispatcher != null)
+            {
+                r =  new Board(dispatcher);
+                boards.Add(argName, r);
+                selectedBoard = argName;
+            }
+            else
+                Logger.log("SceneManager: Warning - board (" + argName + ") creation failed, no dispatcher set", LEVEL.WARNING);
+
+            return r;
+        }
+
+        public BoardActor createActor(int x, int y, String filename)
+        {
+
+            BoardActor r = null;
+
+            if (dispatcher != null)
+            {
+                r = new BoardActor(x, y, filename);
+                r.loadAsset(filename, dispatcher);
+            }
+            else
+                Logger.log("SceneManager: Warning - board actor creation failed, no dispatcher set", LEVEL.WARNING);
+
+            return r;
+        }
+
+        public Board selectBoard(String argName)
+        {
+            if (boards.ContainsKey(argName))
+                selectedBoard = argName;
+            
+            return null;
+        }
+
+        /*public KeyCollection getAllBoardNames()
+        {
+            return boards.Keys;
+        }*/
 
     }
 }

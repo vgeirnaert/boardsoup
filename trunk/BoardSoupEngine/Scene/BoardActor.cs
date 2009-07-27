@@ -40,7 +40,7 @@ namespace BoardSoupEngine.Scene
                 myAsset.render(location, rotation);
         }
 
-        public void setImage(String filename, IEventDispatcher dispatcher)
+        public void loadAsset(String filename, IEventDispatcher dispatcher)
         {
             dispatcher.submitEvent(new SceneActorLoadAssetEvent(this));
         }
@@ -53,6 +53,7 @@ namespace BoardSoupEngine.Scene
         public void setInterfaceObject(ActorObject ao)
         {
             myInterface = ao;
+            ao.setActor(this);
         }
 
         public void onTick()
