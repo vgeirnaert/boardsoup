@@ -37,8 +37,8 @@ namespace BoardSoupEngine.Utilities
                 {
                     quads = new Dictionary<QUAD, QuadTreeNode>();
 
-                    int leftWidth = (int)(bottomRightX / 2);
-                    int topHeight = (int)(bottomRightY / 2);
+                    int leftWidth = (int)((float)dimensions.Width / 2);
+                    int topHeight = (int)((float)dimensions.Height / 2);
 
                     quads.Add(QUAD.TOPLEFT, new QuadTreeNode(new Rectangle(dimensions.X, dimensions.Y, leftWidth, topHeight), argLevel - 1));
                     quads.Add(QUAD.TOPRIGHT, new QuadTreeNode(new Rectangle(dimensions.X + leftWidth, dimensions.Y, dimensions.Width - leftWidth, topHeight), argLevel - 1));
@@ -47,32 +47,41 @@ namespace BoardSoupEngine.Utilities
                 }
             }
 
-            public void add(T argT, Rectangle argRect)
+            public bool add(T argT, Rectangle argRect)
             {
                 // early out
                 if (argT == null || argRect == null)
-                    return;
+                   return false;
 
+                //Console.WriteLine("attempting to add object " + argRect.ToString() + " to node " + dimensions.ToString());
                 if (isLeaf)
                 {
+                    //Console.WriteLine("adding object to node");
                     if (payload == null)
                         payload = new List<T>();
 
                     payload.Add(argT);
+                    return true;
+                    
                 }
                 else
                 {
                     foreach (KeyValuePair<QUAD, bool> p in getQuadsForRect(argRect))
                     {
+                        //Console.WriteLine("checking: " + p.Key + " " + p.Value);
                         if(p.Value)
-                            quads[p.Key].add(argT, argRect);
+                            return quads[p.Key].add(argT, argRect);
                     }
                     
                 }
+
+                return false;
             }
 
             public List<T> getObjectsAt(Point argPoint)
             {
+                //Console.WriteLine("checking node: " + dimensions.ToString());
+
                 if (isLeaf)
                     return payload;
 
@@ -90,12 +99,18 @@ namespace BoardSoupEngine.Utilities
                 }
             }
 
-            public void remove(T argT, Point argPoint)
+            public void remove(T argT, Rectangle argRect)
             {
                 if (isLeaf)
                     payload.Remove(argT);
                 else
-                    quads[getQuadForPoint(argPoint)].remove(argT, argPoint);
+                {
+                    foreach (KeyValuePair<QUAD, bool> p in getQuadsForRect(argRect))
+                    {
+                        if (p.Value)
+                            quads[p.Key].remove(argT, argRect);
+                    }
+                }
             }
 
             public Rectangle getRectangle()
@@ -129,7 +144,8 @@ namespace BoardSoupEngine.Utilities
             private Dictionary<QUAD, bool> getQuadsForRect(Rectangle argR)
             {
                 Dictionary<QUAD, bool> returnDict = new Dictionary<QUAD, bool>();
-
+                //Console.WriteLine("checking rectangle: " + argR.ToString());
+                //Console.WriteLine("against node dimension: " + dimensions.ToString());
                 returnDict.Add(QUAD.TOPLEFT, false);
                 returnDict.Add(QUAD.TOPRIGHT, false);
                 returnDict.Add(QUAD.BOTTOMLEFT, false);
@@ -154,7 +170,7 @@ namespace BoardSoupEngine.Utilities
         //==================================================
         // Actual quadtree class
         //==================================================
-        private int levels = 5;
+        private int levels = 1;
         private QuadTreeNode firstNode;
         private List<T> allObjects;
 
@@ -166,8 +182,8 @@ namespace BoardSoupEngine.Utilities
 
         public void Add(T argT, Rectangle argRect)
         {
-            firstNode.add(argT, argRect);
-            allObjects.Add(argT);
+            if(firstNode.add(argT, argRect))
+                allObjects.Add(argT);
         }
 
         public List<T> getObjectsAt(Point argPoint)
@@ -181,9 +197,9 @@ namespace BoardSoupEngine.Utilities
             allObjects.Clear();
         }
 
-        public void Remove(T argT, Point argPoint)
+        public void Remove(T argT, Rectangle argRect)
         {
-            firstNode.remove(argT, argPoint);
+            firstNode.remove(argT, argRect);
             allObjects.Remove(argT);
         }
 
