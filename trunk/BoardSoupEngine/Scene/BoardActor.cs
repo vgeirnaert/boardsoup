@@ -102,10 +102,17 @@ namespace BoardSoupEngine.Scene
 
         public Rectangle getBounds()
         {
-            if (myAsset != null)
-                return myAsset.getBounds();
+            Rectangle bounds = new Rectangle();
 
-            return new Rectangle();
+            if (myAsset != null)
+            {
+                bounds = myAsset.getBounds();
+
+                bounds.X = location.X;
+                bounds.Y = location.Y;
+            }
+
+            return bounds;
         }
     }
 }

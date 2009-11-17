@@ -19,7 +19,7 @@ namespace BoardSoupEngine.Scene
         public Board()
         {
             //actors = new List<BoardActor>();
-            actors = new QuadTree<BoardActor>(new Rectangle(315, 0, 1050, 1050));
+            actors = new QuadTree<BoardActor>(new Rectangle(0, 0, 1050, 1050));
             dispatcher = null;
             myInterfaceObject = null;
         }
@@ -85,10 +85,13 @@ namespace BoardSoupEngine.Scene
             List<BoardActor> actorlist = actors.getObjectsAt(p);
 
             if(actorlist != null) {
+                //Console.WriteLine("Actors found: " + actorlist.Count);
                 try
                 {
                     foreach (BoardActor ba in actorlist)
                     {
+                        //Console.WriteLine("comparing position: " + p.ToString());
+                        //Console.WriteLine("to rectangle: " + ba.getBounds().ToString() + " > " + ba.getBounds().Contains(p));
                         if (ba.isAt(p))
                             r = ba;
                     }
@@ -101,7 +104,7 @@ namespace BoardSoupEngine.Scene
 
         public void deleteActor(BoardActor ba)
         {
-            actors.Remove(ba, ba.getInterfaceObject().getLocation());
+            actors.Remove(ba, ba.getBounds());
             onBoardChanged();
         }
 

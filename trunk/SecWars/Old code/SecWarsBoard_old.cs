@@ -85,7 +85,7 @@ namespace SecWars.Core
                     {
                         if (!(boardmask.GetPixel(cX, cY).B == Color.Black.B))
                         {
-                            int randT = rand.Next(10);
+                            int randT = rand.Next(5); // increase value for more empty spots
                             if (randT > 5)
                                 continue;
 
