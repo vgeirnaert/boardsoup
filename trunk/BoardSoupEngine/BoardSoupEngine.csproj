@@ -53,8 +53,10 @@
     <Compile Include="Assets\ImageLoader.cs" />
     <Compile Include="Assets\ShapeAsset.cs" />
     <Compile Include="Input\ActionMapper.cs" />
+    <Compile Include="Input\Cursor.cs" />
     <Compile Include="Input\IInputDevice.cs" />
-    <Compile Include="Input\InputEvent.cs" />
+    <Compile Include="Input\InputCursorClickEvent.cs" />
+    <Compile Include="Input\InputCursorMoveEvent.cs" />
     <Compile Include="Input\InputManager.cs" />
     <Compile Include="Input\MouseDevice.cs" />
     <Compile Include="Input\WiimoteDevice.cs" />
@@ -92,6 +94,7 @@
     <Compile Include="Utilities\Dice.cs" />
     <Compile Include="Utilities\Logger.cs" />
     <Compile Include="Utilities\PointMath.cs" />
+    <Compile Include="Utilities\QuadTree.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

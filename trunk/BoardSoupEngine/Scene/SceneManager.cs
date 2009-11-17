@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System;
 using BoardSoupEngine.Utilities;
+using System.Drawing;
 
 namespace BoardSoupEngine.Scene
 {
@@ -34,12 +35,18 @@ namespace BoardSoupEngine.Scene
 
         public void onTick()
         {
-            foreach (String key in boards.Keys)
+            /*foreach (String key in boards.Keys)
             {
                 Board b;
                 boards.TryGetValue(key, out b);
                 b.onTick();
-            }
+            }*/
+
+            Board b;
+            boards.TryGetValue(selectedBoard, out b);
+
+            if(b != null)
+                b.onTick();
         }
 
         public void renderActiveBoard()
@@ -50,9 +57,9 @@ namespace BoardSoupEngine.Scene
 
             if (b != null)
             {
-                dispatcher.submitEvent(new Renderer.RendererStartSceneEvent());
+                dispatcher.submitEvent(EventFactory.createEvent("BoardSoupEngine.Renderer.RendererStartSceneEvent"));
                 b.render();
-                dispatcher.submitEvent(new Renderer.RendererEndSceneEvent());
+                dispatcher.submitEvent(EventFactory.createEvent("BoardSoupEngine.Renderer.RendererEndSceneEvent"));
             }
         }
 
@@ -62,8 +69,15 @@ namespace BoardSoupEngine.Scene
 
             if(dispatcher != null)
             {
-                r =  new Board(dispatcher);
-                boards.Add(argName, r);
+                if (boards.ContainsKey(argName))
+                {
+                    boards.TryGetValue(argName, out r);
+                }
+                else
+                {
+                    r = new Board(dispatcher);
+                    boards.Add(argName, r);
+                }
                 selectedBoard = argName;
             }
             else
@@ -90,16 +104,21 @@ namespace BoardSoupEngine.Scene
 
         public Board selectBoard(String argName)
         {
+            Board b = null;
+
             if (boards.ContainsKey(argName))
+            {
                 selectedBoard = argName;
+                boards.TryGetValue(selectedBoard, out b);
+            }
             
-            return null;
+            return b;
         }
 
-        /*public KeyCollection getAllBoardNames()
+        public BoardActor getActorAt(Point p)
         {
-            return boards.Keys;
-        }*/
+            return selectBoard(selectedBoard).getActorAt(p); 
+        }
 
     }
 }

@@ -105,6 +105,5 @@ namespace BoardSoup.Program
                     startGame(gamePool.getGameNames()[0]);
             }    
         }
-
     }
 }

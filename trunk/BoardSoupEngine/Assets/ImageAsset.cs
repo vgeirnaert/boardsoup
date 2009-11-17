@@ -9,6 +9,7 @@ namespace BoardSoupEngine.Assets
         private Image file;
         private IRenderable renderer;
         private String name;
+        private Rectangle bounds;
 
 
         public ImageAsset()
@@ -20,6 +21,7 @@ namespace BoardSoupEngine.Assets
         {
             renderer = null;
             file = new Bitmap(filename);
+            bounds = new Rectangle(0, 0, file.Width, file.Height);
             name = filename;
         }
 
@@ -47,6 +49,11 @@ namespace BoardSoupEngine.Assets
         public String getName()
         {
             return name;
+        }
+
+        public Rectangle getBounds()
+        {
+            return bounds;
         }
     }
 }

@@ -1,25 +1,31 @@
 ﻿using System;
 using BoardSoupEngine.Interface;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace SecWars.Core
 {
-    class SecWarsBoard : BoardObject
+    class SecWarsBoard_old : BoardObject
     {
-        long time = 0;
+        private long time = 0;
+        private SecWarsGameLogic_old logic;
+        private List<SecWarsTile_old> deleteQueue;
 
-        public SecWarsBoard() : base("")
+        public SecWarsBoard_old() : base("")
         {
+            deleteQueue = new List<SecWarsTile_old>();
         }
 
-        public SecWarsBoard(String argName) : base(argName)
+        public SecWarsBoard_old(String argName) : base(argName)
         {
             this.name = argName;
+            deleteQueue = new List<SecWarsTile_old>();
         }
 
         public override void onBoardChanged()
         {
-            
+            if(logic != null)
+                logic.evaluateGame(this);
         }
 
         public void onTurn()
@@ -29,19 +35,29 @@ namespace SecWars.Core
 
         public override void onEngineObjectCreated()
         {
+            time = DateTime.Now.Ticks; 
             clearBoard();
             makeBoard();
         }
 
         public override void onTick()
         {
+            if (deleteQueue != null)
+            {
+                foreach (SecWarsTile_old t in deleteQueue)
+                    this.deleteFromBoard(t);
+
+                deleteQueue.Clear();
+            }
+
             long now = DateTime.Now.Ticks;
 
-            if (now - time > 50000000)
+            if (now - time > 500000000)
             {
-                time = now;
-                clearBoard();
-                makeBoard();
+                if (logic != null)
+                    logic.endGame(this);
+
+                Console.WriteLine("ending!");
             }
         }
 
@@ -73,17 +89,34 @@ namespace SecWars.Core
                             if (randT > 5)
                                 continue;
 
-                            SecWarsTile ba;
+                            SecWarsTile_old ba;
                             if (randT % 6 == randColor)
-                                ba = new SecWarsTile(cX + 100, cY + 150, filesA[randT]);
+                                ba = new SecWarsActiveTile(cX + 100, cY + 150, filesA[randT]);
                             else
-                                ba = new SecWarsTile(cX + 100, cY + 150, files[randT]);
+                                ba = new SecWarsTile_old(cX + 100, cY + 150, files[randT]);
 
+                            ba.setBoard(this);
                             this.addActor(ba);
                         }
                     }
                 }
             }
+            time = DateTime.Now.Ticks; 
+        }
+
+        public void setLogic(SecWarsGameLogic_old l)
+        {
+            logic = l;
+        }
+
+        public void markForDeletion(SecWarsTile_old tile)
+        {
+            deleteQueue.Add(tile);
+        }
+
+        public void endGame()
+        {
+            logic.endGame(this);
         }
     }
 }

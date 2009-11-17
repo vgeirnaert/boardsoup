@@ -9,15 +9,15 @@ namespace BoardSoupEngine.Interface
     public abstract class ActorObject : InterfaceObject
     {
         private BoardActor actor;
+        private String name;
 
         public ActorObject(int x, int y, String imageName)
         {
+            name = imageName;
             dispatcher = BoardSoupEngine.getInstance().getInternalDispatcher();
-            CreateInternalBoardActorEvent e = new CreateInternalBoardActorEvent(this, x, y, imageName);
+            CreateInternalBoardActorEvent e = new CreateInternalBoardActorEvent(this, x, y, name);
             dispatcher.submitEvent(e);
         }
-
-        abstract public void onClick();
 
         public void setLocation(Point argLocation)
         {
@@ -49,8 +49,7 @@ namespace BoardSoupEngine.Interface
 
         public String getFile()
         {
-            //return actor.name; TODO
-            return "";
+            return name;
         }
 
         internal void setActor(BoardActor ba)
@@ -67,6 +66,10 @@ namespace BoardSoupEngine.Interface
         {
             actor.receivesInput = input;
         }
-        
+
+        abstract public void onMouseIn();
+        abstract public void onMouseOut();
+        abstract public void onClick();
+
     }
 }

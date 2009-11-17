@@ -39,10 +39,11 @@ namespace BoardSoupEngine.Kernel
             eventDispatcher.registerListener(new Renderer.Renderer());
             eventDispatcher.registerListener(new Assets.AssetManager());
             eventDispatcher.registerListener(new Scene.SceneManager());
+            eventDispatcher.registerListener(new Input.InputManager());
             Logger.log("Kernel: Kernel loaded", LEVEL.DEBUG);
         }
 
-        public void setRenderSurface(Panel surface)
+        public void setSurface(Panel surface)
         {
             Logger.log("Kernel: setting render surface...", LEVEL.DEBUG);
             Renderer.RenderSurfaceEvent e = new Renderer.RenderSurfaceEvent();
