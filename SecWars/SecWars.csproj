@@ -41,9 +41,23 @@
   </Target>
   -->
   <ItemGroup>
+    <Compile Include="Core\DefenceObject.cs" />
+    <Compile Include="Core\GameObject.cs" />
+    <Compile Include="Core\Hexagon.cs" />
+    <Compile Include="Core\Player.cs" />
+    <Compile Include="Core\Territory.cs" />
+    <Compile Include="Old code\AgainTile.cs" />
+    <Compile Include="Old code\FailTile.cs" />
+    <Compile Include="Old code\MenuBoard.cs" />
+    <Compile Include="Old code\MenuTile.cs" />
     <Compile Include="Core\SecWars.cs" />
-    <Compile Include="Core\SecWarsBoard.cs" />
-    <Compile Include="Core\SecWarsTile.cs" />
+    <Compile Include="Old code\SecWarsActiveTile.cs" />
+    <Compile Include="Old code\SecWarsBoard_old.cs" />
+    <Compile Include="Old code\SecWarsGameLogic_old.cs" />
+    <Compile Include="Old code\SecWarsTile_old.cs" />
+    <Compile Include="Old code\StartTile.cs" />
+    <Compile Include="Old code\StopTile.cs" />
+    <Compile Include="Old code\WinTile.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="BoardSoupEngine, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">

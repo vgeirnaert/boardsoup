@@ -35,7 +35,7 @@ namespace BoardSoupEngine.Interface
 
         public void setRenderSurface(Panel surface)
         {
-            myKernel.setRenderSurface(surface);
+            myKernel.setSurface(surface);
         }
 
         internal IEventDispatcher getInternalDispatcher()

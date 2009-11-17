@@ -10,5 +10,6 @@ namespace BoardSoupEngine.Assets
         IRenderable getRenderer();
         void render(Point location, int rotation);
         String getName();
+        Rectangle getBounds(); 
     }
 }

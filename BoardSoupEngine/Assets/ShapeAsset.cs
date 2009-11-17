@@ -36,5 +36,10 @@ namespace BoardSoupEngine.Assets
         {
             return name;
         }
+
+        public Rectangle getBounds()
+        {
+            return new Rectangle();
+        }
     }
 }

@@ -42,6 +42,7 @@ namespace BoardSoupEngine.Scene
 
         public void loadAsset(String filename, IEventDispatcher dispatcher)
         {
+            name = filename;
             dispatcher.submitEvent(new SceneActorLoadAssetEvent(this));
         }
 
@@ -60,6 +61,51 @@ namespace BoardSoupEngine.Scene
         {
             if (myInterface != null)
                 myInterface.onTick();
+        }
+
+        public void onClick()
+        {
+            if (myInterface != null)
+                myInterface.onClick();
+        }
+
+        public void onMouseIn()
+        {
+            if (myInterface != null)
+                myInterface.onMouseIn();
+        }
+
+        public void onMouseOut()
+        {
+            if (myInterface != null)
+                myInterface.onMouseOut();
+        }
+
+        public bool isAt(Point p)
+        {
+            if (myAsset != null)
+            {
+                Rectangle r = myAsset.getBounds();
+                r.X = location.X;
+                r.Y = location.Y;
+
+                return r.Contains(p);
+            }
+
+            return false;
+        }
+
+        public ActorObject getInterfaceObject()
+        {
+            return myInterface;
+        }
+
+        public Rectangle getBounds()
+        {
+            if (myAsset != null)
+                return myAsset.getBounds();
+
+            return new Rectangle();
         }
     }
 }

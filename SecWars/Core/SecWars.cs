@@ -8,7 +8,7 @@ namespace SecWars.Core
     {
         private const String name = "Sec Wars";
         private const String description = "Battle for domination in a hexagonal world gone mad!";
-        private const String version = "0.0.2";
+        private const String version = "0.0.1";
         private BoardSoupEngine.Interface.BoardSoupEngine myEngine;
 
         public SecWars()
@@ -43,9 +43,9 @@ namespace SecWars.Core
 
         public void gameLoop()
         {
-            SecWarsBoard swb = new SecWarsBoard("test board");
+            SecWarsGameLogic_old logic = new SecWarsGameLogic_old();
 
-            while (true)
+            while (!logic.ended)
             {
                 myEngine.tick();
             }

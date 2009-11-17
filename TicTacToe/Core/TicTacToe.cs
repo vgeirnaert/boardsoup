@@ -43,6 +43,12 @@ namespace TicTacToe.Core
 
         public void gameLoop()
         {
+            TicTacToeLogic logic = new TicTacToeLogic();
+
+            while (logic.running)
+            {
+                myEngine.tick();
+            }
         }
     }
 }
