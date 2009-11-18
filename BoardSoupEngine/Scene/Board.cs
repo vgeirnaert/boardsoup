@@ -39,13 +39,23 @@ namespace BoardSoupEngine.Scene
                 foreach (BoardActor a in actors)
                     a.onTick();
             }
-            catch (InvalidOperationException e) { }
+            catch (InvalidOperationException e)
+            {
+                Console.WriteLine("Error Board::onTick"); 
+            }
         }
 
         public void render()
         {
-            foreach (BoardActor a in actors)
-                a.render();
+            try
+            {
+                foreach (BoardActor a in actors)
+                    a.render();
+            }
+            catch (InvalidOperationException e) 
+            {
+                Console.WriteLine("Error Board::render");
+            }
         }
 
         public void setActive(bool b)
@@ -85,18 +95,18 @@ namespace BoardSoupEngine.Scene
             List<BoardActor> actorlist = actors.getObjectsAt(p);
 
             if(actorlist != null) {
-                //Console.WriteLine("Actors found: " + actorlist.Count);
                 try
                 {
                     foreach (BoardActor ba in actorlist)
                     {
-                        //Console.WriteLine("comparing position: " + p.ToString());
-                        //Console.WriteLine("to rectangle: " + ba.getBounds().ToString() + " > " + ba.getBounds().Contains(p));
                         if (ba.isAt(p))
                             r = ba;
                     }
                 }
-                catch (InvalidOperationException e) { }
+                catch (InvalidOperationException e) 
+                {
+                    Console.WriteLine("Error Board::getActorAt");
+                }
             }
 
             return r;

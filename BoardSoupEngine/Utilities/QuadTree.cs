@@ -23,9 +23,11 @@ namespace BoardSoupEngine.Utilities
 
             public QuadTreeNode(Rectangle argDimensions, int argLevel)
             {
+                //Console.Write("new node, level " + argLevel + " details: " + argDimensions.ToString());
                 // initialize
                 payload = null;
                 quads = null;
+                isLeaf = false;
                 bottomRightX = argDimensions.Right;
                 bottomRightY = argDimensions.Bottom;
                 dimensions = argDimensions;
@@ -53,10 +55,8 @@ namespace BoardSoupEngine.Utilities
                 if (argT == null || argRect == null)
                    return false;
 
-                //Console.WriteLine("attempting to add object " + argRect.ToString() + " to node " + dimensions.ToString());
                 if (isLeaf)
                 {
-                    //Console.WriteLine("adding object to node");
                     if (payload == null)
                         payload = new List<T>();
 
@@ -66,12 +66,17 @@ namespace BoardSoupEngine.Utilities
                 }
                 else
                 {
+                    bool added = false;
+
                     foreach (KeyValuePair<QUAD, bool> p in getQuadsForRect(argRect))
                     {
-                        //Console.WriteLine("checking: " + p.Key + " " + p.Value);
-                        if(p.Value)
-                            return quads[p.Key].add(argT, argRect);
+                        if (p.Value)
+                        {
+                            bool addresult = quads[p.Key].add(argT, argRect);
+                            added = added || addresult;
+                        }
                     }
+                    return added;
                     
                 }
 
@@ -80,8 +85,6 @@ namespace BoardSoupEngine.Utilities
 
             public List<T> getObjectsAt(Point argPoint)
             {
-                //Console.WriteLine("checking node: " + dimensions.ToString());
-
                 if (isLeaf)
                     return payload;
 
@@ -123,10 +126,10 @@ namespace BoardSoupEngine.Utilities
                 // top left: 0, top right: 1, bottom left: 2, bottom right: 3
                 int square = 0;
 
-                if (argP.X > (int)(bottomRightX / 2))
+                if (argP.X > (int)(dimensions.Width / 2) + dimensions.X)
                     square = square + 1;
 
-                if (argP.Y > (int)(bottomRightY / 2))
+                if (argP.Y > (int)(dimensions.Height / 2) + dimensions.Y)
                     square = square + 2;
 
                 switch (square)
@@ -170,7 +173,7 @@ namespace BoardSoupEngine.Utilities
         //==================================================
         // Actual quadtree class
         //==================================================
-        private int levels = 1;
+        private int levels = 4;
         private QuadTreeNode firstNode;
         private List<T> allObjects;
 
