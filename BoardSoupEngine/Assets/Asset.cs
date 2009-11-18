@@ -4,12 +4,37 @@ using System;
 
 namespace BoardSoupEngine.Assets
 {
-    internal interface Asset
+    internal abstract class Asset
     {
-        void setRenderer(IRenderable Renderer);
-        IRenderable getRenderer();
-        void render(Point location, int rotation);
-        String getName();
-        Rectangle getBounds(); 
+        private Renderable renderer;
+        private String name;
+
+        public void setRenderer(Renderable argRenderer)
+        {
+            renderer = argRenderer;
+        }
+
+        public Renderable getRenderer()
+        {
+            return renderer;
+        }
+
+        public String getName()
+        {
+            return name;
+        }
+
+        public void setName(String argName)
+        {
+            name = argName;
+        }
+
+        public void render(Point location, int rotation)
+        {
+            if (renderer != null)
+                renderer.render(location, rotation);
+        }
+
+        public abstract Rectangle getBounds();
     }
 }
