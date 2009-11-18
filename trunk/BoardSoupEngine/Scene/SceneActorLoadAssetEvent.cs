@@ -20,7 +20,7 @@ namespace BoardSoupEngine.Scene
         public override void execute(BoardSoupEngine.Kernel.IEventListener module)
         {
             if (module is AssetManager)
-                actor.setAsset(((AssetManager)module).loadAsset(actor.name));
+                actor.setAsset(((AssetManager)module).loadAsset(AssetType.IMAGE, actor.name, null));
         }
     }
 }

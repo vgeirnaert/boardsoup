@@ -1,11 +1,13 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Text;
+using System.Drawing;
 using BoardSoupEngine.Assets;
 
 namespace BoardSoupEngine.Renderer
 {
-    internal class ImageRenderer : Renderable
+    class TextRenderer : Renderable
     {
-        public ImageRenderer()
+        public TextRenderer()
         {
         }
 
@@ -13,8 +15,8 @@ namespace BoardSoupEngine.Renderer
         {
             if (this.getRenderer() != null && this.getAsset() != null)
             {
-                if(this.getAsset() is ImageAsset)
-                    this.getRenderer().drawImage( ((ImageAsset)this.getAsset()).getImage(), location, rotation);
+                if (this.getAsset() is TextAsset)
+                    this.getRenderer().drawText(((TextAsset)this.getAsset()).getText(), location, rotation);
             }
         }
     }

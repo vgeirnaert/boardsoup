@@ -49,9 +49,11 @@
     <Compile Include="Assets\AssetEvent.cs" />
     <Compile Include="Assets\AssetManager.cs" />
     <Compile Include="Assets\AssetToRendererEvent.cs" />
+    <Compile Include="Assets\AssetType.cs" />
     <Compile Include="Assets\ImageAsset.cs" />
     <Compile Include="Assets\ImageLoader.cs" />
     <Compile Include="Assets\ShapeAsset.cs" />
+    <Compile Include="Assets\TextAsset.cs" />
     <Compile Include="Input\ActionMapper.cs" />
     <Compile Include="Input\Cursor.cs" />
     <Compile Include="Input\IInputDevice.cs" />
@@ -82,9 +84,10 @@
     <Compile Include="Renderer\RenderSceneEvent.cs" />
     <Compile Include="Renderer\RenderSurfaceEvent.cs" />
     <Compile Include="Renderer\ImageRenderer.cs" />
-    <Compile Include="Renderer\IRenderable.cs" />
+    <Compile Include="Renderer\Renderable.cs" />
     <Compile Include="Renderer\Renderer.cs" />
     <Compile Include="Renderer\ShapeRenderer.cs" />
+    <Compile Include="Renderer\TextRenderer.cs" />
     <Compile Include="Scene\Board.cs" />
     <Compile Include="Scene\BoardActor.cs" />
     <Compile Include="Scene\SceneActorLoadAssetEvent.cs" />

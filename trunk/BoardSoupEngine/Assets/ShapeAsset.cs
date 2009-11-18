@@ -7,37 +7,18 @@ namespace BoardSoupEngine.Assets
 {
     internal class ShapeAsset : Asset
     {
-        private String name;
-
         public ShapeAsset()
         {
-            name = "";
+            this.setName("");
         }
 
         public ShapeAsset(String argName)
         {
-            name = argName;
+            this.setName(argName);
         }
 
-        public void setRenderer(IRenderable argRenderer)
-        {
-        }
 
-        public IRenderable getRenderer()
-        {
-            return null;
-        }
-
-        public void render(Point location, int rotation)
-        {
-        }
-
-        public String getName()
-        {
-            return name;
-        }
-
-        public Rectangle getBounds()
+        public override Rectangle getBounds()
         {
             return new Rectangle();
         }

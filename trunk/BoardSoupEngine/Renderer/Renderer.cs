@@ -42,10 +42,34 @@ namespace BoardSoupEngine.Renderer
         {          
         }
 
+        private int normalizeRotation(int rotation)
+        {
+            return (rotation % 360);
+        }
+
+        private void prepareCanvasOrientation(int argRotation, int argX, int argY)
+        {
+            // move the 0,0 point of our graphics to where the center of our image should be
+            myBuffer.Graphics.TranslateTransform(argX, argY);
+
+            // rotate the graphics (inverse to our graphics rotation) to prepare for drawing
+            myBuffer.Graphics.RotateTransform(-argRotation);
+
+        }
+
+        private void resetCanvasOrientation(int argRotation, int argX, int argY)
+        {
+            // rotate our graphics back
+            myBuffer.Graphics.RotateTransform(argRotation);
+
+            // translate back to the real 0,0 location
+            myBuffer.Graphics.TranslateTransform(-argX, -argY);
+        }
+
         public void drawImage(Image argImage, Point location, int rotation)
         {
             // make sure rotation is in the range 0...359
-            rotation = rotation % 360;
+            rotation = normalizeRotation(rotation);
             
             // early outs
             switch (rotation)
@@ -71,20 +95,38 @@ namespace BoardSoupEngine.Renderer
                     int x = location.X + (argImage.Width / 2);
                     int y = location.Y + (argImage.Height / 2);
 
-                    // move the 0,0 point of our graphics to where the center of our image should be
-                    myBuffer.Graphics.TranslateTransform(x, y);
-
-                    // rotate the graphics (inverse to our graphics rotation) to prepare for drawing
-                    myBuffer.Graphics.RotateTransform(-rotation);
+                    prepareCanvasOrientation(rotation, x, y);
 
                     // draw the image onto our buffer, making sure that the center of the graphic is located at point 0,0
                     myBuffer.Graphics.DrawImageUnscaled(argImage, -(argImage.Width / 2), -(argImage.Height / 2));
 
-                    // rotate our graphics back
-                    myBuffer.Graphics.RotateTransform(rotation);
+                    resetCanvasOrientation(rotation, x, y);
+                    break;
+            }
+        }
 
-                    // translate back to the real 0,0 location
-                    myBuffer.Graphics.TranslateTransform(-x, -y);
+        public void drawText(String argText, Point location, int rotation)
+        {
+            // make sure rotation is in the range 0...359
+            rotation = normalizeRotation(rotation);
+            
+            // early outs
+            switch (rotation)
+            {
+                case 0:
+                    myBuffer.Graphics.DrawString(argText, new Font("Arial", 16), new SolidBrush(Color.LightBlue), location);
+                    break;
+                default: // arbitrary rotation
+                    // TODO calculate the location of the center of the text
+                    int x = location.X;
+                    int y = location.Y;
+
+                    prepareCanvasOrientation(rotation, x, y);
+
+                    // draw the text onto our buffer, TODO: make sure that the center of the graphic is located at point 0,0
+                    myBuffer.Graphics.DrawString(argText, new Font("Arial", 16), new SolidBrush(Color.LightBlue), location);
+
+                    resetCanvasOrientation(rotation, x, y);
                     break;
             }
         }
@@ -108,12 +150,14 @@ namespace BoardSoupEngine.Renderer
 
         public void makeAssetRenderer(Asset argAsset)
         {
-            IRenderable result = null;
+            Renderable result = null;
 
             if (argAsset is ImageAsset)
                 result = new ImageRenderer();
             else if (argAsset is ShapeAsset)
                 result = new ShapeRenderer();
+            else if (argAsset is TextAsset)
+                result = new TextRenderer();
 
             result.setRenderer(this);
             result.setAsset(argAsset);

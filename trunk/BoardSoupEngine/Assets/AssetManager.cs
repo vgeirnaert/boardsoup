@@ -52,36 +52,46 @@ namespace BoardSoupEngine.Assets
         {
         }
 
-        public Asset loadAsset(String filename)
+        public Asset loadAsset(AssetType argType, String argText, Point[] argPoints)
         {
-            Asset ia;
+            Asset a = null;
 
             // if an asset with this name already exists
-            if (assets.ContainsKey(filename))
-                assets.TryGetValue(filename, out ia); // obtain it
+            if (assets.ContainsKey(argText))
+                assets.TryGetValue(argText, out a); // obtain it
             else
             {   // if not, make it and add it
-                ia = new ImageAsset(filename);
-                addAsset(ia);
+                switch (argType)
+                {
+                    case AssetType.IMAGE:
+                        a = makeImageAsset(argText);
+                        break;
+                    case AssetType.SHAPE:
+                        a = makeShapeAsset(argText, argPoints);
+                        break;
+                    case AssetType.TEXT:
+                        a = makeTextAsset(argText);
+                        break;
+                }
+                addAsset(a);
             }
             // return asset
-            return ia;
+            return a;
         }
 
-        public Asset loadAsset(String name, Point[] points)
+        private Asset makeImageAsset(String filename)
         {
-            Asset sa;
+            return new ImageAsset(filename);
+        }
 
-            // if an asset with this name already exists
-            if (assets.ContainsKey(name))
-                assets.TryGetValue(name, out sa); // obtain it
-            else
-            {   // if not, make it and add it
-                sa = new ShapeAsset(name);
-                addAsset(sa);
-            }
-            // return asset
-            return sa;
+        private Asset makeShapeAsset(String name, Point[] points)
+        {
+            return new ShapeAsset(name); 
+        }
+
+        private Asset makeTextAsset(String text)
+        {
+            return new TextAsset(text);
         }
 
         private void addAsset(Asset a)

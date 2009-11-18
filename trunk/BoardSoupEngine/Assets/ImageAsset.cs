@@ -7,27 +7,19 @@ namespace BoardSoupEngine.Assets
     internal class ImageAsset : Asset
     {
         private Image file;
-        private IRenderable renderer;
-        private String name;
         private Rectangle bounds;
-
 
         public ImageAsset()
         {
-            name = "";
+            this.setName("");
         }
 
         public ImageAsset(String filename)
         {
-            renderer = null;
+            this.setRenderer(null);
             file = new Bitmap(filename);
             bounds = new Rectangle(0, 0, file.Width, file.Height);
-            name = filename;
-        }
-
-        public void setRenderer(IRenderable argRenderer)
-        {
-            renderer = argRenderer;
+            this.setName(filename);
         }
 
         public Image getImage()
@@ -35,23 +27,7 @@ namespace BoardSoupEngine.Assets
             return file;
         }
 
-        public IRenderable getRenderer()
-        {
-            return renderer;
-        }
-
-        public void render(Point location, int rotation)
-        {
-            if(renderer != null)
-                renderer.render(location, rotation);
-        }
-
-        public String getName()
-        {
-            return name;
-        }
-
-        public Rectangle getBounds()
+        public override Rectangle getBounds()
         {
             return bounds;
         }
