@@ -25,7 +25,7 @@ namespace SecWars.Core
 
         public override void onTick()
         {
-            this.setRotation(this.getRotation() + 1);
+            //this.setRotation(this.getRotation() + 1);
         }
 
         public void setBoard(SecWarsBoard_old b)

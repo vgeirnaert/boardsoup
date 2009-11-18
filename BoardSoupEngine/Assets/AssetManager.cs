@@ -73,6 +73,7 @@ namespace BoardSoupEngine.Assets
                         a = makeTextAsset(argText);
                         break;
                 }
+
                 addAsset(a);
             }
             // return asset
