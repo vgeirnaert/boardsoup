@@ -43,7 +43,7 @@ namespace BoardSoupEngine.Scene
         public void loadAsset(String filename, IEventDispatcher dispatcher)
         {
             name = filename;
-            dispatcher.submitEvent(new SceneActorLoadAssetEvent(this));
+            dispatcher.submitEvent(new SceneActorLoadAssetEvent(this, AssetType.IMAGE));
         }
 
         public void setAsset(Asset argAsset)

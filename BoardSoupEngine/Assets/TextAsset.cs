@@ -8,15 +8,29 @@ namespace BoardSoupEngine.Assets
     {
         private String text;
         private Rectangle bounds;
+        private String font;
+        private int fontsize;
         
         public TextAsset()
         {
+            font = "Arial";
+            fontsize = 16;
             this.setText("");
             this.setBounds(new Rectangle());
         }
 
         public TextAsset(String argText)
         {
+            font = "Arial";
+            fontsize = 16;
+            this.setText(argText);
+            this.setBounds(new Rectangle());
+        }
+
+        public TextAsset(String argText, String argFont, int argSize)
+        {
+            font = argFont;
+            fontsize = argSize;
             this.setText(argText);
             this.setBounds(new Rectangle());
         }
@@ -44,12 +58,12 @@ namespace BoardSoupEngine.Assets
 
         public String getFontName()
         {
-            return "Arial";
+            return font;
         }
 
         public int getFontSize()
         {
-            return 16;
+            return fontsize;
         }
     }
 }
