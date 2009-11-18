@@ -18,12 +18,10 @@ namespace BoardSoupEngine.Input
         {
             if (module is SceneManager)
             {
-                //Console.WriteLine("checking location: " + location.ToString());
                 BoardActor ba = ((SceneManager)module).getActorAt(location);
 
                 if (ba != null)
                 {
-                    //Console.WriteLine("there is an actor at this location!");
                     if(ba.receivesInput)
                         ba.onClick();
                 }
