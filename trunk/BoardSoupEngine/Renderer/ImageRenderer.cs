@@ -17,5 +17,9 @@ namespace BoardSoupEngine.Renderer
                     this.getRenderer().drawImage( ((ImageAsset)this.getAsset()).getImage(), location, rotation);
             }
         }
+
+        protected override void onAssetAssigned()
+        {
+        }
     }
 }

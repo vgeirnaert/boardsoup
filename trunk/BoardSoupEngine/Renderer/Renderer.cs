@@ -13,6 +13,7 @@ namespace BoardSoupEngine.Renderer
         private Panel renderSurface;
         private IEventDispatcher dispatcher;
         private BufferedGraphics myBuffer;
+        private Graphics helperGraphics;    // we have this so non-render calls do not interfere with our rendering graphics
 
         public void setEventDispatcher(IEventDispatcher argDispatcher)
         {
@@ -22,6 +23,8 @@ namespace BoardSoupEngine.Renderer
         public Renderer()
         {
             Logger.log("Renderer: Loading Renderer...", LEVEL.DEBUG);
+            Bitmap bm = new Bitmap(1, 1);
+            helperGraphics = Graphics.FromImage(bm);
             Logger.log("Renderer: Renderer loaded", LEVEL.DEBUG);
         }
 
@@ -105,7 +108,7 @@ namespace BoardSoupEngine.Renderer
             }
         }
 
-        public void drawText(String argText, Point location, int rotation)
+        public void drawText(String argText, Font argFont, Point location, int rotation, Rectangle bounds)
         {
             // make sure rotation is in the range 0...359
             rotation = normalizeRotation(rotation);
@@ -114,17 +117,16 @@ namespace BoardSoupEngine.Renderer
             switch (rotation)
             {
                 case 0:
-                    myBuffer.Graphics.DrawString(argText, new Font("Arial", 16), new SolidBrush(Color.LightBlue), location);
+                    myBuffer.Graphics.DrawString(argText, argFont, new SolidBrush(Color.LightBlue), location);
                     break;
                 default: // arbitrary rotation
-                    // TODO calculate the location of the center of the text
-                    int x = location.X;
-                    int y = location.Y;
+                    int x = location.X + (bounds.Width / 2);
+                    int y = location.Y + (bounds.Height / 2);
 
                     prepareCanvasOrientation(rotation, x, y);
 
-                    // draw the text onto our buffer, TODO: make sure that the center of the graphic is located at point 0,0
-                    myBuffer.Graphics.DrawString(argText, new Font("Arial", 16), new SolidBrush(Color.LightBlue), location);
+                    // draw the text onto our buffer, 
+                    myBuffer.Graphics.DrawString(argText, argFont, new SolidBrush(Color.LightBlue), -(bounds.Width / 2), -(bounds.Height / 2));
 
                     resetCanvasOrientation(rotation, x, y);
                     break;
@@ -161,6 +163,17 @@ namespace BoardSoupEngine.Renderer
 
             result.setRenderer(this);
             result.setAsset(argAsset);
+        }
+
+        public Rectangle getBoundsForString(String argText, Font argFont)
+        {
+            // early out
+            if (argText == "")
+                return new Rectangle(0, 0, 0, 0);
+
+            SizeF size = helperGraphics.MeasureString(argText, argFont);
+            
+            return new Rectangle(0, 0, (int)size.Width, (int)size.Height);
         }
     }
 }

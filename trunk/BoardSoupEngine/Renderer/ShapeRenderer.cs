@@ -12,5 +12,9 @@ namespace BoardSoupEngine.Renderer
         public override void render(Point location, int rotation)
         {
         }
+
+        protected override void onAssetAssigned()
+        {
+        }
     }
 }

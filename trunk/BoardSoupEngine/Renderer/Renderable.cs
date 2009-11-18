@@ -9,6 +9,7 @@ namespace BoardSoupEngine.Renderer
         private Asset theAsset;
 
         abstract public void render(Point location, int rotation);
+        abstract protected void onAssetAssigned();
         
         public void setRenderer(Renderer argRenderer)
         {
@@ -19,6 +20,7 @@ namespace BoardSoupEngine.Renderer
         {
             theAsset = argAsset;
             argAsset.setRenderer(this);
+            onAssetAssigned();
         }
 
         public Renderer getRenderer()

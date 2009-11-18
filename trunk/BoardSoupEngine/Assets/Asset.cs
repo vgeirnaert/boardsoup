@@ -19,7 +19,7 @@ namespace BoardSoupEngine.Assets
             return renderer;
         }
 
-        public String getName()
+        public virtual String getName()
         {
             return name;
         }

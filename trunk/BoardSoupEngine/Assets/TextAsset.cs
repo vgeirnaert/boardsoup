@@ -7,15 +7,18 @@ namespace BoardSoupEngine.Assets
     class TextAsset : Asset
     {
         private String text;
+        private Rectangle bounds;
         
         public TextAsset()
         {
             this.setText("");
+            this.setBounds(new Rectangle());
         }
 
         public TextAsset(String argText)
         {
             this.setText(argText);
+            this.setBounds(new Rectangle());
         }
 
         public String getText()
@@ -31,7 +34,22 @@ namespace BoardSoupEngine.Assets
 
         public override Rectangle getBounds()
         {
-            throw new NotImplementedException();
+            return bounds;
+        }
+
+        public void setBounds(Rectangle argBounds)
+        {
+            bounds = argBounds;
+        }
+
+        public String getFontName()
+        {
+            return "Arial";
+        }
+
+        public int getFontSize()
+        {
+            return 16;
         }
     }
 }
