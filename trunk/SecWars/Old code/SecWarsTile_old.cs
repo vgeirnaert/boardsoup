@@ -3,7 +3,7 @@ using BoardSoupEngine.Interface;
 
 namespace SecWars.Core
 {
-    class SecWarsTile_old : ActorObject
+    class SecWarsTile_old : ImageActor
     {
         protected SecWarsBoard_old board;
         private String image;
@@ -25,7 +25,7 @@ namespace SecWars.Core
 
         public override void onTick()
         {
-            //this.setRotation(this.getRotation() + 1);
+            this.setRotation(this.getRotation() + 1);
         }
 
         public void setBoard(SecWarsBoard_old b)

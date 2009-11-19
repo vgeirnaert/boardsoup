@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Asset.cs" />
+    <Compile Include="Assets\AssetDetails.cs" />
     <Compile Include="Assets\AssetEvent.cs" />
     <Compile Include="Assets\AssetManager.cs" />
     <Compile Include="Assets\AssetToRendererEvent.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Assets\ImageLoader.cs" />
     <Compile Include="Assets\ShapeAsset.cs" />
     <Compile Include="Assets\TextAsset.cs" />
+    <Compile Include="Assets\TextAssetDetails.cs" />
     <Compile Include="Input\ActionMapper.cs" />
     <Compile Include="Input\Cursor.cs" />
     <Compile Include="Input\IInputDevice.cs" />
@@ -67,7 +69,10 @@
     <Compile Include="Interface\BoardSoupEngine.cs" />
     <Compile Include="Interface\CreateInternalBoardActorEvent.cs" />
     <Compile Include="Interface\CreateInternalBoardEvent.cs" />
+    <Compile Include="Interface\ImageActor.cs" />
     <Compile Include="Interface\InterfaceObject.cs" />
+    <Compile Include="Interface\ShapeActor.cs" />
+    <Compile Include="Interface\TextActor.cs" />
     <Compile Include="Kernel\BSEDefines.cs" />
     <Compile Include="Kernel\Event.cs" />
     <Compile Include="Kernel\EventFactory.cs" />

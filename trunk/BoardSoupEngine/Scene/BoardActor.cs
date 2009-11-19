@@ -40,10 +40,10 @@ namespace BoardSoupEngine.Scene
                 myAsset.render(location, rotation);
         }
 
-        public void loadAsset(String filename, IEventDispatcher dispatcher)
+        public void loadAsset(String filename, IEventDispatcher dispatcher, AssetDetails details)
         {
             name = filename;
-            dispatcher.submitEvent(new SceneActorLoadAssetEvent(this, AssetType.IMAGE));
+            dispatcher.submitEvent(new SceneActorLoadAssetEvent(this, details));
         }
 
         public void setAsset(Asset argAsset)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using BoardSoupEngine.Utilities;
 using System.Drawing;
+using BoardSoupEngine.Assets;
 
 namespace BoardSoupEngine.Scene
 {
@@ -86,7 +87,7 @@ namespace BoardSoupEngine.Scene
             return r;
         }
 
-        public BoardActor createActor(int x, int y, String filename)
+        public BoardActor createActor(int x, int y, String filename, AssetDetails argDetails)
         {
 
             BoardActor r = null;
@@ -94,7 +95,7 @@ namespace BoardSoupEngine.Scene
             if (dispatcher != null)
             {
                 r = new BoardActor(x, y, filename);
-                r.loadAsset(filename, dispatcher);
+                r.loadAsset(filename, dispatcher, argDetails);
             }
             else
                 Logger.log("SceneManager: Warning - board actor creation failed, no dispatcher set", LEVEL.WARNING);

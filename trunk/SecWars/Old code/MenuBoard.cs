@@ -62,6 +62,8 @@ namespace SecWars.Core
 
         private void makeMenu()
         {
+            this.addActor(new Title(100, 100, "Sec Wars!"));
+
             if(state < 0)
                 this.addActor(new StartTile(350, 400, this));
             else

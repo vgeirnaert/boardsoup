@@ -5,5 +5,5 @@ using System.Text;
 
 namespace BoardSoupEngine.Assets
 {
-    enum AssetType { IMAGE, TEXT, SHAPE };
+    public enum AssetType { IMAGE, TEXT, SHAPE };
 }

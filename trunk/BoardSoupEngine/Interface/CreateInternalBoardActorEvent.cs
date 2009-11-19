@@ -1,6 +1,7 @@
 ﻿using BoardSoupEngine.Kernel;
 using BoardSoupEngine.Scene;
 using System;
+using BoardSoupEngine.Assets;
 
 namespace BoardSoupEngine.Interface
 {
@@ -9,6 +10,7 @@ namespace BoardSoupEngine.Interface
         ActorObject actor;
         int x, y;
         String imageName;
+        AssetDetails details;
 
         public CreateInternalBoardActorEvent()
         {
@@ -18,19 +20,20 @@ namespace BoardSoupEngine.Interface
             actor = null;
         }
 
-        public CreateInternalBoardActorEvent(ActorObject ao, int argX, int argY, String filename) : this()
+        public CreateInternalBoardActorEvent(ActorObject ao, int argX, int argY, String filename, AssetDetails argDetails) : this()
         {
             actor = ao;
             x = argX;
             y = argY;
             imageName = filename;
+            details = argDetails;
         }
 
         public override void execute(IEventListener module)
         {
             if(module is SceneManager && actor != null)
             {
-                BoardActor b = ((SceneManager)module).createActor(x, y, imageName);
+                BoardActor b = ((SceneManager)module).createActor(x, y, imageName, details);
                 b.setInterfaceObject(actor);
                 actor.onEngineObjectCreated();
             }

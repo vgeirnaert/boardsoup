@@ -11,7 +11,7 @@ namespace BoardSoupEngine.Renderer
 
         public TextRenderer()
         {
-            myFont = null;
+            myFont = new Font("Arial", 10);
         }
 
         public override void render(Point location, int rotation)
@@ -19,7 +19,10 @@ namespace BoardSoupEngine.Renderer
             if (this.getRenderer() != null && this.getAsset() != null)
             {
                 if (this.getAsset() is TextAsset)
-                    this.getRenderer().drawText(((TextAsset)this.getAsset()).getText(), myFont, location, rotation, ((TextAsset)this.getAsset()).getBounds());
+                {
+                    loadFont();
+                    this.getRenderer().drawText(((TextAsset)this.getAsset()).getText(), myFont, ((TextAsset)this.getAsset()).getColor(), location, rotation, ((TextAsset)this.getAsset()).getBounds());
+                }
             }
         }
 
@@ -27,8 +30,21 @@ namespace BoardSoupEngine.Renderer
         {
             if (this.getAsset() is TextAsset)
             {
-                myFont = new Font(((TextAsset)this.getAsset()).getFontName(), ((TextAsset)this.getAsset()).getFontSize());
+                loadFont();
                 ((TextAsset)this.getAsset()).setBounds(this.getRenderer().getBoundsForString(((TextAsset)this.getAsset()).getText(), myFont));
+            }
+        }
+
+        private void loadFont()
+        {
+            if (this.getAsset() is TextAsset)
+            {
+                String fontname = ((TextAsset)this.getAsset()).getFontName();
+                int fontsize = ((TextAsset)this.getAsset()).getFontSize();
+                
+                // only make a new font object if its necessary
+                if (myFont.Name != fontname || myFont.Size != fontsize)
+                    myFont = new Font(fontname, fontsize); 
             }
         }
     }

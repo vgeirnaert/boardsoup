@@ -10,6 +10,7 @@ namespace BoardSoupEngine.Assets
         private Rectangle bounds;
         private String font;
         private int fontsize;
+        private Color color;
         
         public TextAsset()
         {
@@ -17,6 +18,7 @@ namespace BoardSoupEngine.Assets
             fontsize = 16;
             this.setText("");
             this.setBounds(new Rectangle());
+            color = Color.White;
         }
 
         public TextAsset(String argText)
@@ -25,14 +27,16 @@ namespace BoardSoupEngine.Assets
             fontsize = 16;
             this.setText(argText);
             this.setBounds(new Rectangle());
+            color = Color.White;
         }
 
-        public TextAsset(String argText, String argFont, int argSize)
+        public TextAsset(String argText, String argFont, int argSize, Color argColor)
         {
             font = argFont;
             fontsize = argSize;
             this.setText(argText);
             this.setBounds(new Rectangle());
+            color = argColor;
         }
 
         public String getText()
@@ -64,6 +68,21 @@ namespace BoardSoupEngine.Assets
         public int getFontSize()
         {
             return fontsize;
+        }
+
+        public Color getColor()
+        {
+            return color;
+        }
+
+        public void setColor(Color argColor)
+        {
+            color = argColor;
+        }
+
+        public override string getName()
+        {
+            return base.getName() + fontsize + font + color.ToString();
         }
     }
 }
