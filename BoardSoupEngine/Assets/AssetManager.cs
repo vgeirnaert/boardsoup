@@ -52,16 +52,16 @@ namespace BoardSoupEngine.Assets
         {
         }
 
-        public Asset loadAsset(AssetType argType, String argText, Point[] argPoints)
+        public Asset loadAsset(AssetDetails argDetails, String argText, Point[] argPoints)
         {
             Asset a = null;
 
             // if an asset with this name already exists
-            if (assets.ContainsKey(argText))
+            if (assets.ContainsKey( makeTextKey(argDetails, argText) ))
                 assets.TryGetValue(argText, out a); // obtain it
             else
             {   // if not, make it and add it
-                switch (argType)
+                switch (argDetails.type)
                 {
                     case AssetType.IMAGE:
                         a = makeImageAsset(argText);
@@ -70,7 +70,7 @@ namespace BoardSoupEngine.Assets
                         a = makeShapeAsset(argText, argPoints);
                         break;
                     case AssetType.TEXT:
-                        a = makeTextAsset(argText);
+                        a = makeTextAsset(argText, argDetails);
                         break;
                 }
 
@@ -78,6 +78,14 @@ namespace BoardSoupEngine.Assets
             }
             // return asset
             return a;
+        }
+
+        private String makeTextKey(AssetDetails argDetails, String argText)
+        {
+            if(argDetails is TextAssetDetails)
+                return argText + ((TextAssetDetails)argDetails).fontSize + ((TextAssetDetails)argDetails).fontName + ((TextAssetDetails)argDetails).fontColor.ToString();
+
+            return argText;
         }
 
         private Asset makeImageAsset(String filename)
@@ -90,8 +98,14 @@ namespace BoardSoupEngine.Assets
             return new ShapeAsset(name); 
         }
 
-        private Asset makeTextAsset(String text)
+        private Asset makeTextAsset(String text, AssetDetails details)
         {
+            if(details is TextAssetDetails)
+            {
+                TextAssetDetails tad = (TextAssetDetails)details;
+                return new TextAsset(text, tad.fontName, tad.fontSize, tad.fontColor);
+            }
+
             return new TextAsset(text);
         }
 
@@ -109,7 +123,8 @@ namespace BoardSoupEngine.Assets
             else // we cannot send an event right away so we'll make sure this gets done once we have a dispatcher
                 hasAssetsWaitingForRenderer = true;
 
-            assets.Add(a.getName(), a);
+            if(!assets.ContainsKey(a.getName()))
+                assets.Add(a.getName(), a);
         }
 
     }

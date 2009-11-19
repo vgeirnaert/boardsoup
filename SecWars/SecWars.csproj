@@ -57,6 +57,7 @@
     <Compile Include="Old code\SecWarsTile_old.cs" />
     <Compile Include="Old code\StartTile.cs" />
     <Compile Include="Old code\StopTile.cs" />
+    <Compile Include="Old code\Title.cs" />
     <Compile Include="Old code\WinTile.cs" />
   </ItemGroup>
   <ItemGroup>

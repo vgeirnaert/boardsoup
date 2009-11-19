@@ -3,19 +3,20 @@ using System.Drawing;
 using System;
 using BoardSoupEngine.Kernel;
 using BoardSoupEngine.Utilities;
+using BoardSoupEngine.Assets;
 
 namespace BoardSoupEngine.Interface
 {
     public abstract class ActorObject : InterfaceObject
     {
-        private BoardActor actor;
+        internal BoardActor actor;
         private String name;
 
-        public ActorObject(int x, int y, String imageName)
+        public ActorObject(int x, int y, String actorName, AssetType argType)
         {
-            name = imageName;
+            name = actorName;
             dispatcher = BoardSoupEngine.getInstance().getInternalDispatcher();
-            CreateInternalBoardActorEvent e = new CreateInternalBoardActorEvent(this, x, y, name);
+            CreateInternalBoardActorEvent e = new CreateInternalBoardActorEvent(this, x, y, name, new AssetDetails(argType));
             dispatcher.submitEvent(e);
         }
 
@@ -39,12 +40,9 @@ namespace BoardSoupEngine.Interface
             return actor.rotation;
         }
 
-        public void setImage(String filename)
+        public void receivesInput(bool argInput)
         {
-            if (dispatcher != null)
-                actor.loadAsset(filename, dispatcher);
-            else
-                Logger.log("ActorObject: Warning - no event dispatcher, unable to set actor image.", LEVEL.WARNING);
+            actor.receivesInput = argInput;
         }
 
         public String getFile()
@@ -60,11 +58,6 @@ namespace BoardSoupEngine.Interface
         internal BoardActor getActor()
         {
             return actor;
-        }
-
-        public void receivesInput(bool input)
-        {
-            actor.receivesInput = input;
         }
 
         abstract public void onMouseIn();

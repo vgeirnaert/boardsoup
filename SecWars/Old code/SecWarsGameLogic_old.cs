@@ -47,9 +47,9 @@ namespace SecWars.Core
         {
             bool complete = true;
 
-            foreach (SecWarsTile_old t in o.getAllBoardActors())
+            foreach (ActorObject t in o.getAllBoardActors())
             {
-                if (!(t is SecWarsActiveTile))
+                if (!(t is SecWarsActiveTile) && !(t is Title))
                     complete = false;
             }
 

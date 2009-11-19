@@ -108,7 +108,7 @@ namespace BoardSoupEngine.Renderer
             }
         }
 
-        public void drawText(String argText, Font argFont, Point location, int rotation, Rectangle bounds)
+        public void drawText(String argText, Font argFont, Color argColor, Point location, int rotation, Rectangle bounds)
         {
             // make sure rotation is in the range 0...359
             rotation = normalizeRotation(rotation);
@@ -117,7 +117,7 @@ namespace BoardSoupEngine.Renderer
             switch (rotation)
             {
                 case 0:
-                    myBuffer.Graphics.DrawString(argText, argFont, new SolidBrush(Color.LightBlue), location);
+                    myBuffer.Graphics.DrawString(argText, argFont, new SolidBrush(argColor), location);
                     break;
                 default: // arbitrary rotation
                     int x = location.X + (bounds.Width / 2);
@@ -126,7 +126,7 @@ namespace BoardSoupEngine.Renderer
                     prepareCanvasOrientation(rotation, x, y);
 
                     // draw the text onto our buffer, 
-                    myBuffer.Graphics.DrawString(argText, argFont, new SolidBrush(Color.LightBlue), -(bounds.Width / 2), -(bounds.Height / 2));
+                    myBuffer.Graphics.DrawString(argText, argFont, new SolidBrush(argColor), -(bounds.Width / 2), -(bounds.Height / 2));
 
                     resetCanvasOrientation(rotation, x, y);
                     break;

@@ -70,7 +70,7 @@ namespace BoardSoupEngine.Scene
 
         public void addActor(BoardActor ba)
         {
-            if(ba != null)
+            if (ba != null)
                 actors.Add(ba, ba.getBounds());
 
             onBoardChanged();

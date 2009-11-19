@@ -10,6 +10,7 @@ namespace SecWars.Core
         private long time = 0;
         private SecWarsGameLogic_old logic;
         private List<SecWarsTile_old> deleteQueue;
+        private Title statusText;
 
         public SecWarsBoard_old() : base("")
         {
@@ -26,6 +27,9 @@ namespace SecWars.Core
         {
             if(logic != null)
                 logic.evaluateGame(this);
+
+            if(statusText != null)
+                statusText.setText("Left: " + this.getAllBoardActors().Count);
         }
 
         public void onTurn()
@@ -101,6 +105,8 @@ namespace SecWars.Core
                     }
                 }
             }
+            statusText = new Title(100, 100, "Left: " + this.getAllBoardActors().Count);
+            this.addActor(statusText);
             time = DateTime.Now.Ticks; 
         }
 

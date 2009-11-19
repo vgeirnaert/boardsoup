@@ -3,7 +3,7 @@ using BoardSoupEngine.Interface;
 
 namespace SecWars.Core
 {
-    class MenuTile : ActorObject
+    class MenuTile : ImageActor
     {
         protected MenuBoard board;
 
