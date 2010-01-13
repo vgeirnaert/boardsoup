@@ -11,6 +11,9 @@ namespace SecWars.Core
         private SecWarsGameLogic_old logic;
         private List<SecWarsTile_old> deleteQueue;
         private Title statusText;
+        private Title timeText;
+        private int textTime = 0;
+        private long lastUpdate = 0;
 
         public SecWarsBoard_old() : base("")
         {
@@ -29,7 +32,7 @@ namespace SecWars.Core
                 logic.evaluateGame(this);
 
             if(statusText != null)
-                statusText.setText("Left: " + this.getAllBoardActors().Count);
+                statusText.setText("Hexagons left: " + this.getAllBoardActors().Count);
         }
 
         public void onTurn()
@@ -60,8 +63,13 @@ namespace SecWars.Core
             {
                 if (logic != null)
                     logic.endGame(this);
+            }
 
-                Console.WriteLine("ending!");
+            if (now - lastUpdate > 10000000 && timeText != null)
+            {
+                textTime++;
+                timeText.setText("Time left: " + (50 - textTime));
+                lastUpdate = now;
             }
         }
 
@@ -105,9 +113,13 @@ namespace SecWars.Core
                     }
                 }
             }
-            statusText = new Title(100, 100, "Left: " + this.getAllBoardActors().Count);
+            statusText = new Title(100, 100, "Hexagons left: " + this.getAllBoardActors().Count);
+            timeText = new Title(400, 100, "Time left: 50");
+            textTime = 0;
             this.addActor(statusText);
-            time = DateTime.Now.Ticks; 
+            this.addActor(timeText);
+            time = DateTime.Now.Ticks;
+            lastUpdate = time;
         }
 
         public void setLogic(SecWarsGameLogic_old l)
