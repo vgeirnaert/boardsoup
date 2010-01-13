@@ -4,6 +4,6 @@ namespace BoardSoupEngine.Kernel
 {
     internal static class BSEDefines
     {
-        public const String version = "0.5.1"; // 1.0 will be when at least one blob detection device is supported
+        public const String version = "0.5.3"; // 1.0 will be when at least one blob detection device is supported
     }
 }
