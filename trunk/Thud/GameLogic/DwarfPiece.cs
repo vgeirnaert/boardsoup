@@ -14,7 +14,6 @@ namespace Thud.GameLogic
 
         public override void onMouseIn()
         {
-            Console.WriteLine("Dwarf mouse in!");
             setHighlights(true);
         }
 
@@ -25,6 +24,11 @@ namespace Thud.GameLogic
 
         private void setHighlights(bool on)
         {
+            // early out
+            if (logic.getTurn() == TURN.TROLL)
+                return;
+
+
             foreach (NEIGHBOUR n in Enum.GetValues(typeof(NEIGHBOUR)))
             {
                 if (square.hasNeighbour(n))
@@ -61,6 +65,10 @@ namespace Thud.GameLogic
 
         public override bool isLegalMove(EmptyPiece argPiece)
         {
+            // early out
+            if (logic.getTurn() == TURN.TROLL)
+                return false;
+
             Point myLocation = square.getBoardPosition();
             Point destination = argPiece.getBoardPosition();
 

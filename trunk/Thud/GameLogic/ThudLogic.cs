@@ -4,17 +4,25 @@ using System.Text;
 
 namespace Thud.GameLogic
 {
+    enum TURN { DWARF, TROLL };
+    enum PLAYER { HUMAN, AI };
+
     class ThudLogic
     {
         private bool ended;
         private ThudBoard board;
         private PawnPiece selectedPawn;
+        private int turn;
+
+        private PlayerController dwarves;
+        private PlayerController trolls;
 
         public ThudLogic()
         {
+            turn = 0;
             ended = false;
-            //createMenu();
-            startGame();
+            createMenu();
+            startGame(PLAYER.HUMAN, PLAYER.AI);
         }
 
         public void createMenu()
@@ -22,8 +30,18 @@ namespace Thud.GameLogic
             
         }
 
-        public void startGame()
+        public void startGame(PLAYER argDwarves, PLAYER argTrolls)
         {
+            if (argDwarves == PLAYER.HUMAN)
+                dwarves = new HumanController();
+            else
+                dwarves = new AIController();
+
+            if (argTrolls == PLAYER.HUMAN)
+                trolls = new HumanController();
+            else
+                trolls = new AIController();
+
             selectedPawn = null;
             board = new ThudBoard("thud", this);
         }
@@ -48,7 +66,14 @@ namespace Thud.GameLogic
 
         public void pawnSelected(PawnPiece argPiece)
         {
-            selectedPawn = argPiece;
+            // if we dont have a previous pawn selected or we select the same type, change the selection
+            if (selectedPawn == null || selectedPawn.GetType() == argPiece.GetType())
+                selectedPawn = argPiece;
+            else // if we click on a different pawn...
+            {
+                Console.WriteLine("attack!");
+                unselectPawn();
+            }
         }
 
         public void squareSelected(EmptyPiece argPiece)
@@ -58,7 +83,7 @@ namespace Thud.GameLogic
                 if (selectedPawn.isLegalMove(argPiece))
                 {
                     argPiece.setOccupant(selectedPawn);
-                    unselectPawn();
+                    nextTurn();
                 }
             }
         }
@@ -70,6 +95,25 @@ namespace Thud.GameLogic
 
         public void evaluate(PawnPiece argPiece)
         {
+        }
+
+        public TURN getTurn()
+        {
+            if (turn % 2 == 0)
+                return TURN.DWARF;
+
+            else return TURN.TROLL;
+        }
+
+        private void nextTurn()
+        {
+            unselectPawn();
+            turn++;
+
+            if (getTurn() == TURN.DWARF)
+                dwarves.doMove(board);
+            else
+                trolls.doMove(board);
         }
     }
 }

@@ -50,6 +50,7 @@ namespace BoardSoupEngine.Scene
             {
                 foreach (BoardActor a in actors)
                     a.render();
+
             }
             catch (InvalidOperationException e) 
             {
