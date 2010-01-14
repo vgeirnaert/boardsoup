@@ -22,7 +22,7 @@ namespace BoardSoupEngine.Interface
 
         public void setLocation(Point argLocation)
         {
-            actor.location = argLocation;
+            actor.changeLocation(argLocation);
         }
 
         public Point getLocation()

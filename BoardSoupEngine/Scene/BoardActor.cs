@@ -10,6 +10,7 @@ namespace BoardSoupEngine.Scene
     {
         private Asset myAsset;
         private ActorObject myInterface;
+        private Board myBoard;
 
         public Point location;
         public int rotation;
@@ -113,6 +114,19 @@ namespace BoardSoupEngine.Scene
             }
 
             return bounds;
+        }
+
+        public void changeLocation(Point argLocation)
+        {
+            if (myBoard != null)
+                myBoard.onActorLocationChanged(this, argLocation);
+            else
+                location = argLocation;
+        }
+
+        public void setBoard(Board argBoard)
+        {
+            myBoard = argBoard;
         }
     }
 }

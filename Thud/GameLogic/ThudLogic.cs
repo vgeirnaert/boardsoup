@@ -67,5 +67,9 @@ namespace Thud.GameLogic
         {
             selectedPawn = null;
         }
+
+        public void evaluate(PawnPiece argPiece)
+        {
+        }
     }
 }
