@@ -7,8 +7,10 @@ namespace Thud.GameLogic
 {
     class TrollPiece : PawnPiece
     {
-        public TrollPiece(int x, int y) : base(x, y, "D:\\C#\\BoardSoup\\Thud\\Images\\troll.png")
+        public TrollPiece(int x, int y)
+            : base(x, y, "D:\\C#\\BoardSoup\\Thud\\Images\\troll.png")
         {
+
         }
 
         public override void onMouseIn()
@@ -32,9 +34,9 @@ namespace Thud.GameLogic
                 if (square.hasNeighbour(n))
                 {
                     if (on)
-                        ((EmptyPiece)square.getNeighbour(n)).highlight(true);
+                        ((BoardPiece)square.getNeighbour(n)).highlight(true);
                     else
-                        ((EmptyPiece)square.getNeighbour(n)).resetImage();
+                        ((BoardPiece)square.getNeighbour(n)).resetImage();
                 }
             }
         }
@@ -51,10 +53,72 @@ namespace Thud.GameLogic
         {
         }
 
-        public override bool isLegalMove(EmptyPiece argPiece)
+        public override bool isLegalMove(BoardPiece argPiece)
         {
             if (logic.getTurn() == TURN.TROLL)
-                return square.isNeighbour(argPiece);
+            {
+                if (square.isNeighbour(argPiece))
+                    return true;
+                else
+                    return isLegalShove(argPiece);
+            }
+
+            return false;
+        }
+
+        public override bool isLegalAttack(BoardPiece argPiece)
+        {
+            if (hasMoved())
+            {
+                if (argPiece.isOccupied())
+                {
+                    if (argPiece.getOccupant() is DwarfPiece)
+                    {
+                        if(square.isNeighbour(argPiece))
+                            return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private bool isLegalShove(BoardPiece argPiece)
+        {
+            // if our target location is occupied
+            if (!argPiece.isOccupied())
+            {
+                // and it is in a line with our location
+                if (isInLine(square.getLocation(), argPiece.getLocation()))
+                {
+                    int distance = this.getDistance(square.getLocation(), argPiece.getLocation());
+                    NEIGHBOUR direction = ThudPiece.getOppositeNeighbour(this.getDirection(square.getLocation(), argPiece.getLocation()));
+
+                    // iterate over the squares in the direction opposite of our destination
+                    // equal to the distance we wish to move
+                    // if all squares contain a troll, the shove is legal
+
+                    BoardPiece bp = square;
+                    for (int i = 0; i < distance; i++)
+                    {
+                        if (bp.isOccupied())
+                        {
+                            if (bp.getOccupant() is TrollPiece)
+                            {
+                                if (bp.hasNeighbour(direction))
+                                    bp = (BoardPiece)bp.getNeighbour(direction);
+                            }
+                            else
+                                return false;
+                        }
+                        else
+                            return false;
+                    }
+
+                    return true;
+                }
+            }
+
 
             return false;
         }

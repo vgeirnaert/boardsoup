@@ -58,7 +58,7 @@ namespace Thud.GameLogic
                 argPiece.setNeighbour(getOppositeNeighbour(argNeighbour), this, false);
         }
 
-        private NEIGHBOUR getOppositeNeighbour(NEIGHBOUR argNeighbour)
+        public static NEIGHBOUR getOppositeNeighbour(NEIGHBOUR argNeighbour)
         {
             switch(argNeighbour)
             {

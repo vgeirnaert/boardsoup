@@ -7,7 +7,7 @@ namespace Thud.GameLogic
 {
     class ThudBoard : BoardObject
     {
-        private EmptyPiece[,] pieces = new EmptyPiece[15, 15];
+        private BoardPiece[,] pieces = new BoardPiece[15, 15];
         ThudLogic logic;
 
         public ThudBoard(String argName, ThudLogic argLogic) : base(argName)
@@ -92,7 +92,7 @@ namespace Thud.GameLogic
                         if ((x % 2 == 0 && y % 2 == 0) || (x % 2 == 1 && y % 2 == 1))
                             even = true;
 
-                        EmptyPiece tp = new EmptyPiece(x * 66 + 30, y * 66 + 30, even);
+                        BoardPiece tp = new BoardPiece(x * 66 + 30, y * 66 + 30, even);
                         tp.setLogic(logic);
                         tp.setBoardPosition(x, y);
                         this.addActor(tp);

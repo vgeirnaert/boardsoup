@@ -33,7 +33,7 @@ namespace Thud.GameLogic
             {
                 if (square.hasNeighbour(n))
                 {
-                    EmptyPiece ep = (EmptyPiece)square.getNeighbour(n);
+                    BoardPiece ep = (BoardPiece)square.getNeighbour(n);
 
                     while (!ep.isOccupied())
                     {
@@ -43,7 +43,7 @@ namespace Thud.GameLogic
                             ep.resetImage();
 
                         if (ep.hasNeighbour(n))
-                            ep = (EmptyPiece)ep.getNeighbour(n);
+                            ep = (BoardPiece)ep.getNeighbour(n);
                         else
                             break;
                     }
@@ -63,7 +63,7 @@ namespace Thud.GameLogic
         {
         }
 
-        public override bool isLegalMove(EmptyPiece argPiece)
+        public override bool isLegalMove(BoardPiece argPiece)
         {
             // early out
             if (logic.getTurn() == TURN.TROLL)
@@ -78,7 +78,7 @@ namespace Thud.GameLogic
 
             GameLogic.NEIGHBOUR direction = getDirection(myLocation, destination);
 
-            EmptyPiece ep = (EmptyPiece)square.getNeighbour(direction);
+            BoardPiece ep = (BoardPiece)square.getNeighbour(direction);
 
             // check all squares in the direction of our destination
             while (!ep.isOccupied())
@@ -87,7 +87,7 @@ namespace Thud.GameLogic
                     return true;
 
                 if (ep.hasNeighbour(direction))
-                    ep = (EmptyPiece)ep.getNeighbour(direction);
+                    ep = (BoardPiece)ep.getNeighbour(direction);
                 else
                     break;
             }
@@ -95,67 +95,56 @@ namespace Thud.GameLogic
             return false;   
         }
 
-        private bool isInLine(Point p1, Point p2)
+        public override bool isLegalAttack(BoardPiece argPiece)
         {
-            int xdiff = Math.Abs(p1.X - p2.X);
-            int ydiff = Math.Abs(p1.Y - p2.Y);
-
-            // in line vertically, horizontally or diagonally
-            if (xdiff == 0 || ydiff == 0 || xdiff == ydiff)
-                return true;
-
-            return false;
+            return isLegalHurl(argPiece);
         }
 
-        private GameLogic.NEIGHBOUR getDirection(Point argLocation, Point argDestination)
+        private bool isLegalHurl(BoardPiece argPiece)
         {
-            int xdiff = Math.Abs(argLocation.X - argDestination.X);
-            int ydiff = Math.Abs(argLocation.Y - argDestination.Y);
-
-            // in line vertically, horizontally or diagonally
-            // early out
-            if (xdiff == 0 || ydiff == 0 || xdiff == ydiff)
+            // we have to move before we can attack
+            if (this.hasMoved())
             {
-                // vertical
-                if (xdiff == 0)
+                // if our target location is occupied
+                if (argPiece.isOccupied())
                 {
-                    if (argLocation.Y > argDestination.Y)
-                        return NEIGHBOUR.NORTH;
-                    else
-                        return NEIGHBOUR.SOUTH;
-                }
-                else if (ydiff == 0) // horizontal
-                {
-                    if (argLocation.X > argDestination.X)
-                        return NEIGHBOUR.WEST;
-                    else
-                        return NEIGHBOUR.EAST;
-                }
-                else // diagonal
-                {
-                    bool west = false;
-                    bool north = false;
-                    // are we moving westward or eastward?
-                    if (argLocation.X > argDestination.X)
-                        west = true;
+                    // ... by a troll
+                    if (argPiece.getOccupant() is TrollPiece)
+                    {
+                        // and it is in a line with our location
+                        if (isInLine(square.getLocation(), argPiece.getLocation()))
+                        {
+                            int distance = this.getDistance(square.getLocation(), argPiece.getLocation());
+                            NEIGHBOUR direction = ThudPiece.getOppositeNeighbour(this.getDirection(square.getLocation(), argPiece.getLocation()));
 
-                    if (argLocation.Y > argDestination.Y)
-                        north = true;
+                            // iterate over the squares in the direction opposite of our destination
+                            // equal to the distance we wish to move
+                            // if all squares contain a troll, the shove is legal
 
-                    if (west && north)
-                        return NEIGHBOUR.NORTHWEST;
-                    else if (west && !north)
-                        return NEIGHBOUR.SOUTHWEST;
-                    else if (!west && north)
-                        return NEIGHBOUR.NORTHEAST;
-                    else
-                        return NEIGHBOUR.SOUTHEAST;
+                            BoardPiece bp = square;
+                            for (int i = 0; i < distance; i++)
+                            {
+                                if (bp.isOccupied())
+                                {
+                                    if (bp.getOccupant() is TrollPiece)
+                                    {
+                                        if (bp.hasNeighbour(direction))
+                                            bp = (BoardPiece)bp.getNeighbour(direction);
+                                    }
+                                    else
+                                        return false;
+                                }
+                                else
+                                    return false;
+                            }
+
+                            return true;
+                        }
+                    }
                 }
             }
 
-            // we should not come here!
-            Console.WriteLine("Error: DwarfPiece::getDirection - " + argLocation.ToString() + " & " + argDestination.ToString());
-            return NEIGHBOUR.NORTH;
+            return false;
         }
     }
 }
