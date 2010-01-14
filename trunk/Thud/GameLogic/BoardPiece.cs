@@ -35,10 +35,7 @@ namespace Thud.GameLogic
 
         public override void onClick()
         {
-            //if (isOccupied())
-            //    logic.pawnSelected(this.getOccupant());
-            //else
-                logic.squareSelected(this);
+            logic.squareSelected(this);
         }
 
         public override void onEngineObjectCreated()

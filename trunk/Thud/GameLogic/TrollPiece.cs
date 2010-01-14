@@ -85,41 +85,67 @@ namespace Thud.GameLogic
 
         private bool isLegalShove(BoardPiece argPiece)
         {
-            // if our target location is occupied
+            // Shove: anywhere there is a straight (orthogonal or diagonal) line of adjacent trolls on the board, 
+            // they may shove the endmost troll in the direction continuing the line, up to as many spaces as there 
+            // are trolls in the line. 
+            // As in a normal move, the troll may not land on an occupied square, and any dwarfs in the eight squares 
+            // adjacent to its final position may immediately be captured. 
+            // Trolls may only make a shove if by doing so they capture at least one dwarf.
+
+            // if our target location is not occupied
             if (!argPiece.isOccupied())
             {
                 // and it is in a line with our location
                 if (isInLine(square.getLocation(), argPiece.getLocation()))
                 {
-                    int distance = this.getDistance(square.getLocation(), argPiece.getLocation());
-                    NEIGHBOUR direction = ThudPiece.getOppositeNeighbour(this.getDirection(square.getLocation(), argPiece.getLocation()));
-
-                    // iterate over the squares in the direction opposite of our destination
-                    // equal to the distance we wish to move
-                    // if all squares contain a troll, the shove is legal
-
-                    BoardPiece bp = square;
-                    for (int i = 0; i < distance; i++)
+                    // if this location neighbours any dwarves
+                    if (neighboursDwarves(argPiece))
                     {
-                        if (bp.isOccupied())
+                        int distance = this.getDistance(square.getBoardPosition(), argPiece.getBoardPosition());
+                        NEIGHBOUR direction = ThudPiece.getOppositeNeighbour(this.getDirection(square.getLocation(), argPiece.getLocation()));
+
+                        // iterate over the squares in the direction opposite of our destination
+                        // equal to the distance we wish to move
+                        // if all squares contain a troll, the shove is legal
+
+                        BoardPiece bp = square;
+                        for (int i = 0; i < distance; i++)
                         {
-                            if (bp.getOccupant() is TrollPiece)
+                            if (bp.isOccupied())
                             {
-                                if (bp.hasNeighbour(direction))
-                                    bp = (BoardPiece)bp.getNeighbour(direction);
+                                if (bp.getOccupant() is TrollPiece)
+                                {
+                                    if (bp.hasNeighbour(direction))
+                                        bp = (BoardPiece)bp.getNeighbour(direction);
+                                }
+                                else
+                                    return false;
                             }
                             else
                                 return false;
                         }
-                        else
-                            return false;
+                        return true;
                     }
-
-                    return true;
                 }
             }
+            return false;
+        }
 
+        private bool neighboursDwarves(BoardPiece argPiece)
+        {
+            foreach (NEIGHBOUR n in Enum.GetValues(typeof(NEIGHBOUR)))
+            {
+                if (argPiece.hasNeighbour(n))
+                {
+                    BoardPiece p = (BoardPiece)argPiece.getNeighbour(n);
 
+                    if (p.isOccupied())
+                    {
+                        if (p.getOccupant() is DwarfPiece)
+                            return true;
+                    }   
+                }
+            }
             return false;
         }
     }
