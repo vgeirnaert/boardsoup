@@ -2,6 +2,7 @@
 using System.Drawing;
 using BoardSoupEngine.Scene;
 using System;
+using System.Collections.Generic;
 
 namespace BoardSoupEngine.Input
 {
@@ -18,12 +19,15 @@ namespace BoardSoupEngine.Input
         {
             if (module is SceneManager)
             {
-                BoardActor ba = ((SceneManager)module).getActorAt(location);
+                List<BoardActor> list = ((SceneManager)module).getAllActorsAt(location);
 
-                if (ba != null)
+                if (list != null)
                 {
-                    if(ba.receivesInput)
-                        ba.onClick();
+                    foreach (BoardActor ba in list)
+                    {
+                        if (ba.receivesInput)
+                            ba.onClick();
+                    }
                 }
             }
         }
