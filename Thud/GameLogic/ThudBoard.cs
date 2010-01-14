@@ -2,19 +2,22 @@
 using System.Collections.Generic;
 using System.Text;
 using BoardSoupEngine.Interface;
+using Thud.GUI;
 
 namespace Thud.GameLogic
 {
     class ThudBoard : BoardObject
     {
         private BoardPiece[,] pieces = new BoardPiece[15, 15];
-        ThudLogic logic;
+        private ThudLogic logic;
+        private GuiButton turnButton;
 
         public ThudBoard(String argName, ThudLogic argLogic) : base(argName)
         {
             logic = argLogic;
             createBoard();
             setPieces();
+            createGUI();
         }
 
         public override void onBoardChanged()
@@ -27,6 +30,33 @@ namespace Thud.GameLogic
 
         public override void onTick()
         {
+        }
+
+        private void createGUI()
+        {
+            GuiButton stopButton = new GuiButton(900, 900);
+            stopButton.OnClickEvent += new GuiButton.ClickEventHandler(stopButton_OnClickEvent);
+            this.addActor(stopButton);
+
+            turnButton = new GuiButton(900, 20);
+            turnButton.OnClickEvent += new GuiButton.ClickEventHandler(turnButton_OnClickEvent);
+            turnButton.setImage("D:\\C#\\BoardSoup\\Thud\\Images\\turndwarf.png");
+            this.addActor(turnButton);
+        }
+
+        private void stopButton_OnClickEvent()
+        {
+            logic.endGame();
+        }
+
+        private void turnButton_OnClickEvent()
+        {
+            logic.nextTurn();
+
+            if(logic.getTurn() == TURN.DWARF)
+                turnButton.setImage("D:\\C#\\BoardSoup\\Thud\\Images\\turndwarf.png");
+            else
+                turnButton.setImage("D:\\C#\\BoardSoup\\Thud\\Images\\turntroll.png");
         }
 
         private void setPieces()
