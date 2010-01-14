@@ -23,6 +23,10 @@ namespace Thud.GameLogic
 
         private void setHighlights(bool on)
         {
+            // early out
+            if (logic.getTurn() == TURN.DWARF)
+                return;
+
             foreach (NEIGHBOUR n in Enum.GetValues(typeof(NEIGHBOUR)))
             {
                 if (square.hasNeighbour(n))
@@ -49,7 +53,10 @@ namespace Thud.GameLogic
 
         public override bool isLegalMove(EmptyPiece argPiece)
         {
-            return square.isNeighbour(argPiece);
+            if (logic.getTurn() == TURN.TROLL)
+                return square.isNeighbour(argPiece);
+
+            return false;
         }
     }
 }

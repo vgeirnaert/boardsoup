@@ -19,6 +19,6 @@ namespace Thud.GameLogic
             score++;
         }
 
-        abstract public void doMove();
+        abstract public void doMove(ThudBoard board);
     }
 }
