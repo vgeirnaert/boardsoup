@@ -14,15 +14,41 @@ namespace Thud.GameLogic
 
         public override void onMouseIn()
         {
+            Console.WriteLine("Dwarf mouse in!");
+            setHighlights(true);
         }
 
         public override void onMouseOut()
         {
+            setHighlights(false);
+        }
+
+        private void setHighlights(bool on)
+        {
+            foreach (NEIGHBOUR n in Enum.GetValues(typeof(NEIGHBOUR)))
+            {
+                if (square.hasNeighbour(n))
+                {
+                    EmptyPiece ep = (EmptyPiece)square.getNeighbour(n);
+
+                    while (!ep.isOccupied())
+                    {
+                        if (on)
+                            ep.highlight(false);
+                        else
+                            ep.resetImage();
+
+                        if (ep.hasNeighbour(n))
+                            ep = (EmptyPiece)ep.getNeighbour(n);
+                        else
+                            break;
+                    }
+                }
+            }
         }
 
         public override void onClick()
         {
-            logic.pawnSelected(this);
         }
 
         public override void onEngineObjectCreated()
@@ -46,13 +72,16 @@ namespace Thud.GameLogic
 
             EmptyPiece ep = (EmptyPiece)square.getNeighbour(direction);
 
+            // check all squares in the direction of our destination
             while (!ep.isOccupied())
             {
                 if (ep == argPiece)
                     return true;
 
-                if(ep.hasNeighbour(direction))
+                if (ep.hasNeighbour(direction))
                     ep = (EmptyPiece)ep.getNeighbour(direction);
+                else
+                    break;
             }
 
             return false;   

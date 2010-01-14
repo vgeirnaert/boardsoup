@@ -97,6 +97,12 @@ namespace Thud.GameLogic
             return boardPosition;
         }
 
-        //public bool 
+        public void highlight(bool isRed)
+        {
+            if (isRed)
+                this.setImage(image.Replace(".png", "red.png"));
+            else
+                this.setImage(image.Replace(".png", "blue.png"));
+        }
     }
 }

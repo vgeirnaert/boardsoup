@@ -18,7 +18,6 @@ namespace BoardSoupEngine.Scene
 
         public Board()
         {
-            //actors = new List<BoardActor>();
             actors = new QuadTree<BoardActor>(new Rectangle(0, 0, 1050, 1050));
             dispatcher = null;
             myInterfaceObject = null;
@@ -71,7 +70,10 @@ namespace BoardSoupEngine.Scene
         public void addActor(BoardActor ba)
         {
             if (ba != null)
+            {
                 actors.Add(ba, ba.getBounds());
+                ba.setBoard(this);
+            }
 
             onBoardChanged();
         }
@@ -133,6 +135,7 @@ namespace BoardSoupEngine.Scene
         public void deleteActor(BoardActor ba)
         {
             actors.Remove(ba, ba.getBounds());
+            ba.setBoard(null);
             onBoardChanged();
         }
 
@@ -153,6 +156,14 @@ namespace BoardSoupEngine.Scene
             }
 
             return r;
+        }
+
+        public void onActorLocationChanged(BoardActor boardActor, Point newLocation)
+        {
+            // give our actor a new position in the quad tree
+            actors.Remove(boardActor, boardActor.getBounds());
+            boardActor.location = newLocation;
+            actors.Add(boardActor, boardActor.getBounds());
         }
     }
 }

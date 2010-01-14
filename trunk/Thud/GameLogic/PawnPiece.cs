@@ -12,7 +12,6 @@ namespace Thud.GameLogic
 
         public PawnPiece(int x, int y, string filename) : base(x, y, filename)
         {
-            this.receivesInput(false);
         }
 
         public void setLogic(ThudLogic argLogic)
@@ -29,6 +28,8 @@ namespace Thud.GameLogic
 
             if (square != null)
                 this.setLocation(square.getLocation());
+
+            logic.evaluate(this);
         }
 
         abstract public bool isLegalMove(EmptyPiece argPiece);

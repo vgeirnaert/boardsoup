@@ -13,15 +13,30 @@ namespace Thud.GameLogic
 
         public override void onMouseIn()
         {
+            setHighlights(true);
         }
 
         public override void onMouseOut()
         {
+            setHighlights(false);
+        }
+
+        private void setHighlights(bool on)
+        {
+            foreach (NEIGHBOUR n in Enum.GetValues(typeof(NEIGHBOUR)))
+            {
+                if (square.hasNeighbour(n))
+                {
+                    if (on)
+                        ((EmptyPiece)square.getNeighbour(n)).highlight(true);
+                    else
+                        ((EmptyPiece)square.getNeighbour(n)).resetImage();
+                }
+            }
         }
 
         public override void onClick()
         {
-            logic.pawnSelected(this);
         }
 
         public override void onEngineObjectCreated()
