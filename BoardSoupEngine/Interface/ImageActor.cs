@@ -10,7 +10,7 @@ namespace BoardSoupEngine.Interface
         {
         }
 
-        public void setImage(String filename)
+        public virtual void setImage(String filename)
         {
             if (dispatcher != null)
                 actor.loadAsset(filename, dispatcher, new AssetDetails(AssetType.IMAGE));

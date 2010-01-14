@@ -77,19 +77,6 @@ namespace Thud.GameLogic
             return ended;
         }
 
-        /*public void pawnSelected(PawnPiece argPiece)
-        {
-            // if we dont have a previous pawn selected or we select the same type, change the selection
-            if (selectedPawn == null || selectedPawn.GetType() == argPiece.GetType())
-                selectedPawn = argPiece;
-            else // if we click on a different pawn...
-            {
-                Console.WriteLine("attack!");
-                squareSelected(argPiece.getSquare());
-                unselectPawn();
-            }
-        }*/
-
         private void selectPawn(PawnPiece argPawn)
         {
             // if we have selected a 
