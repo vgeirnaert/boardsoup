@@ -46,7 +46,7 @@
   <ItemGroup>
     <Compile Include="GameLogic\AIController.cs" />
     <Compile Include="GameLogic\DwarfPiece.cs" />
-    <Compile Include="GameLogic\EmptyPiece.cs" />
+    <Compile Include="GameLogic\BoardPiece.cs" />
     <Compile Include="GameLogic\HumanController.cs" />
     <Compile Include="GameLogic\PawnPiece.cs" />
     <Compile Include="GameLogic\PlayerController.cs" />

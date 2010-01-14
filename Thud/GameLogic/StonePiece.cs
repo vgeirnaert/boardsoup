@@ -31,7 +31,12 @@ namespace Thud.GameLogic
         {
         }
 
-        public override bool isLegalMove(EmptyPiece argPiece)
+        public override bool isLegalMove(BoardPiece argPiece)
+        {
+            return false;
+        }
+
+        public override bool isLegalAttack(BoardPiece argPiece)
         {
             return false;
         }

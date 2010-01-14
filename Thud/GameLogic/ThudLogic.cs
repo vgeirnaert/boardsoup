@@ -72,20 +72,35 @@ namespace Thud.GameLogic
             else // if we click on a different pawn...
             {
                 Console.WriteLine("attack!");
+                squareSelected(argPiece.getSquare());
                 unselectPawn();
             }
         }
 
-        public void squareSelected(EmptyPiece argPiece)
+        public void squareSelected(BoardPiece argPiece)
         {
             if (selectedPawn != null && !argPiece.isOccupied())
             {
                 if (selectedPawn.isLegalMove(argPiece))
                 {
-                    argPiece.setOccupant(selectedPawn);
+                    movePawn(selectedPawn, argPiece);
+                }
+                else if (selectedPawn.isLegalAttack(argPiece))
+                {
+                    movePawn(selectedPawn, argPiece);
                     nextTurn();
                 }
             }
+        }
+
+        private void movePawn(PawnPiece pawn, BoardPiece piece)
+        {
+            piece.setOccupant(pawn);
+            pawn.move();
+        }
+
+        private void removePawn(BoardPiece piece)
+        {
         }
 
         public void unselectPawn()
@@ -107,6 +122,7 @@ namespace Thud.GameLogic
 
         private void nextTurn()
         {
+            selectedPawn.finish();
             unselectPawn();
             turn++;
 

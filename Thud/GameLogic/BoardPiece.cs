@@ -6,14 +6,14 @@ using System.Drawing;
 
 namespace Thud.GameLogic
 {
-    class EmptyPiece : ThudPiece
+    class BoardPiece : ThudPiece
     {
         private String image;
         private PawnPiece occupant;
         private ThudLogic logic;
         private Point boardPosition;
         
-        public EmptyPiece(int x, int y, bool even) : base(x, y, "D:\\C#\\BoardSoup\\Thud\\Images\\empty.png")
+        public BoardPiece(int x, int y, bool even) : base(x, y, "D:\\C#\\BoardSoup\\Thud\\Images\\empty.png")
         {
             boardPosition = new Point();
             image = "D:\\C#\\BoardSoup\\Thud\\Images\\empty.png";
