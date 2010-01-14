@@ -15,6 +15,15 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoardSoupEngine", "BoardSoupEngine\BoardSoupEngine.csproj", "{6BF106A0-013E-4040-8CF0-280D1C819776}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToe", "TicTacToe\TicTacToe.csproj", "{D2D5803C-DC6B-490D-820B-ECA761FCDC00}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6BF106A0-013E-4040-8CF0-280D1C819776} = {6BF106A0-013E-4040-8CF0-280D1C819776}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thud", "Thud\Thud.csproj", "{1BD6E74E-C70B-442B-99C0-674CBDEFC401}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F0432B49-A2CC-4C7F-9C2C-8C95CCE9E940} = {F0432B49-A2CC-4C7F-9C2C-8C95CCE9E940}
+		{6BF106A0-013E-4040-8CF0-280D1C819776} = {6BF106A0-013E-4040-8CF0-280D1C819776}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,6 +47,10 @@ Global
 		{D2D5803C-DC6B-490D-820B-ECA761FCDC00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2D5803C-DC6B-490D-820B-ECA761FCDC00}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2D5803C-DC6B-490D-820B-ECA761FCDC00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BD6E74E-C70B-442B-99C0-674CBDEFC401}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BD6E74E-C70B-442B-99C0-674CBDEFC401}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BD6E74E-C70B-442B-99C0-674CBDEFC401}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BD6E74E-C70B-442B-99C0-674CBDEFC401}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

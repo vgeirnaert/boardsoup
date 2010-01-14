@@ -118,7 +118,12 @@ namespace BoardSoupEngine.Scene
 
         public BoardActor getActorAt(Point p)
         {
-            return selectBoard(selectedBoard).getActorAt(p); 
+            return selectBoard(selectedBoard).getTopActorAt(p); 
+        }
+
+        public List<BoardActor> getAllActorsAt(Point p)
+        {
+            return selectBoard(selectedBoard).getAllActorsAt(p);
         }
 
     }

@@ -88,13 +88,14 @@ namespace BoardSoupEngine.Scene
             onBoardChanged();
         }
 
-        public BoardActor getActorAt(Point p)
+        public BoardActor getTopActorAt(Point p)
         {
             BoardActor r = null;
 
             List<BoardActor> actorlist = actors.getObjectsAt(p);
 
-            if(actorlist != null) {
+            if(actorlist != null) 
+            {
                 try
                 {
                     foreach (BoardActor ba in actorlist)
@@ -110,6 +111,23 @@ namespace BoardSoupEngine.Scene
             }
 
             return r;
+        }
+
+        public List<BoardActor> getAllActorsAt(Point p)
+        {
+            List<BoardActor> actorlist = actors.getObjectsAt(p);
+            List<BoardActor> returnlist = new List<BoardActor>();
+
+            if (actorlist != null)
+            {
+                foreach (BoardActor ba in actorlist)
+                {
+                    if (ba.isAt(p))
+                        returnlist.Add(ba);
+                }
+            }
+
+            return returnlist;
         }
 
         public void deleteActor(BoardActor ba)

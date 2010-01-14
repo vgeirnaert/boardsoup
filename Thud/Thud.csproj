@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D2D5803C-DC6B-490D-820B-ECA761FCDC00}</ProjectGuid>
+    <ProjectGuid>{1BD6E74E-C70B-442B-99C0-674CBDEFC401}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TicTacToe</RootNamespace>
-    <AssemblyName>TicTacToe</AssemblyName>
+    <RootNamespace>Thud</RootNamespace>
+    <AssemblyName>Thud</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,24 +31,41 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BoardSoupEngine, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\BoardSoupEngine\bin\Debug\BoardSoupEngine.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\TicTacToe.cs" />
-    <Compile Include="Core\TicTacToeLogic.cs" />
+    <Compile Include="GameLogic\AIController.cs" />
+    <Compile Include="GameLogic\DwarfPiece.cs" />
+    <Compile Include="GameLogic\EmptyPiece.cs" />
+    <Compile Include="GameLogic\HumanController.cs" />
+    <Compile Include="GameLogic\PawnPiece.cs" />
+    <Compile Include="GameLogic\PlayerController.cs" />
+    <Compile Include="GameLogic\StonePiece.cs" />
+    <Compile Include="GameLogic\ThudLogic.cs" />
+    <Compile Include="GameLogic\ThudPiece.cs" />
+    <Compile Include="GameLogic\TrollPiece.cs" />
+    <Compile Include="GUI\GuiButton.cs" />
+    <Compile Include="GUI\GuiText.cs" />
+    <Compile Include="GameLogic\ThudBoard.cs" />
+    <Compile Include="GUI\ThudMenu.cs" />
+    <Compile Include="Thud.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BoardSoupEngine\BoardSoupEngine.csproj">
+      <Project>{6BF106A0-013E-4040-8CF0-280D1C819776}</Project>
+      <Name>BoardSoupEngine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BoardSoup\BoardSoup.csproj">
       <Project>{F0432B49-A2CC-4C7F-9C2C-8C95CCE9E940}</Project>
       <Name>BoardSoup</Name>
@@ -63,7 +80,14 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>set BSE=$(SolutionDir)BoardSoupEngine\bin\Debug\BoardSoupEngine.dll
+set tictactoe=$(SolutionDir)TicTacToe\bin\Debug\TicTacToe.dll
+set secwars=$(SolutionDir)SecWars\bin\Debug\SecWars.dll
+set thud=$(SolutionDir)Thud\bin\Debug\Thud.dll
+set dest=$(SolutionDir)BoardSoup\bin\Debug\games
+copy %25bse%25 %25dest%25
+copy %25tictactoe%25 %25dest%25
+copy %25secwars%25 %25dest%25
+copy %25thud%25 %25dest%25</PostBuildEvent>
   </PropertyGroup>
 </Project>
