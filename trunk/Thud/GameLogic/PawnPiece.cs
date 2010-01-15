@@ -31,8 +31,6 @@ namespace Thud.GameLogic
 
             if (square != null)
                 this.setLocation(square.getLocation());
-
-            logic.evaluate(this);
         }
 
         public BoardPiece getSquare()
@@ -136,5 +134,6 @@ namespace Thud.GameLogic
 
         abstract public bool isLegalMove(BoardPiece argPiece);
         abstract public bool isLegalAttack(BoardPiece argPiece);
+        abstract public bool hasMovesLeft(PHASE argPhase);
     }
 }

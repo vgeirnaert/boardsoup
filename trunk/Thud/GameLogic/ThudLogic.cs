@@ -14,6 +14,7 @@ namespace Thud.GameLogic
         private ThudBoard board;
         private PawnPiece selectedPawn;
         private int turn;
+        private int round;
 
         private PlayerController dwarves;
         private PlayerController trolls;
@@ -21,6 +22,7 @@ namespace Thud.GameLogic
 
         public ThudLogic()
         {
+            round = 0;
             turn = 0;
             ended = false;
             createMenu();
@@ -34,6 +36,8 @@ namespace Thud.GameLogic
 
         public void startGame(PLAYER argDwarves, PLAYER argTrolls)
         {
+            board = new ThudBoard("thud", this);
+
             if (argDwarves == PLAYER.HUMAN)
                 dwarves = new HumanController();
             else
@@ -52,7 +56,7 @@ namespace Thud.GameLogic
 
         public void startRound()
         {
-            board = new ThudBoard("thud", this);
+            board.resetBoard();
             turn = 0;
             selectedPawn = null;
             startTurn();
@@ -65,6 +69,16 @@ namespace Thud.GameLogic
 
         public void endRound()
         {
+            round++;
+            PlayerController temp = dwarves;
+            dwarves = trolls;
+            trolls = dwarves;
+
+            dwarves.setSide(TURN.TROLL);
+            trolls.setSide(TURN.DWARF);
+
+            dwarves.addNewScore();
+            trolls.addNewScore();
         }
 
         public void endGame()
@@ -89,25 +103,63 @@ namespace Thud.GameLogic
             if (argPiece.isOccupied() && currentPhase != PHASE.ATTACK)
                 selectPawn(argPiece.getOccupant());
 
-            switch (currentPhase)
+            if (selectedPawn != null)
             {
-                case PHASE.MOVE:
-                    if (selectedPawn != null)
-                    {
-                        if (selectedPawn.isLegalMove(argPiece))
-                            movePawn(selectedPawn, argPiece);
-                    }
-                    break;
-                case PHASE.ATTACK:
-                    break;
+                switch (this.getTurn())
+                {
+                    case TURN.DWARF:
+                        if (argPiece.isOccupied())
+                        {
+                            // hurl
+                            if (selectedPawn.isLegalAttack(argPiece))
+                            {
+                                board.removePiece(argPiece.getBoardPosition());
+                                movePawn(selectedPawn, argPiece);
+                                nextTurn();
+                            }
+                        }
+                        else
+                        {
+                            // move
+                            if (selectedPawn.isLegalMove(argPiece))
+                            {
+                                movePawn(selectedPawn, argPiece);
+                                nextTurn();
+                            }
+                        }
+                        break;
+                    case TURN.TROLL:
+                        switch (currentPhase)
+                        {
+                            case PHASE.MOVE:
+                                if (selectedPawn.isLegalMove(argPiece))
+                                {
+                                    movePawn(selectedPawn, argPiece);
+                                    currentPhase = PHASE.ATTACK;
+
+                                    if (!selectedPawn.hasMovesLeft(currentPhase))
+                                        nextTurn();
+                                }
+                                break;
+                            case PHASE.ATTACK:
+                                if (selectedPawn.isLegalAttack(argPiece))
+                                    board.removePiece(argPiece.getBoardPosition());
+
+                                if (!selectedPawn.hasMovesLeft(currentPhase))
+                                    nextTurn();
+                                break;
+                        }
+                        break;
+                }
             }
+
+            evaluate();
         }
 
         private void movePawn(PawnPiece pawn, BoardPiece piece)
         {
             piece.setOccupant(pawn);
             pawn.move();
-            currentPhase = PHASE.ATTACK;
         }
 
         private void removePawn(BoardPiece piece)
@@ -119,8 +171,18 @@ namespace Thud.GameLogic
             selectedPawn = null;
         }
 
-        public void evaluate(PawnPiece argPiece)
+        public void evaluate()
         {
+            if (dwarves.getScore() == 30 || trolls.getScore() == 0)
+            {
+                if (dwarves.getScore() > trolls.getScore())
+                    board.displayWin(TURN.DWARF);
+                else
+                    board.displayWin(TURN.TROLL);
+
+                endRound();
+            }
+
         }
 
         public TURN getTurn()
@@ -139,6 +201,7 @@ namespace Thud.GameLogic
             unselectPawn();
             turn++;
 
+            board.updateTurnButton();
             startTurn();
 
             if (getTurn() == TURN.DWARF)
@@ -153,6 +216,24 @@ namespace Thud.GameLogic
                 return dwarves;
 
             return trolls;
+        }
+
+        public void pawnRemoved(PawnPiece p)
+        {
+            if (p is DwarfPiece)
+            {
+                dwarves.decrementScore();
+                board.updateScore(TURN.DWARF, dwarves.getScore());
+
+            }
+            else
+            {
+                trolls.decrementScore();
+                trolls.decrementScore();
+                trolls.decrementScore();
+                trolls.decrementScore();
+                board.updateScore(TURN.TROLL, trolls.getScore());
+            }
         }
     }
 }

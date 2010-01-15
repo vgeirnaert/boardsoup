@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using BoardSoupEngine.Interface;
 using Thud.GUI;
+using System.Drawing;
 
 namespace Thud.GameLogic
 {
@@ -11,6 +12,7 @@ namespace Thud.GameLogic
         private BoardPiece[,] pieces = new BoardPiece[15, 15];
         private ThudLogic logic;
         private GuiButton turnButton;
+        private GuiText dwarfScore, trollScore;
 
         public ThudBoard(String argName, ThudLogic argLogic) : base(argName)
         {
@@ -42,6 +44,24 @@ namespace Thud.GameLogic
             turnButton.OnClickEvent += new GuiButton.ClickEventHandler(turnButton_OnClickEvent);
             turnButton.setImage("D:\\C#\\BoardSoup\\Thud\\Images\\turndwarf.png");
             this.addActor(turnButton);
+
+            GuiButton dwarf = new GuiButton(20, 20);
+            dwarf.receivesInput(false);
+            dwarf.setImage("D:\\C#\\BoardSoup\\Thud\\Images\\dwarf.png");
+            this.addActor(dwarf);
+
+            GuiButton troll = new GuiButton(20, 90);
+            troll.receivesInput(false);
+            troll.setImage("D:\\C#\\BoardSoup\\Thud\\Images\\troll.png");
+            this.addActor(troll);
+
+            dwarfScore = new GuiText(90, 20);
+            dwarfScore.setText("32");
+            this.addActor(dwarfScore);
+
+            trollScore = new GuiText(90, 90);
+            trollScore.setText("32");
+            this.addActor(trollScore);
         }
 
         private void stopButton_OnClickEvent()
@@ -53,7 +73,12 @@ namespace Thud.GameLogic
         {
             logic.nextTurn();
 
-            if(logic.getTurn() == TURN.DWARF)
+            updateTurnButton();
+        }
+
+        public void updateTurnButton()
+        {
+            if (logic.getTurn() == TURN.DWARF)
                 turnButton.setImage("D:\\C#\\BoardSoup\\Thud\\Images\\turndwarf.png");
             else
                 turnButton.setImage("D:\\C#\\BoardSoup\\Thud\\Images\\turntroll.png");
@@ -205,6 +230,61 @@ namespace Thud.GameLogic
                 return true;
 
             return false;
+        }
+
+        public void removePiece(Point argBoardLocation)
+        {
+            // early out
+            if(pieceExists(argBoardLocation.X, argBoardLocation.Y))
+            {
+                if(pieces[argBoardLocation.X, argBoardLocation.Y].isOccupied())
+                {
+                    PawnPiece p = pieces[argBoardLocation.X, argBoardLocation.Y].getOccupant();
+                    this.deleteFromBoard(p);
+                    pieces[argBoardLocation.X, argBoardLocation.Y].setOccupant(null);
+                    logic.pawnRemoved(p);
+                }
+            }                            
+        }
+
+        public void updateScore(TURN argTurn, int argScore)
+        {
+            if (argTurn == TURN.DWARF)
+                dwarfScore.setText("" + argScore);
+            else
+                trollScore.setText("" + argScore);
+        }
+
+        public void resetBoard()
+        {
+            this.clearBoard();
+            createBoard();
+            setPieces();
+            createGUI();
+        }
+
+        public void displayWin(TURN type)
+        {
+            String str = "Dwarves win!";
+            String img = "D:\\C#\\BoardSoup\\Thud\\Images\\dwarfbig.png";
+
+            if (type == TURN.TROLL)
+            {
+                str = "Trolls win!";
+                img = "D:\\C#\\BoardSoup\\Thud\\Images\\trollbig.png";
+            }
+
+            GuiText text = new GuiText(300, 300);
+            text.setText(str);
+            text.setFontColor(Color.Black);
+            text.setFontSize(75);
+            text.receivesInput(false);
+            this.addActor(text);
+
+            GuiButton image = new GuiButton(400, 500);
+            image.setImage(img);
+            image.receivesInput(false);
+            this.addActor(image);
         }
     }
 }

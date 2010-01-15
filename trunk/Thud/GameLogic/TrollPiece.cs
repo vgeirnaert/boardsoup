@@ -7,8 +7,7 @@ namespace Thud.GameLogic
 {
     class TrollPiece : PawnPiece
     {
-        public TrollPiece(int x, int y)
-            : base(x, y, "D:\\C#\\BoardSoup\\Thud\\Images\\troll.png")
+        public TrollPiece(int x, int y) : base(x, y, "D:\\C#\\BoardSoup\\Thud\\Images\\troll.png")
         {
 
         }
@@ -26,7 +25,7 @@ namespace Thud.GameLogic
         private void setHighlights(bool on)
         {
             // early out
-            if (logic.getTurn() == TURN.DWARF)
+            if (logic.getTurn() == TURN.DWARF || hasMoved())
                 return;
 
             foreach (NEIGHBOUR n in Enum.GetValues(typeof(NEIGHBOUR)))
@@ -58,7 +57,10 @@ namespace Thud.GameLogic
             if (logic.getTurn() == TURN.TROLL)
             {
                 if (square.isNeighbour(argPiece))
-                    return true;
+                {
+                    if(!argPiece.isOccupied())
+                        return true;
+                }
                 else
                     return isLegalShove(argPiece);
             }
@@ -146,6 +148,31 @@ namespace Thud.GameLogic
                     }   
                 }
             }
+            return false;
+        }
+
+        public override bool hasMovesLeft(PHASE argPhase)
+        {
+            foreach (NEIGHBOUR n in Enum.GetValues(typeof(NEIGHBOUR)))
+            {
+                if (square.hasNeighbour(n))
+                {
+                    if (argPhase == PHASE.MOVE)
+                    {
+                        if (!((BoardPiece)square.getNeighbour(n)).isOccupied())
+                            return true;
+                    }
+                    else
+                    {
+                        if (((BoardPiece)square.getNeighbour(n)).isOccupied())
+                        {
+                            if (((BoardPiece)square.getNeighbour(n)).getOccupant() is DwarfPiece)
+                                return true;
+                        }
+                    }    
+                }
+            }
+
             return false;
         }
     }

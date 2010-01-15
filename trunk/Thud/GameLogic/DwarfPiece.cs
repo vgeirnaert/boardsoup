@@ -102,45 +102,64 @@ namespace Thud.GameLogic
 
         private bool isLegalHurl(BoardPiece argPiece)
         {
-            // we have to move before we can attack
-            if (this.hasMoved())
+            // if our target location is occupied
+            if (argPiece.isOccupied())
             {
-                // if our target location is occupied
-                if (argPiece.isOccupied())
+                // ... by a troll
+                if (argPiece.getOccupant() is TrollPiece)
                 {
-                    // ... by a troll
-                    if (argPiece.getOccupant() is TrollPiece)
+                    // and it is in a line with our location
+                    if (isInLine(square.getLocation(), argPiece.getLocation()))
                     {
-                        // and it is in a line with our location
-                        if (isInLine(square.getLocation(), argPiece.getLocation()))
+
+                        int distance = this.getDistance(square.getBoardPosition(), argPiece.getBoardPosition());
+                        NEIGHBOUR direction = ThudPiece.getOppositeNeighbour(this.getDirection(square.getLocation(), argPiece.getLocation()));
+
+                        // iterate over the squares in the direction opposite of our destination
+                        // equal to the distance we wish to move
+                        // if all squares contain a dwarf, the hurl is legal
+
+                        BoardPiece bp = square;
+                        for (int i = 0; i < distance; i++)
                         {
-                            int distance = this.getDistance(square.getLocation(), argPiece.getLocation());
-                            NEIGHBOUR direction = ThudPiece.getOppositeNeighbour(this.getDirection(square.getLocation(), argPiece.getLocation()));
-
-                            // iterate over the squares in the direction opposite of our destination
-                            // equal to the distance we wish to move
-                            // if all squares contain a troll, the shove is legal
-
-                            BoardPiece bp = square;
-                            for (int i = 0; i < distance; i++)
+                            if (bp.isOccupied())
                             {
-                                if (bp.isOccupied())
+                                if (bp.getOccupant() is DwarfPiece)
                                 {
-                                    if (bp.getOccupant() is TrollPiece)
-                                    {
-                                        if (bp.hasNeighbour(direction))
-                                            bp = (BoardPiece)bp.getNeighbour(direction);
-                                    }
-                                    else
+                                    if (bp.hasNeighbour(direction))
+                                        bp = (BoardPiece)bp.getNeighbour(direction);
+                                    else if (i != distance - 1)
                                         return false;
                                 }
                                 else
                                     return false;
                             }
-
-                            return true;
+                            else
+                                return false;
                         }
+                        return true;
                     }
+                }
+            }
+
+            return false;
+        }
+
+        public override bool hasMovesLeft(PHASE argPhase)
+        {
+            foreach (NEIGHBOUR n in Enum.GetValues(typeof(NEIGHBOUR)))
+            {
+                if (square.hasNeighbour(n))
+                {
+                    if (!((BoardPiece)square.getNeighbour(n)).isOccupied())
+                        return true;
+
+                    if (((BoardPiece)square.getNeighbour(n)).isOccupied())
+                    {
+                        if (((BoardPiece)square.getNeighbour(n)).getOccupant() is TrollPiece)
+                            return true;
+                    }
+
                 }
             }
 
