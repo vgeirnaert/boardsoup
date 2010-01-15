@@ -123,7 +123,10 @@ namespace BoardSoupEngine.Scene
 
         public List<BoardActor> getAllActorsAt(Point p)
         {
-            return selectBoard(selectedBoard).getAllActorsAt(p);
+            if(selectedBoard != "")
+                return selectBoard(selectedBoard).getAllActorsAt(p);
+
+            return null;
         }
 
     }
