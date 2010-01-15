@@ -7,7 +7,7 @@ namespace Thud.GameLogic
 {
     class TrollPiece : PawnPiece
     {
-        public TrollPiece(int x, int y) : base(x, y, "D:\\C#\\BoardSoup\\Thud\\Images\\troll.png")
+        public TrollPiece(int x, int y) : base(x, y, "Images\\troll.png")
         {
 
         }

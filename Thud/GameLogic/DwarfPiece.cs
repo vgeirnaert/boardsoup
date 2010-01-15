@@ -8,7 +8,7 @@ namespace Thud.GameLogic
 {
     class DwarfPiece : PawnPiece
     {
-        public DwarfPiece(int x, int y) : base(x, y, "D:\\C#\\BoardSoup\\Thud\\Images\\dwarf.png")
+        public DwarfPiece(int x, int y) : base(x, y, "Images\\dwarf.png")
         {
         }
 
