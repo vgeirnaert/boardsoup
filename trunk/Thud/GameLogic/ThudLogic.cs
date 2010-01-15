@@ -173,7 +173,7 @@ namespace Thud.GameLogic
 
         public void evaluate()
         {
-            if (dwarves.getScore() == 30 || trolls.getScore() == 0)
+            if (dwarves.getScore() == 0 || trolls.getScore() == 0)
             {
                 if (dwarves.getScore() > trolls.getScore())
                     board.displayWin(TURN.DWARF);
