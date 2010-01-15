@@ -42,17 +42,17 @@ namespace Thud.GameLogic
 
             turnButton = new GuiButton(900, 20);
             turnButton.OnClickEvent += new GuiButton.ClickEventHandler(turnButton_OnClickEvent);
-            turnButton.setImage("D:\\C#\\BoardSoup\\Thud\\Images\\turndwarf.png");
+            turnButton.setImage("Images\\turndwarf.png");
             this.addActor(turnButton);
 
             GuiButton dwarf = new GuiButton(20, 20);
             dwarf.receivesInput(false);
-            dwarf.setImage("D:\\C#\\BoardSoup\\Thud\\Images\\dwarf.png");
+            dwarf.setImage("Images\\dwarf.png");
             this.addActor(dwarf);
 
             GuiButton troll = new GuiButton(20, 90);
             troll.receivesInput(false);
-            troll.setImage("D:\\C#\\BoardSoup\\Thud\\Images\\troll.png");
+            troll.setImage("Images\\troll.png");
             this.addActor(troll);
 
             dwarfScore = new GuiText(90, 20);
@@ -79,9 +79,9 @@ namespace Thud.GameLogic
         public void updateTurnButton()
         {
             if (logic.getTurn() == TURN.DWARF)
-                turnButton.setImage("D:\\C#\\BoardSoup\\Thud\\Images\\turndwarf.png");
+                turnButton.setImage("Images\\turndwarf.png");
             else
-                turnButton.setImage("D:\\C#\\BoardSoup\\Thud\\Images\\turntroll.png");
+                turnButton.setImage("Images\\turntroll.png");
         }
 
         private void setPieces()
@@ -266,12 +266,12 @@ namespace Thud.GameLogic
         public void displayWin(TURN type)
         {
             String str = "Dwarves win!";
-            String img = "D:\\C#\\BoardSoup\\Thud\\Images\\dwarfbig.png";
+            String img = "Images\\dwarfbig.png";
 
             if (type == TURN.TROLL)
             {
                 str = "Trolls win!";
-                img = "D:\\C#\\BoardSoup\\Thud\\Images\\trollbig.png";
+                img = "Images\\trollbig.png";
             }
 
             GuiText text = new GuiText(300, 300);

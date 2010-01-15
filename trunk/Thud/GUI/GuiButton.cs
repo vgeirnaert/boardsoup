@@ -11,9 +11,9 @@ namespace Thud.GUI
         public event ClickEventHandler OnClickEvent;
         private String image;
 
-        public GuiButton(int x, int y) : base(x, y, "D:\\C#\\BoardSoup\\Thud\\Images\\stop.png")
+        public GuiButton(int x, int y) : base(x, y, "Images\\stop.png")
         {
-            image = "D:\\C#\\BoardSoup\\Thud\\Images\\stop.png";
+            image = "Images\\stop.png";
         }
 
         public override void setImage(String filename)

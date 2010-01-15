@@ -13,14 +13,14 @@ namespace Thud.GameLogic
         private ThudLogic logic;
         private Point boardPosition;
         
-        public BoardPiece(int x, int y, bool even) : base(x, y, "D:\\C#\\BoardSoup\\Thud\\Images\\empty.png")
+        public BoardPiece(int x, int y, bool even) : base(x, y, "Images\\empty.png")
         {
             boardPosition = new Point();
-            image = "D:\\C#\\BoardSoup\\Thud\\Images\\empty.png";
+            image = "Images\\empty.png";
 
             if (even)
             {
-                image = "D:\\C#\\BoardSoup\\Thud\\Images\\emptylight.png";
+                image = "Images\\emptylight.png";
                 this.setImage(image);
             }
         }
