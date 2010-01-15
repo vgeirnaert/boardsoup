@@ -9,7 +9,7 @@ namespace Thud
     {
         private const String name = "Thud";
         private const String description = "Dwarves and Trolls fight their eternal octagonal war";
-        private const String version = "0.0.1";
+        private const String version = "0.7.0";
         private BoardSoupEngine.Interface.BoardSoupEngine myEngine;
 
         public Thud()

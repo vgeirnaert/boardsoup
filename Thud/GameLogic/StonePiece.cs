@@ -40,5 +40,10 @@ namespace Thud.GameLogic
         {
             return false;
         }
+
+        public override bool hasMovesLeft(PHASE argPhase)
+        {
+            return false;
+        }
     }
 }

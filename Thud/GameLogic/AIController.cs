@@ -13,7 +13,7 @@ namespace Thud.GameLogic
 
         public override void doMove(ThudBoard board)
         {
-            Console.WriteLine("ai!");
+            
         }
     }
 }

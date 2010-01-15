@@ -7,7 +7,7 @@ namespace Thud.GameLogic
 {
     abstract class PlayerController
     {
-        private int score = 0;
+        private int score = 32;
         private TURN side;
 
         public void setSide(TURN argSide)
@@ -25,9 +25,19 @@ namespace Thud.GameLogic
             return score;
         }
 
-        public void incrementScore()
+        public void decrementScore()
         {
-            score++;
+            score--;
+        }
+
+        public void resetScore()
+        {
+            score = 32;
+        }
+
+        public void addNewScore()
+        {
+            score = score + 32;
         }
 
         public Type getPawnType()

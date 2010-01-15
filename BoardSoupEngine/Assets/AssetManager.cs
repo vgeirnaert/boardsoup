@@ -57,8 +57,8 @@ namespace BoardSoupEngine.Assets
             Asset a = null;
 
             // if an asset with this name already exists
-            if (assets.ContainsKey( makeTextKey(argDetails, argText) ))
-                assets.TryGetValue(argText, out a); // obtain it
+            if (assets.ContainsKey(makeTextKey(argDetails, argText)))
+                assets.TryGetValue(makeTextKey(argDetails, argText), out a); // obtain it
             else
             {   // if not, make it and add it
                 switch (argDetails.type)
