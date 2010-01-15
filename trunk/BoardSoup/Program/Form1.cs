@@ -105,5 +105,27 @@ namespace BoardSoup.Program
                     startGame(gamePool.getGameNames()[0]);
             }    
         }
+
+        private void MainForm_MouseClick(object sender, MouseEventArgs e)
+        {
+            /*if (gamethread != null)
+                if (!gamethread.IsAlive)
+                    this.Close();*/
+        }
+
+        private void renderPanel_MouseClick(object sender, MouseEventArgs e)
+        {
+            MainForm_MouseClick(sender, e);
+        }
+
+        private void renderPanel_MouseMove(object sender, MouseEventArgs e)
+        {
+            MainForm_MouseClick(sender, e);
+        }
+
+        private void MainForm_MouseMove(object sender, MouseEventArgs e)
+        {
+            MainForm_MouseClick(sender, e);
+        }
     }
 }
