@@ -84,6 +84,8 @@
             this.renderPanel.Size = new System.Drawing.Size(310, 175);
             this.renderPanel.TabIndex = 4;
             this.renderPanel.Visible = false;
+            this.renderPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseMove);
+            this.renderPanel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.renderPanel_MouseClick);
             // 
             // MainForm
             // 
@@ -104,8 +106,10 @@
             this.Name = "MainForm";
             this.Text = "BoardSoup";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseClick);
             this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseMove);
             this.ResumeLayout(false);
             this.PerformLayout();
 
