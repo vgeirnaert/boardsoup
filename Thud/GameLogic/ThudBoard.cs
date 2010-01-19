@@ -82,6 +82,8 @@ namespace Thud.GameLogic
                 turnButton.setImage("Images\\turndwarf.png");
             else
                 turnButton.setImage("Images\\turntroll.png");
+
+            turnButton.onMouseIn();
         }
 
         private void setPieces()
