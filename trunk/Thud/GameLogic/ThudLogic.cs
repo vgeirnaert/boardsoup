@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Thud.GameLogic
 {
-    enum TURN { DWARF, TROLL };
+    enum SIDE { DWARF, TROLL };
     enum PLAYER { HUMAN, AI };
     enum PHASE { MOVE, ATTACK };
 
@@ -48,8 +48,8 @@ namespace Thud.GameLogic
             else
                 trolls = new AIController();
 
-            dwarves.setSide(TURN.DWARF);
-            trolls.setSide(TURN.TROLL);
+            dwarves.setSide(SIDE.DWARF);
+            trolls.setSide(SIDE.TROLL);
 
             startRound();
         }
@@ -74,8 +74,8 @@ namespace Thud.GameLogic
             dwarves = trolls;
             trolls = dwarves;
 
-            dwarves.setSide(TURN.TROLL);
-            trolls.setSide(TURN.DWARF);
+            dwarves.setSide(SIDE.TROLL);
+            trolls.setSide(SIDE.DWARF);
 
             dwarves.addNewScore();
             trolls.addNewScore();
@@ -107,7 +107,7 @@ namespace Thud.GameLogic
             {
                 switch (this.getTurn())
                 {
-                    case TURN.DWARF:
+                    case SIDE.DWARF:
                         if (argPiece.isOccupied())
                         {
                             // hurl
@@ -128,7 +128,7 @@ namespace Thud.GameLogic
                             }
                         }
                         break;
-                    case TURN.TROLL:
+                    case SIDE.TROLL:
                         switch (currentPhase)
                         {
                             case PHASE.MOVE:
@@ -176,21 +176,21 @@ namespace Thud.GameLogic
             if (dwarves.getScore() == 0 || trolls.getScore() == 0)
             {
                 if (dwarves.getScore() > trolls.getScore())
-                    board.displayWin(TURN.DWARF);
+                    board.displayWin(SIDE.DWARF);
                 else
-                    board.displayWin(TURN.TROLL);
+                    board.displayWin(SIDE.TROLL);
 
                 endRound();
             }
 
         }
 
-        public TURN getTurn()
+        public SIDE getTurn()
         {
             if (turn % 2 == 0)
-                return TURN.DWARF;
+                return SIDE.DWARF;
 
-            return TURN.TROLL;
+            return SIDE.TROLL;
         }
 
         public void nextTurn()
@@ -204,7 +204,7 @@ namespace Thud.GameLogic
             board.updateTurnButton();
             startTurn();
 
-            if (getTurn() == TURN.DWARF)
+            if (getTurn() == SIDE.DWARF)
                 dwarves.doMove(board);
             else
                 trolls.doMove(board);
@@ -223,7 +223,7 @@ namespace Thud.GameLogic
             if (p is DwarfPiece)
             {
                 dwarves.decrementScore();
-                board.updateScore(TURN.DWARF, dwarves.getScore());
+                board.updateScore(SIDE.DWARF, dwarves.getScore());
 
             }
             else
@@ -232,7 +232,7 @@ namespace Thud.GameLogic
                 trolls.decrementScore();
                 trolls.decrementScore();
                 trolls.decrementScore();
-                board.updateScore(TURN.TROLL, trolls.getScore());
+                board.updateScore(SIDE.TROLL, trolls.getScore());
             }
         }
     }

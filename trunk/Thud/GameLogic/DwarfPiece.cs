@@ -25,7 +25,7 @@ namespace Thud.GameLogic
         private void setHighlights(bool on)
         {
             // early out
-            if (logic.getTurn() == TURN.TROLL)
+            if (logic.getTurn() == SIDE.TROLL)
                 return;
 
 
@@ -66,7 +66,7 @@ namespace Thud.GameLogic
         public override bool isLegalMove(BoardPiece argPiece)
         {
             // early out
-            if (logic.getTurn() == TURN.TROLL)
+            if (logic.getTurn() == SIDE.TROLL)
                 return false;
 
             Point myLocation = square.getBoardPosition();
@@ -164,6 +164,11 @@ namespace Thud.GameLogic
             }
 
             return false;
+        }
+
+        protected override int scoreMove(BoardPiece argDestination)
+        {
+            return 0;
         }
     }
 }

@@ -132,8 +132,18 @@ namespace Thud.GameLogic
             return wasMoved;
         }
 
+        public int getMoveScore(BoardPiece argDestination)
+        {
+            if (isLegalMove(argDestination) || isLegalAttack(argDestination))
+                return scoreMove(argDestination);
+            
+            // return -1 for all impossible moves              
+            return -1;
+        }
+
         abstract public bool isLegalMove(BoardPiece argPiece);
         abstract public bool isLegalAttack(BoardPiece argPiece);
         abstract public bool hasMovesLeft(PHASE argPhase);
+        abstract protected int scoreMove(BoardPiece argDestination);
     }
 }
