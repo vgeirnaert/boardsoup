@@ -45,5 +45,10 @@ namespace Thud.GameLogic
         {
             return false;
         }
+
+        protected override int scoreMove(BoardPiece argDestination)
+        {
+            return -1;
+        }
     }
 }

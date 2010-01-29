@@ -8,14 +8,14 @@ namespace Thud.GameLogic
     abstract class PlayerController
     {
         private int score = 32;
-        private TURN side;
+        private SIDE side;
 
-        public void setSide(TURN argSide)
+        public void setSide(SIDE argSide)
         {
             side = argSide;
         }
 
-        public TURN getSide()
+        public SIDE getSide()
         {
             return side;
         }
@@ -42,7 +42,7 @@ namespace Thud.GameLogic
 
         public Type getPawnType()
         {
-            if (side == TURN.DWARF)
+            if (side == SIDE.DWARF)
                 return typeof(DwarfPiece);
 
             return typeof(TrollPiece);

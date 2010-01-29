@@ -13,6 +13,7 @@ namespace Thud.GameLogic
 
         public override void doMove(ThudBoard board)
         {
+            LinkedList<PawnPiece> pieces = board.getPieces(this.getSide());
             
         }
     }

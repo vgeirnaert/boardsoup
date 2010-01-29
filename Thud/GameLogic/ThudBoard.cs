@@ -10,6 +10,7 @@ namespace Thud.GameLogic
     class ThudBoard : BoardObject
     {
         private BoardPiece[,] pieces = new BoardPiece[15, 15];
+        private LinkedList<PawnPiece> dwarfPieces, trollPieces;
         private ThudLogic logic;
         private GuiButton turnButton;
         private GuiText dwarfScore, trollScore;
@@ -17,6 +18,9 @@ namespace Thud.GameLogic
         public ThudBoard(String argName, ThudLogic argLogic) : base(argName)
         {
             logic = argLogic;
+            dwarfPieces = new LinkedList<PawnPiece>();
+            trollPieces = new LinkedList<PawnPiece>();
+
             createBoard();
             setPieces();
             createGUI();
@@ -74,16 +78,16 @@ namespace Thud.GameLogic
             logic.nextTurn();
 
             updateTurnButton();
+
+            turnButton.onMouseIn();
         }
 
         public void updateTurnButton()
         {
-            if (logic.getTurn() == TURN.DWARF)
+            if (logic.getTurn() == SIDE.DWARF)
                 turnButton.setImage("Images\\turndwarf.png");
             else
                 turnButton.setImage("Images\\turntroll.png");
-
-            turnButton.onMouseIn();
         }
 
         private void setPieces()
@@ -102,6 +106,7 @@ namespace Thud.GameLogic
                     if (!(x == 7 && y == 7))
                     {
                         PawnPiece troll = new TrollPiece(x * 66 + 30, y * 66 + 30);
+                        trollPieces.AddFirst(troll);
                         troll.setLogic(logic);
                         pieces[x, y].setOccupant(troll);
                         this.addActor(troll);
@@ -131,6 +136,7 @@ namespace Thud.GameLogic
         private void placeDwarf(int x, int y)
         {
             PawnPiece dwarf = new DwarfPiece(x * 66 + 30, y * 66 + 30);
+            dwarfPieces.AddFirst(dwarf);
             dwarf.setLogic(logic);
             pieces[x, y].setOccupant(dwarf);
             this.addActor(dwarf);
@@ -242,6 +248,12 @@ namespace Thud.GameLogic
                 if(pieces[argBoardLocation.X, argBoardLocation.Y].isOccupied())
                 {
                     PawnPiece p = pieces[argBoardLocation.X, argBoardLocation.Y].getOccupant();
+
+                    if (p is TrollPiece)
+                        trollPieces.Remove(p);
+                    else
+                        dwarfPieces.Remove(p);
+
                     this.deleteFromBoard(p);
                     pieces[argBoardLocation.X, argBoardLocation.Y].setOccupant(null);
                     logic.pawnRemoved(p);
@@ -249,9 +261,9 @@ namespace Thud.GameLogic
             }                            
         }
 
-        public void updateScore(TURN argTurn, int argScore)
+        public void updateScore(SIDE argTurn, int argScore)
         {
-            if (argTurn == TURN.DWARF)
+            if (argTurn == SIDE.DWARF)
                 dwarfScore.setText("" + argScore);
             else
                 trollScore.setText("" + argScore);
@@ -260,17 +272,19 @@ namespace Thud.GameLogic
         public void resetBoard()
         {
             this.clearBoard();
+            dwarfPieces.Clear();
+            trollPieces.Clear();
             createBoard();
             setPieces();
             createGUI();
         }
 
-        public void displayWin(TURN type)
+        public void displayWin(SIDE type)
         {
             String str = "Dwarves win!";
             String img = "Images\\dwarfbig.png";
 
-            if (type == TURN.TROLL)
+            if (type == SIDE.TROLL)
             {
                 str = "Trolls win!";
                 img = "Images\\trollbig.png";
@@ -287,6 +301,14 @@ namespace Thud.GameLogic
             image.setImage(img);
             image.receivesInput(false);
             this.addActor(image);
+        }
+
+        public LinkedList<PawnPiece> getPieces(SIDE argType)
+        {
+            if (argType == SIDE.DWARF)
+                return dwarfPieces;
+            
+            return trollPieces;
         }
     }
 }

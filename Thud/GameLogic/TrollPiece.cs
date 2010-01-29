@@ -25,7 +25,7 @@ namespace Thud.GameLogic
         private void setHighlights(bool on)
         {
             // early out
-            if (logic.getTurn() == TURN.DWARF || hasMoved())
+            if (logic.getTurn() == SIDE.DWARF || hasMoved())
                 return;
 
             foreach (NEIGHBOUR n in Enum.GetValues(typeof(NEIGHBOUR)))
@@ -54,7 +54,7 @@ namespace Thud.GameLogic
 
         public override bool isLegalMove(BoardPiece argPiece)
         {
-            if (logic.getTurn() == TURN.TROLL)
+            if (logic.getTurn() == SIDE.TROLL)
             {
                 if (square.isNeighbour(argPiece))
                 {
@@ -174,6 +174,11 @@ namespace Thud.GameLogic
             }
 
             return false;
+        }
+
+        protected override int scoreMove(BoardPiece argDestination)
+        {
+            return 0;
         }
     }
 }

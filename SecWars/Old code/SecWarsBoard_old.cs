@@ -7,13 +7,13 @@ namespace SecWars.Core
 {
     class SecWarsBoard_old : BoardObject
     {
-        private long time = 0;
+        private DateTime startTime;
         private SecWarsGameLogic_old logic;
         private List<SecWarsTile_old> deleteQueue;
         private Title statusText;
         private Title timeText;
         private int textTime = 0;
-        private long lastUpdate = 0;
+        private DateTime lastUpdate;
 
         public SecWarsBoard_old() : base("")
         {
@@ -42,7 +42,7 @@ namespace SecWars.Core
 
         public override void onEngineObjectCreated()
         {
-            time = DateTime.Now.Ticks; 
+            startTime = DateTime.Now; 
             clearBoard();
             makeBoard();
         }
@@ -57,15 +57,17 @@ namespace SecWars.Core
                 deleteQueue.Clear();
             }
 
-            long now = DateTime.Now.Ticks;
+            DateTime now = DateTime.Now;
+            TimeSpan gameTime = now - startTime;
+            TimeSpan tickTime = now - lastUpdate;
 
-            if (now - time > 500000000)
+            if (gameTime.TotalMilliseconds > 50000)
             {
                 if (logic != null)
                     logic.endGame(this);
             }
 
-            if (now - lastUpdate > 10000000 && timeText != null)
+            if (tickTime.TotalMilliseconds > 999 && timeText != null)
             {
                 textTime++;
                 timeText.setText("Time left: " + (50 - textTime));
@@ -97,7 +99,7 @@ namespace SecWars.Core
                     {
                         if (!(boardmask.GetPixel(cX, cY).B == Color.Black.B))
                         {
-                            int randT = rand.Next(5); // increase value for more empty spots
+                            int randT = rand.Next(7); // increase value for more empty spots
                             if (randT > 5)
                                 continue;
 
@@ -118,8 +120,8 @@ namespace SecWars.Core
             textTime = 0;
             this.addActor(statusText);
             this.addActor(timeText);
-            time = DateTime.Now.Ticks;
-            lastUpdate = time;
+            startTime = DateTime.Now;
+            lastUpdate = startTime;
         }
 
         public void setLogic(SecWarsGameLogic_old l)
