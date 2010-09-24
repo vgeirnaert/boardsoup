@@ -55,7 +55,7 @@ namespace BoardSoupEngine.Kernel
 
         public void tick()
         {
-            long now = DateTime.Now.Ticks;
+            long now = DateTime.Now.Ticks; 
 
             if (now - ticks.lastEventTime > ticks.interval)
             {
@@ -70,6 +70,10 @@ namespace BoardSoupEngine.Kernel
                 eventDispatcher.submitEvent(EventFactory.createEvent("BoardSoupEngine.Scene.SceneRenderEvent"));
                 renderer.lastEventTime = now;
             }
+
+            // sleep engine until the next event (either render or tick, whichever is first).
+            now = DateTime.Now.Ticks;
+            System.Threading.Thread.Sleep((int)(Math.Min(now - ticks.lastEventTime, now - renderer.lastEventTime) / 10000));
         }
 
         public void receiveEvent(Event argEvent)
