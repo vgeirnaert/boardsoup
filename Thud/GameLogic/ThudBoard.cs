@@ -14,6 +14,8 @@ namespace Thud.GameLogic
         private ThudLogic logic;
         private GuiButton turnButton;
         private GuiText dwarfScore, trollScore;
+		private const int offset = 8;
+		private const int pawnoffset = 5;
 
         public ThudBoard(String argName, ThudLogic argLogic) : base(argName)
         {
@@ -40,31 +42,31 @@ namespace Thud.GameLogic
 
         private void createGUI()
         {
-            GuiButton stopButton = new GuiButton(900, 900);
+            GuiButton stopButton = new GuiButton(890, 870);
             stopButton.OnClickEvent += new GuiButton.ClickEventHandler(stopButton_OnClickEvent);
             this.addActor(stopButton);
 
-            turnButton = new GuiButton(900, 20);
+            turnButton = new GuiButton(890, 10);
             turnButton.OnClickEvent += new GuiButton.ClickEventHandler(turnButton_OnClickEvent);
             turnButton.setImage("Images\\turndwarf.png");
 			turnButton.setImageActive("Images\\turndwarf_a.png");
             this.addActor(turnButton);
 
-            GuiButton dwarf = new GuiButton(20, 20);
+            GuiButton dwarf = new GuiButton(20, 0);
             dwarf.receivesInput(false);
             dwarf.setImage("Images\\dwarf.png");
             this.addActor(dwarf);
 
-            GuiButton troll = new GuiButton(20, 90);
+            GuiButton troll = new GuiButton(20, 70);
             troll.receivesInput(false);
             troll.setImage("Images\\troll.png");
             this.addActor(troll);
 
-            dwarfScore = new GuiText(90, 20);
+            dwarfScore = new GuiText(90, 0);
             dwarfScore.setText("32");
             this.addActor(dwarfScore);
 
-            trollScore = new GuiText(90, 90);
+            trollScore = new GuiText(90, 70);
             trollScore.setText("32");
             this.addActor(trollScore);
         }
@@ -97,7 +99,7 @@ namespace Thud.GameLogic
         private void setPieces()
         {
             //stone
-            PawnPiece stone = new StonePiece(7 * 66 + 30, 7 * 66 + 30);
+			PawnPiece stone = new StonePiece(7 * 66 + pawnoffset, 7 * 66 + pawnoffset);
             stone.setLogic(logic);
             pieces[7, 7].setOccupant(stone);
             this.addActor(stone);
@@ -109,7 +111,7 @@ namespace Thud.GameLogic
                 {
                     if (!(x == 7 && y == 7))
                     {
-                        PawnPiece troll = new TrollPiece(x * 66 + 30, y * 66 + 30);
+						PawnPiece troll = new TrollPiece(x * 66 + pawnoffset, y * 66 + pawnoffset);
                         trollPieces.AddFirst(troll);
                         troll.setLogic(logic);
                         pieces[x, y].setOccupant(troll);
@@ -139,7 +141,7 @@ namespace Thud.GameLogic
 
         private void placeDwarf(int x, int y)
         {
-            PawnPiece dwarf = new DwarfPiece(x * 66 + 30, y * 66 + 30);
+			PawnPiece dwarf = new DwarfPiece(x * 66 + pawnoffset, y * 66 + pawnoffset);
             dwarfPieces.AddFirst(dwarf);
             dwarf.setLogic(logic);
             pieces[x, y].setOccupant(dwarf);
@@ -159,7 +161,7 @@ namespace Thud.GameLogic
                         if ((x % 2 == 0 && y % 2 == 0) || (x % 2 == 1 && y % 2 == 1))
                             even = true;
 
-                        BoardPiece tp = new BoardPiece(x * 66 + 30, y * 66 + 30, even);
+                        BoardPiece tp = new BoardPiece(x * 66 + offset, y * 66 + offset, even);
                         tp.setLogic(logic);
                         tp.setBoardPosition(x, y);
                         this.addActor(tp);
