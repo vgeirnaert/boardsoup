@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BoardSoup", "BoardSoup\BoardSoup.csproj", "{F0432B49-A2CC-4C7F-9C2C-8C95CCE9E940}"
 	ProjectSection(ProjectDependencies) = postProject
 		{6BF106A0-013E-4040-8CF0-280D1C819776} = {6BF106A0-013E-4040-8CF0-280D1C819776}

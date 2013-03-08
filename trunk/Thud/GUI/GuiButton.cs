@@ -3,46 +3,43 @@ using System.Collections.Generic;
 using System.Text;
 using BoardSoupEngine.Interface;
 
-namespace Thud.GUI
-{
-    class GuiButton : ImageActor
-    {
-        public delegate void ClickEventHandler();
-        public event ClickEventHandler OnClickEvent;
-        private String image;
+namespace Thud.GUI {
+	class GuiButton : ImageActor {
+		public delegate void ClickEventHandler();
+		public event ClickEventHandler OnClickEvent;
+		private String image;
+		private String imageActive;
 
-        public GuiButton(int x, int y) : base(x, y, "Images\\stop.png")
-        {
-            image = "Images\\stop.png";
-        }
+		public GuiButton(int x, int y) : base(x, y, "Images\\stop.png") {
+			image = "Images\\stop.png";
+			imageActive = "Images\\stop_a.png";
+		}
 
-        public override void setImage(String filename)
-        {
-            base.setImage(filename);
-            image = filename;
-        }
+		public override void setImage(String filename) {
+			image = filename;
+			base.setImage(image);
+		}
 
-        public override void onMouseIn()
-        {
-            this.setImage(image.Replace(".png", "_a.png"));
-        }
+		public void setImageActive(String filename) {
+			this.imageActive = filename;
+		}
 
-        public override void onMouseOut()
-        {
-            this.setImage(image.Replace("_a.png", ".png"));
-        }
+		public override void onMouseIn() {
+			base.setImage(imageActive);
+		}
 
-        public override void onClick()
-        {
-            OnClickEvent();
-        }
+		public override void onMouseOut() {
+			base.setImage(image);
+		}
 
-        public override void onEngineObjectCreated()
-        {
-        }
+		public override void onClick() {
+			OnClickEvent();
+		}
 
-        public override void onTick()
-        {
-        }
-    }
+		public override void onEngineObjectCreated() {
+		}
+
+		public override void onTick() {
+		}
+	}
 }

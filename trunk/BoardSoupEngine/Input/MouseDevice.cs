@@ -14,7 +14,7 @@ namespace BoardSoupEngine.Input
             myMapper = mapper;
             p.MouseClick += new System.Windows.Forms.MouseEventHandler(this.onMouseClick);
             p.MouseMove += new System.Windows.Forms.MouseEventHandler(this.onMouseMove);
-            myCursor = new Cursor(dispatcher);
+            myCursor = new Cursor(dispatcher, p.Size);
         }
 
         private void onMouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
