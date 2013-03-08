@@ -29,28 +29,37 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+		Thud Debug|Any CPU = Thud Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{F0432B49-A2CC-4C7F-9C2C-8C95CCE9E940}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F0432B49-A2CC-4C7F-9C2C-8C95CCE9E940}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0432B49-A2CC-4C7F-9C2C-8C95CCE9E940}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F0432B49-A2CC-4C7F-9C2C-8C95CCE9E940}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0432B49-A2CC-4C7F-9C2C-8C95CCE9E940}.Thud Debug|Any CPU.ActiveCfg = Thud Debug|Any CPU
+		{F0432B49-A2CC-4C7F-9C2C-8C95CCE9E940}.Thud Debug|Any CPU.Build.0 = Thud Debug|Any CPU
 		{42523C43-C828-4679-883F-2FFC42433B68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{42523C43-C828-4679-883F-2FFC42433B68}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42523C43-C828-4679-883F-2FFC42433B68}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42523C43-C828-4679-883F-2FFC42433B68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42523C43-C828-4679-883F-2FFC42433B68}.Thud Debug|Any CPU.ActiveCfg = Thud Debug|Any CPU
 		{6BF106A0-013E-4040-8CF0-280D1C819776}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6BF106A0-013E-4040-8CF0-280D1C819776}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BF106A0-013E-4040-8CF0-280D1C819776}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BF106A0-013E-4040-8CF0-280D1C819776}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BF106A0-013E-4040-8CF0-280D1C819776}.Thud Debug|Any CPU.ActiveCfg = Thud Debug|Any CPU
+		{6BF106A0-013E-4040-8CF0-280D1C819776}.Thud Debug|Any CPU.Build.0 = Thud Debug|Any CPU
 		{D2D5803C-DC6B-490D-820B-ECA761FCDC00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D2D5803C-DC6B-490D-820B-ECA761FCDC00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2D5803C-DC6B-490D-820B-ECA761FCDC00}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2D5803C-DC6B-490D-820B-ECA761FCDC00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2D5803C-DC6B-490D-820B-ECA761FCDC00}.Thud Debug|Any CPU.ActiveCfg = Thud Debug|Any CPU
 		{1BD6E74E-C70B-442B-99C0-674CBDEFC401}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1BD6E74E-C70B-442B-99C0-674CBDEFC401}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BD6E74E-C70B-442B-99C0-674CBDEFC401}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1BD6E74E-C70B-442B-99C0-674CBDEFC401}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BD6E74E-C70B-442B-99C0-674CBDEFC401}.Thud Debug|Any CPU.ActiveCfg = Thud Debug|Any CPU
+		{1BD6E74E-C70B-442B-99C0-674CBDEFC401}.Thud Debug|Any CPU.Build.0 = Thud Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

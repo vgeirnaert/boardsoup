@@ -11,13 +11,15 @@ namespace BoardSoupEngine.Renderer
 
         public override void execute(BoardSoupEngine.Kernel.IEventListener module)
         {
+			CoordinateTranslator.setBoardSize(surface.Size);
+
             if (module is Renderer)
                 ((Renderer)module).setSurface(surface);
 
             if(module is InputManager)
                 ((InputManager)module).setInputSurface(surface);
 
-			CoordinateTranslator.setBoardSize(surface.Size);
+			
         }
 
         public RenderSurfaceEvent()
