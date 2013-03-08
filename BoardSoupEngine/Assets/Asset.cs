@@ -12,7 +12,13 @@ namespace BoardSoupEngine.Assets
         public void setRenderer(Renderable argRenderer)
         {
             renderer = argRenderer;
+
+			if(renderer != null)
+				this.onRendererAssigned();
         }
+
+		public virtual void onRendererAssigned() {
+		}
 
         public Renderable getRenderer()
         {
@@ -32,7 +38,7 @@ namespace BoardSoupEngine.Assets
         public void render(Point location, int rotation)
         {
             if (renderer != null)
-                renderer.render(location, rotation);
+                renderer.render(renderer.translateLocationToResolution(location), rotation);
         }
 
         public abstract Rectangle getBounds();

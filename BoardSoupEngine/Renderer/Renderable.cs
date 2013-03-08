@@ -32,5 +32,13 @@ namespace BoardSoupEngine.Renderer
         {
             return theAsset;
         }
+
+		public Point translateLocationToResolution(Point location) {
+			return theRenderer.translateLocationToResolution(location);
+		}
+
+		public Size translateSizeToResolution(Size size) {
+			return theRenderer.translateSizeToResolution(size);
+		}
     }
 }

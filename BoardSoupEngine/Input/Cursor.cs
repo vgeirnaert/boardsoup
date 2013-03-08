@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using BoardSoupEngine.Scene;
 using BoardSoupEngine.Kernel;
+using BoardSoupEngine.Utilities;
 
 namespace BoardSoupEngine.Input
 {
@@ -11,17 +12,19 @@ namespace BoardSoupEngine.Input
         private Point position;
         private List<BoardActor> collidingActors;
         private IEventDispatcher dispatcher;
+		private Size inputPaneSize;
 
-        public Cursor(IEventDispatcher argDispatcher)
+        public Cursor(IEventDispatcher argDispatcher, Size size)
         {
             position = new Point(0,0);
             collidingActors = new List<BoardActor>();
             dispatcher = argDispatcher;
+			inputPaneSize = size;
         }
 
         public void setPosition(Point argPosition)
         {
-            position = argPosition;
+			position = CoordinateTranslator.screenToSceneLocation(argPosition, inputPaneSize);
             List<BoardActor> deleteList = new List<BoardActor>();
 
             foreach (BoardActor ba in collidingActors)
@@ -35,7 +38,7 @@ namespace BoardSoupEngine.Input
 
             deleteList.Clear();
 
-            InputCursorMoveEvent e = new InputCursorMoveEvent(argPosition, this);
+			InputCursorMoveEvent e = new InputCursorMoveEvent(position, this);
             dispatcher.submitEvent(e);
         }
 
@@ -70,7 +73,7 @@ namespace BoardSoupEngine.Input
 
         public void click(int argClicks, Point location)
         {
-            InputCursorClickEvent e = new InputCursorClickEvent(location);
+			InputCursorClickEvent e = new InputCursorClickEvent(CoordinateTranslator.screenToSceneLocation(location, inputPaneSize));
             dispatcher.submitEvent(e);
         }
     }

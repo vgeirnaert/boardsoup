@@ -47,6 +47,7 @@ namespace Thud.GameLogic
             turnButton = new GuiButton(900, 20);
             turnButton.OnClickEvent += new GuiButton.ClickEventHandler(turnButton_OnClickEvent);
             turnButton.setImage("Images\\turndwarf.png");
+			turnButton.setImageActive("Images\\turndwarf_a.png");
             this.addActor(turnButton);
 
             GuiButton dwarf = new GuiButton(20, 20);
@@ -84,10 +85,13 @@ namespace Thud.GameLogic
 
         public void updateTurnButton()
         {
-            if (logic.getTurn() == SIDE.DWARF)
-                turnButton.setImage("Images\\turndwarf.png");
-            else
-                turnButton.setImage("Images\\turntroll.png");
+			if (logic.getTurn() == SIDE.DWARF) {
+				turnButton.setImage("Images\\turndwarf.png");
+				turnButton.setImageActive("Images\\turndwarf_a.png");
+			} else {
+				turnButton.setImage("Images\\turntroll.png");
+				turnButton.setImageActive("Images\\turntroll_a.png");
+			}
         }
 
         private void setPieces()

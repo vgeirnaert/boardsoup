@@ -53,7 +53,7 @@ namespace BoardSoupEngine.Utilities
             {
                 // early out
                 if (argT == null || argRect == null)
-                   return false;
+                    return false;
 
                 if (isLeaf)
                 {
@@ -62,25 +62,21 @@ namespace BoardSoupEngine.Utilities
 
                     payload.Add(argT);
                     return true;
-                    
+
                 }
-                else
+
+                // else
+                bool added = false;
+
+                foreach (KeyValuePair<QUAD, bool> p in getQuadsForRect(argRect))
                 {
-                    bool added = false;
-
-                    foreach (KeyValuePair<QUAD, bool> p in getQuadsForRect(argRect))
+                    if (p.Value)
                     {
-                        if (p.Value)
-                        {
-                            bool addresult = quads[p.Key].add(argT, argRect);
-                            added = added || addresult;
-                        }
+                        bool addresult = quads[p.Key].add(argT, argRect);
+                        added = added || addresult;
                     }
-                    return added;
-                    
                 }
-
-                return false;
+                return added;
             }
 
             public List<T> getObjectsAt(Point argPoint)
@@ -134,9 +130,9 @@ namespace BoardSoupEngine.Utilities
 
                 switch (square)
                 {
-                    case 0: return QUAD.TOPLEFT; 
-                    case 1: return QUAD.TOPRIGHT; 
-                    case 2: return QUAD.BOTTOMLEFT; 
+                    case 0: return QUAD.TOPLEFT;
+                    case 1: return QUAD.TOPRIGHT;
+                    case 2: return QUAD.BOTTOMLEFT;
                     case 3: return QUAD.BOTTOMRIGHT;
                 }
 
@@ -185,7 +181,7 @@ namespace BoardSoupEngine.Utilities
 
         public void Add(T argT, Rectangle argRect)
         {
-            if(firstNode.add(argT, argRect))
+            if (firstNode.add(argT, argRect))
                 allObjects.Add(argT);
         }
 

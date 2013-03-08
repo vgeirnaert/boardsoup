@@ -35,6 +35,7 @@ namespace Thud.GameLogic
 
         public override void onClick()
         {
+			// TODO: defer onClick action to player/ai controller
             logic.squareSelected(this);
         }
 

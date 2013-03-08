@@ -6,174 +6,144 @@ using System.Drawing.Drawing2D;
 using BoardSoupEngine.Assets;
 using BoardSoupEngine.Utilities;
 
-namespace BoardSoupEngine.Renderer
-{
-    internal class Renderer : IEventListener, ITickable
-    {
-        private Panel renderSurface;
-        private IEventDispatcher dispatcher;
-        private BufferedGraphics myBuffer;
-        private Graphics helperGraphics;    // we have this so non-render calls do not interfere with our rendering graphics
+namespace BoardSoupEngine.Renderer {
+	internal class Renderer : IEventListener, ITickable {
+		private Panel renderSurface;
+		private IEventDispatcher dispatcher;
+		private BufferedGraphics myBuffer;
+		private Graphics helperGraphics;    // we have this so non-render calls do not interfere with our rendering graphics
 
-        public void setEventDispatcher(IEventDispatcher argDispatcher)
-        {
-            dispatcher = argDispatcher;
-        }
+		public void setEventDispatcher(IEventDispatcher argDispatcher) {
+			dispatcher = argDispatcher;
+		}
 
-        public Renderer()
-        {
-            Logger.log("Renderer: Loading Renderer...", LEVEL.DEBUG);
-            Bitmap bm = new Bitmap(1, 1);
-            helperGraphics = Graphics.FromImage(bm);
-            Logger.log("Renderer: Renderer loaded", LEVEL.DEBUG);
-        }
+		public Renderer() {
+			Logger.log("Renderer: Loading Renderer...", LEVEL.DEBUG);
+			Bitmap bm = new Bitmap(1, 1);
+			helperGraphics = Graphics.FromImage(bm);
+			Logger.log("Renderer: Renderer loaded", LEVEL.DEBUG);
+		}
 
-        public void setSurface(Panel surface)
-        {
-            renderSurface = surface;
-            BufferedGraphicsContext bgc = BufferedGraphicsManager.Current;
-            myBuffer = bgc.Allocate(surface.CreateGraphics(), surface.DisplayRectangle);
-            Logger.log("Renderer: surface set", LEVEL.DEBUG);
-        }
+		public void setSurface(Panel surface) {
+			renderSurface = surface;
+			BufferedGraphicsContext bgc = BufferedGraphicsManager.Current;
+			myBuffer = bgc.Allocate(surface.CreateGraphics(), surface.DisplayRectangle);
+			Logger.log("Renderer: surface set", LEVEL.DEBUG);
+		}
 
-        public void receiveEvent(Event argEvent)
-        {
-            argEvent.execute(this);
-        }
+		public void receiveEvent(Event argEvent) {
+			argEvent.execute(this);
+		}
 
-        public void onTick()
-        {          
-        }
+		public void onTick() {
+		}
 
-        private int normalizeRotation(int rotation)
-        {
-            return (rotation % 360);
-        }
+		private int normalizeRotation(int rotation) {
+			return (rotation % 360);
+		}
 
-        private void prepareCanvasOrientation(int argRotation, int argX, int argY)
-        {
-            // move the 0,0 point of our graphics to where the center of our image should be
-            myBuffer.Graphics.TranslateTransform(argX, argY);
+		private void prepareCanvasOrientation(int argRotation, int argX, int argY) {
+			// move the 0,0 point of our graphics to where the center of our image should be
+			myBuffer.Graphics.TranslateTransform(argX, argY);
 
-            // rotate the graphics (inverse to our graphics rotation) to prepare for drawing
-            myBuffer.Graphics.RotateTransform(-argRotation);
+			// rotate the graphics (inverse to our graphics rotation) to prepare for drawing
+			myBuffer.Graphics.RotateTransform(-argRotation);
 
-        }
+		}
 
-        private void resetCanvasOrientation(int argRotation, int argX, int argY)
-        {
-            // rotate our graphics back
-            myBuffer.Graphics.RotateTransform(argRotation);
+		private void resetCanvasOrientation(int argRotation, int argX, int argY) {
+			// rotate our graphics back
+			myBuffer.Graphics.RotateTransform(argRotation);
 
-            // translate back to the real 0,0 location
-            myBuffer.Graphics.TranslateTransform(-argX, -argY);
-        }
+			// translate back to the real 0,0 location
+			myBuffer.Graphics.TranslateTransform(-argX, -argY);
+		}
 
-        public void drawImage(Image argImage, Point location, int rotation)
-        {
-            // make sure rotation is in the range 0...359
-            rotation = normalizeRotation(rotation);
-            
-            // early outs
-            switch (rotation)
-            {
-                // the image doesnt need to be rotated, so we can just draw it
-                case 0:
-                    myBuffer.Graphics.DrawImageUnscaled(argImage, location);
-                    break;
-                /*case 90:    // the image has one of the following 3 rotations, we can use the fast RotateFlip() call
-                    argImage.RotateFlip(RotateFlipType.Rotate90FlipNone);
-                    myBuffer.Graphics.DrawImageUnscaled(argImage, location);
-                    break;
-                /*case 180:
-                    argImage.RotateFlip(RotateFlipType.Rotate180FlipNone);
-                    myBuffer.Graphics.DrawImageUnscaled(argImage, location);
-                    break;
-                /*case 270:
-                    argImage.RotateFlip(RotateFlipType.Rotate270FlipNone);
-                    myBuffer.Graphics.DrawImageUnscaled(argImage, location);
-                    break;*/
-                default: // arbitrary rotation
-                    // calculate the location of the center of the image
-                    int x = location.X + (argImage.Width / 2);
-                    int y = location.Y + (argImage.Height / 2);
+		public void drawImage(Image argImage, Point location, int rotation) {
+			// make sure rotation is in the range 0...359
+			rotation = normalizeRotation(rotation);
 
-                    prepareCanvasOrientation(rotation, x, y);
+			Size imageSize = CoordinateTranslator.sceneToScreenSize(argImage.Size, renderSurface.Size);
+			Rectangle imageRect = new Rectangle(new Point(-(imageSize.Width / 2), -(imageSize.Height / 2)), imageSize);
 
-                    // draw the image onto our buffer, making sure that the center of the graphic is located at point 0,0
-                    myBuffer.Graphics.DrawImageUnscaled(argImage, -(argImage.Width / 2), -(argImage.Height / 2));
+			int x = location.X + (imageSize.Width / 2);
+			int y = location.Y + (imageSize.Height / 2);
 
-                    resetCanvasOrientation(rotation, x, y);
-                    break;
-            }
-        }
+			// move and rotate canvas
+			prepareCanvasOrientation(rotation, x, y);
+			// draw
+			myBuffer.Graphics.DrawImage(argImage, imageRect);
+			// reset canvas
+			resetCanvasOrientation(rotation, x, y);
 
-        public void drawText(String argText, Font argFont, Color argColor, Point location, int rotation, Rectangle bounds)
-        {
-            // make sure rotation is in the range 0...359
-            rotation = normalizeRotation(rotation);
-            
-            // early outs
-            switch (rotation)
-            {
-                case 0:
-                    myBuffer.Graphics.DrawString(argText, argFont, new SolidBrush(argColor), location);
-                    break;
-                default: // arbitrary rotation
-                    int x = location.X + (bounds.Width / 2);
-                    int y = location.Y + (bounds.Height / 2);
+		}
 
-                    prepareCanvasOrientation(rotation, x, y);
+		public void drawText(String argText, Font argFont, Color argColor, Point location, int rotation, Rectangle bounds) {
+			// make sure rotation is in the range 0...359
+			rotation = normalizeRotation(rotation);
 
-                    // draw the text onto our buffer, 
-                    myBuffer.Graphics.DrawString(argText, argFont, new SolidBrush(argColor), -(bounds.Width / 2), -(bounds.Height / 2));
+			Rectangle imageRect = new Rectangle(new Point(-(bounds.Size.Width / 2), -(bounds.Size.Height / 2)),  bounds.Size);
 
-                    resetCanvasOrientation(rotation, x, y);
-                    break;
-            }
-        }
+			int x = location.X + (bounds.Size.Width / 2);
+			int y = location.Y + (bounds.Size.Height / 2);
 
-        public void beginScene()
-        {
-            this.clear(renderSurface.BackColor);
-        }
+			prepareCanvasOrientation(rotation, x, y);
 
-        private void clear(Color argColor)
-        {
-            // clear buffer
-            myBuffer.Graphics.Clear(argColor);
-        }
+			// draw the text onto our buffer
+			myBuffer.Graphics.DrawString(argText, argFont, new SolidBrush(argColor), imageRect);
 
-        public void endScene()
-        {
-            // render buffer
-            myBuffer.Render();
-        }
+			resetCanvasOrientation(rotation, x, y);
 
-        public void makeAssetRenderer(Asset argAsset)
-        {
-            Renderable result = null;
+		}
 
-            if (argAsset is ImageAsset)
-                result = new ImageRenderer();
-            else if (argAsset is ShapeAsset)
-                result = new ShapeRenderer();
-            else if (argAsset is TextAsset)
-                result = new TextRenderer();
+		public void beginScene() {
+			this.clear(renderSurface.BackColor);
+		}
 
-            result.setRenderer(this);
-            result.setAsset(argAsset);
-        }
+		private void clear(Color argColor) {
+			// clear buffer
+			myBuffer.Graphics.Clear(argColor);
+		}
 
-        public Rectangle getBoundsForString(String argText, Font argFont)
-        {
-            // early out
-            if (argText == "")
-                return new Rectangle(0, 0, 0, 0);
+		public void endScene() {
+			// render buffer
+			myBuffer.Render();
+		}
 
-            SizeF size = helperGraphics.MeasureString(argText, argFont);
-            
-            return new Rectangle(0, 0, (int)size.Width, (int)size.Height);
-        }
-    }
+		public void makeAssetRenderer(Asset argAsset) {
+			Renderable result = null;
+
+			if (argAsset is ImageAsset)
+				result = new ImageRenderer();
+			else if (argAsset is ShapeAsset)
+				result = new ShapeRenderer();
+			else if (argAsset is TextAsset)
+				result = new TextRenderer();
+
+			result.setRenderer(this);
+			result.setAsset(argAsset);
+		}
+
+		public Rectangle getBoundsForString(String argText, Font argFont) {
+			// early out
+			if (argText == "")
+				return new Rectangle(0, 0, 0, 0);
+
+			SizeF size = helperGraphics.MeasureString(argText, argFont);
+
+			return new Rectangle(0, 0, (int)size.Width + 1, (int)size.Height);
+		}
+
+		public Point translateLocationToResolution(Point location) {
+			return CoordinateTranslator.sceneToScreenLocation(location, renderSurface.Size);
+		}
+
+		public Size translateSizeToResolution(Size size) {
+			return CoordinateTranslator.sceneToScreenSize(size, renderSurface.Size);
+		}
+
+		public int sceneToScreenAmount(int amount) {
+			return CoordinateTranslator.sceneToScreenAmount(amount, renderSurface.Size.Height);
+		}
+	}
 }
