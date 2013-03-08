@@ -1,6 +1,7 @@
 ﻿using BoardSoupEngine.Kernel;
 using System.Windows.Forms;
 using BoardSoupEngine.Input;
+using BoardSoupEngine.Utilities;
 
 namespace BoardSoupEngine.Renderer
 {
@@ -15,6 +16,8 @@ namespace BoardSoupEngine.Renderer
 
             if(module is InputManager)
                 ((InputManager)module).setInputSurface(surface);
+
+			CoordinateTranslator.setBoardSize(surface.Size);
         }
 
         public RenderSurfaceEvent()
